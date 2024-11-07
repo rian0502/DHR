@@ -13,6 +13,7 @@ namespace Presensi360.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel form)
         {
 

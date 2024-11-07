@@ -1,0 +1,51 @@
+﻿@model CompanyModel
+@{
+    ViewData["Title"] = "Company Details";
+}
+
+<div class="col-12">
+    <form action="@Url.Action("Edit", "Companies")" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "Companies")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" class="form-control" id="CompanyName" name="CompanyName" value="@Model.CompanyName">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="CompanyCode">Code</label>
+                            <input type="text" class="form-control" id="CompanyCode" name="CompanyCode" value="@Model.CompanyCode">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                   <div class="col-6">
+                        <div class="form-group">
+                            <label for="LocationID">Location</label>
+                            <select class="form-control" id="LocationID" name="LocationID">
+                                <option value="">Select Location</option>
+                                @foreach (var location in ViewData["Locations"] as IEnumerable<LocationModel>)
+                                {
+                                    <option value="@location.LocationID">@location.LocationCode - @location.LocationName</option>
+
+                                }
+                            </select>
+                        </div>
+                   </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

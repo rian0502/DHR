@@ -20,34 +20,39 @@
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
-        <div class="login-logo">
-            <a href="@Url.Action("Dashboard", "Home")"><b>Presensi</b>360</a>
-        </div>
+        
         <!-- /.login-logo -->
         <div class="card">
-            <div class="card-body login-card-body">
+            <div class="card-header">
+                <div class="login-logo">
+                    <a href="@Url.Action("Dashboard", "Home")"><b>Presensi</b>360</a>
+                </div>
+            </div>
+            <div class="card-body">
                 <form action="@Url.Action("Login", "Auth")" method="post">
-                    <div class="form-control">
-                        <div class="input-group mb-3">
-                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Username" })
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
-                                </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="Username" placeholder="Username: ex: admin, user1">
+                                @if (ViewData.ModelState["Username"]?.Errors.Any() == true)
+                                {
+                                    <span class="text-danger">@ViewData.ModelState["Username"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+                                }
                             </div>
                         </div>
-                       @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                     </div>
-                    <div class="form-control">
-                        <div class="input-group mb-3">
-                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Password" })
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="Password" placeholder="Password">
+                                @if (ViewData.ModelState["Password"]?.Errors.Any() == true)
+                                {
+                                    <span class="text-danger">@ViewData.ModelState["Password"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+                                }
                             </div>
                         </div>
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
                     <div class="row">
                         <div class="col-12">
