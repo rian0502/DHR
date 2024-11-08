@@ -2,17 +2,19 @@
 
 namespace Presensi360.Models
 {
-    public class LocationModel
+    public class Department
     {
-        private readonly string _TABLE = "location";
-        [Key]
-        public int LocationID { get; set; }
-        public string? LocationCode { get; set; }
-        public string? LocationName { get; set; }
-        //Relational Model
-        public CompanyModel? Company { get; set; } //Has many to Company
+        private readonly string _TABLE = "department";
 
-        //Log Attributes
+        [Key]
+        public int DepartmentID { get; set; }
+        public string? DepartmentName { get; set; }
+        public string? DepartmentCode { get; set; }
+
+        //Relational Model
+        public ICollection<SubDepartment>? SubDepartments { get; set; } //Has many SubDepartments
+
+        //attributes log
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
