@@ -6,17 +6,18 @@ namespace Presensi360.Models
     {
         private readonly string _TABLE = "employee";
         [Key]
-        public string? EmployeeID { get; set; }
+        public int? EmployeeID { get; set; }
         public string? EmployeeName { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
+        public int? JobTitleID { get; set; }
+        public int? CompanyID { get; set; }
+        public int? SubDepartmentID { get; set; }
 
         //Relational Model
         public Users? User { get; set; } //Belongs to Users
+        public JobTitle? JobTitle { get; set; } //Belongs to JobTitle
+        public CompanyModel? Company { get; set; } //Belongs to CompanyModel
+        public SubDepartment? SubDepartment { get; set; } //Belongs to SubDepartment
 
-        //Log Attributes
-        public int? CreatedBy { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

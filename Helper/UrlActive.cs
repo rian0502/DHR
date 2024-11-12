@@ -8,7 +8,6 @@ namespace Presensi360.Helper
         {
             var routeData = httpContext.GetRouteData();
             var currentController = routeData.Values["controller"]?.ToString();
-
             return (currentController != null && currentController.Equals(controller, StringComparison.OrdinalIgnoreCase) ? "active" : "");
         }
         public static string IsActive(HttpContext httpContext, params string[] controllers)

@@ -13,11 +13,5 @@ namespace Presensi360.Models
 
         //Relational Model
         public ICollection<SubDepartment>? SubDepartments { get; set; } //Has many SubDepartments
-
-        //attributes log
-        public int? CreatedBy { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

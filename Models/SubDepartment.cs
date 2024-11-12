@@ -9,15 +9,10 @@ namespace Presensi360.Models
         public int SubDepartmentID { get; set; }
         public string? SubDepartmentName { get; set; }
         public string? SubDepartmentCode { get; set; }
-        public Guid? DepartmentID { get; set; }
+        public int? DepartmentID { get; set; }
 
         //Relational Model
-        public Department? Department { get; set; } // Belongs to Departement
+        public Department? Department { get; set; } // Belongs to Department
 
-        //attributes log
-        public int? CreatedBy { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }
