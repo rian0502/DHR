@@ -1,0 +1,41 @@
+﻿@model Presensi360.ViewModels.VerifyEmailViewModel;
+
+@{
+    ViewData["Title"] = "Verify Email Forgot Password";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+<div class="login-box">
+    <div class="card card-outline card-info">
+        <div class="card-header">
+            <div class="login-logo text-center">
+                <h4>Verify Email</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form asp-action="VerifyEmail" method="post">
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Email">Email</label>
+                            <input type="text" class="form-control @(ViewData.ModelState["Email"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="Email"
+                                   placeholder="Email: user@darmexagro.com">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-info btn-block">Verify</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row mt-3">
+                <div class="col-12">
+                    Remember Password? <a href="@Url.Action("Login", "Account")">Login</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>

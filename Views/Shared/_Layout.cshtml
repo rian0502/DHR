@@ -7,36 +7,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Presensi 360</title>
-    <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="~/templates/plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="~/templates/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <!-- iCheck -->
     <link rel="stylesheet" href="~/templates/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- JQVMap -->
     <link rel="stylesheet" href="~/templates/plugins/jqvmap/jqvmap.min.css">
-    <!-- Theme style -->
     <link rel="stylesheet" href="~/templates/css/adminlte.min.css">
-    <!-- overlayScrollbars -->
     <link rel="stylesheet" href="~/templates/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Daterange picker -->
     <link rel="stylesheet" href="~/templates/plugins/daterangepicker/daterangepicker.css">
-    <!-- summernote -->
     <link rel="stylesheet" href="~/templates/plugins/summernote/summernote-bs4.min.css">
-    <!-- DataTables -->
     <link rel="stylesheet" href="~/templates/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="~/templates/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="~/templates/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Select2 -->
     <link rel="stylesheet" href="~/templates/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="~/templates/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-    <!-- Bootstrap4 Duallistbox -->
     <link rel="stylesheet" href="~/templates/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -123,24 +111,8 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
             </div>
         </li>
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="bi bi-person-circle"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <i class="bi bi-gear mr-2"></i>
-                    <span class="float-right text-muted text-sm">Profile</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="@Url.Action("Logout", "Account")" class="dropdown-item">
-                    <i class="bi bi-box-arrow-left mr-2"></i>
-                    <span class="float-right text-muted text-sm">Log out</span>
-                </a>
-
-            </div>
-        </li>
+        <!-- Account Dropdown Menu -->
+        <partial name="_AuthPartial"/>
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>
@@ -182,12 +154,6 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Location")" class="nav-link @UrlActive.IsActive(@Context, "Location")">
-                                    <i class="fas fa-users nav-icon"></i>
-                                    <p>Locations</p>
-                                </a>
-                            </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "Employees")" class="nav-link @UrlActive.IsActive(@Context, "Employees")">
                                     <i class="fas fa-users nav-icon"></i>
@@ -352,31 +318,53 @@
 <script src="~/templates/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="~/templates/plugins/select2/js/select2.full.min.js"></script>
 <script src="~/templates/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
 <script>
-        $(function () {
-            $('.select2').select2();
-            $('.select2bs4').select2({
-              theme: 'bootstrap4'
-            });
-            $("#example1").DataTable({
-                "responsive": true, 
-                "lengthChange": false, 
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons()
-            .container()
-            .appendTo('#example1_wrapper .col-md-6:eq(0)');
-            
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+    $(function () {
+        $('.select2').select2();
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
         });
-    </script>
+        $("#example1").DataTable({
+            "responsive": true, 
+            "lengthChange": false, 
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        @if (TempData["Errors"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '@TempData["Errors"]'
+                });
+            </text>
+        }
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '@TempData["Success"]'
+                });
+            </text>
+        }
+    });
+</script>
 </body>
 </html>

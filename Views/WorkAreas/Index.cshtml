@@ -1,3 +1,39 @@
-﻿@{
-    ViewData["Title"] = "Work Area Titles";
+﻿@model IEnumerable<Presensi360.Models.LocationModel>
+@{
+    ViewData["Title"] = "List Work Area";
+    var itteration = 1;
 }
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "WorkAreas")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Work Area</a>
+        </div>
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@itteration</td>
+                        <td>@item.LocationCode</td>
+                        <td>@item.LocationName</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "WorkAreas", new { id = item.LocationID })" class="btn btn-warning">Edit</a>
+                        </td>   
+                    </tr>
+                    itteration++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

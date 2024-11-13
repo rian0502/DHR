@@ -1,0 +1,37 @@
+﻿@model Presensi360.ViewModels.EditWorkAreaViewModel
+@{
+    ViewData["Title"] = "Edit Work Area";
+}
+
+<div class="col-12">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.LocationID)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "WorkAreas")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="LocationCode">Code</label>
+                            <input type="text" class="form-control @(ViewData.ModelState["LocationCode"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="LocationCode" placeholder="Ex: JKT, BKS, RIU, PKN.">
+                            <span asp-validation-for="LocationCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="LocationName">Name</label>
+                            <input type="text" class="form-control @(ViewData.ModelState["LocationName"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="LocationName" placeholder="Ex: Jakarta, Bandung, Surabaya, Medan.">
+                            <span asp-validation-for="LocationName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

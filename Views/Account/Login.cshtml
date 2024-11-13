@@ -1,0 +1,58 @@
+﻿@model Presensi360.ViewModels.LoginViewModel;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Account.cshtml";
+}
+<div class="login-box">
+    <div class="card card-outline card-info">
+        <div class="card-header">
+            <div class="login-logo">
+                <a href="@Url.Action("Dashboard", "Home")"><b>Presensi</b>360</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <form asp-action="Login" method="post">
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Username">Username</label>
+                            <input type="text" class="form-control @(ViewData.ModelState["Username"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="Username" placeholder="Username: ex: admin, user1">
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Password">Password</label>
+                            <input type="password" class="form-control @(ViewData.ModelState["Password"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="Password" placeholder="Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                @Html.DisplayNameFor(m => m.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a href="@Url.Action("VerifyEmail", "Account")">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-info btn-block">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
