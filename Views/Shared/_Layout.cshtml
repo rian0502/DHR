@@ -179,10 +179,27 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "Departments")" class="nav-link @UrlActive.IsActive(@Context, "Departments")">
+                                <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Departments")">
                                     <i class="fas fa-sitemap nav-icon"></i>
-                                    <p>Departments</p>
+                                    <p>
+                                        Departments
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "Departments")" class="nav-link @UrlActive.IsActive(@Context, "Departments")">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Department</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Sub-Department</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

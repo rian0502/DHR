@@ -63,7 +63,8 @@ namespace Presensi360.Controllers
             };
             return View(model);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditCompanyViewModel model)
         {
             if (ModelState.IsValid)

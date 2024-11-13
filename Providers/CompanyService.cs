@@ -31,7 +31,7 @@ namespace Presensi360.Providers
         // Insert
         public async Task<int> Insert(CreateCompanyViewModel company)
         {
-           //check if code alredy exist
+           //check if code already exist
             var check = await _context.Companies.FirstOrDefaultAsync(x => x.CompanyCode == company.CompanyCode);
             if (check != null)
             {

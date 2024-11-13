@@ -1,0 +1,45 @@
+﻿@model Presensi360.ViewModels.CreateJobTitleViewModel
+@{
+    ViewData["Title"] = "Create Job Title";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "JobTitles")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="JobTitleCode">Code</label>
+                            <input type="text" class="form-control @(ViewData.ModelState["JobTitleCode"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="JobTitleCode" placeholder="Ex: MS, SPR, MSAIT, TAME.">
+                            <span asp-validation-for="JobTitleCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="JobTitleName">Name</label>
+                            <input type="text" class="form-control @(ViewData.ModelState["JobTitleName"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="JobTitleName" placeholder="Ex: Staff Programmer, Manager Sustainability, Driver Operational">
+                            <span asp-validation-for="JobTitleName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="JobTitleDescription">Description</label>
+                            <textarea class="form-control @(ViewData.ModelState["JobTitleDescription"]?.Errors.Any() == true ? "is-invalid" : "")" asp-for="JobTitleDescription" placeholder="Description of the job title" rows="4"></textarea>
+                            <span asp-validation-for="JobTitleDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

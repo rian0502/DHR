@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 
 builder.Services.AddScoped<WorkAreaService>();
 builder.Services.AddScoped<CompanyService>();
+builder.Services.AddScoped<JobTitleService>();
 
 builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.Password.RequireNonAlphanumeric = false;

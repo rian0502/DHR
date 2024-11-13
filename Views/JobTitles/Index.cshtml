@@ -1,3 +1,41 @@
-﻿@{
-    ViewData["Title"] = "List Job Titles";
+﻿@model IEnumerable<Presensi360.Models.JobTitle>
+@{
+    ViewData["Title"] = "List Job Title";
+    var iteration = 1;
 }
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "JobTitles")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Job Title</a>
+        </div>
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@item.JobTitleCode</td>
+                            <td>@item.JobTitleName</td>
+                            <td>@item.JobTitleDescription</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "JobTitles", new { id = item.JobTitleID })" class="btn btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                        iteration++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

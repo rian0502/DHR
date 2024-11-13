@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "List Companies";
-    var itteration = 1;
+    var iteration = 1;
 }
 
 <div class="col-12">
@@ -26,15 +26,15 @@
                     @foreach (var item in Model!)
                     {
                         <tr>
-                            <td>@itteration</td>
+                            <td>@iteration</td>
                             <td>@item.CompanyCode</td>
                             <td>@item.CompanyName</td>
-                            <td>@item.Location.LocationName</td>
+                            <td>@(item.Location?.LocationName ?? "-")</td>
                             <td>
                                 <a href="@Url.Action("Edit", "Companies", new { id = item.CompanyID })" class="btn btn-warning">Edit</a>
                             </td>
                         </tr>
-                        itteration++;
+                        iteration++;
                     }
                </tbody>
             </table>

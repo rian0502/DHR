@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Presensi360.Models.LocationModel>
 @{
     ViewData["Title"] = "List Work Area";
-    var itteration = 1;
+    var iteration = 1;
 }
 
 <div class="col-12">
@@ -23,14 +23,14 @@
                 @foreach(var item in Model)
                 {
                     <tr>
-                        <td>@itteration</td>
+                        <td>@iteration</td>
                         <td>@item.LocationCode</td>
                         <td>@item.LocationName</td>
                         <td>
                             <a href="@Url.Action("Edit", "WorkAreas", new { id = item.LocationID })" class="btn btn-warning">Edit</a>
                         </td>   
                     </tr>
-                    itteration++;
+                    iteration++;
                 }
                 </tbody>
             </table>
