@@ -4,8 +4,6 @@ namespace Presensi360.Models
 {
     public class DepartmentModel
     {
-        private readonly string _TABLE = "department";
-
         [Key]
         public int DepartmentID { get; set; }
         public string? DepartmentName { get; set; }

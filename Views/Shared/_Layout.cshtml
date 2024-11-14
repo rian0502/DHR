@@ -146,7 +146,7 @@
                 {
                     <li class="nav-header">Master Data</li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Employee", "JobTitle", "WorkArea", "Company", "Department", "SubDepartment")">
+                                <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Employee", "Education", "JobTitle", "WorkArea", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
                             <i class="nav-icon fas fa-server"></i>
                             <p>
                                 Master Data
@@ -155,10 +155,16 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                        <a href="@Url.Action("Index", "Employee")" class="nav-link @UrlActive.IsActive(@Context, "Employee")">
+                                <a href="@Url.Action("Index", "Employee")" class="nav-link @UrlActive.IsActive(@Context, "Employee")">
                                     <i class="fas fa-users nav-icon"></i>
                                     <p>Employees</p>
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                        <a href="@Url.Action("Index", "Education")" class="nav-link @UrlActive.IsActive(@Context, "Education")">
+                                            <i class="fas fa-user-graduate nav-icon"></i>
+                                            <p>Education</p>
+                                        </a>
                             </li>
                             <li class="nav-item">
                                         <a href="@Url.Action("Index", "JobTitle")" class="nav-link @UrlActive.IsActive(@Context, "JobTitle")">
@@ -178,8 +184,15 @@
                                     <p>Companies</p>
                                 </a>
                             </li>
+                             <li class="nav-item">
+                                 <a href="@Url.Action("Index", "TaxExemptIncome")" class="nav-link @UrlActive.IsActive(@Context, "TaxExemptIncome")">
+                                            <i class="fas fa-hand-holding-usd nav-icon"></i>
+                                    <p>Tax Exempt Income</p>
+                                </a>
+                            </li>
+
                             <li class="nav-item">
-                                        <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Department", "SubDepartment")">
+                                        <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Department", "SubDepartment", "Division")">
                                     <i class="fas fa-sitemap nav-icon"></i>
                                     <p>
                                         Organizational Structure
@@ -197,6 +210,12 @@
                                         <a href="@Url.Action("Index", "SubDepartment")" class="nav-link @UrlActive.IsActive(@Context, "SubDepartment")">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Sub-Department</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "Division")" class="nav-link @UrlActive.IsActive(@Context, "Division")">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Division</p>
                                         </a>
                                     </li>
                                 </ul>
