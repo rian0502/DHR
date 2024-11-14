@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Presensi360.Helper;
@@ -56,7 +57,7 @@ namespace Presensi360.Controllers
             }
             return View(model);
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Logout()
         {

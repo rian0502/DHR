@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Presensi360.Models.CompanyModel>
 
 @{
-    ViewData["Title"] = "List Companies";
+    ViewData["Title"] = "Companies List";
     var iteration = 1;
 }
 
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <a href="@Url.Action("Create", "Companies")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Company</a>
+            <a href="@Url.Action("Create", "Company")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Company</a>
         </div>
 
         <div class="card-body">
@@ -31,7 +31,7 @@
                             <td>@item.CompanyName</td>
                             <td>@(item.Location?.LocationName ?? "-")</td>
                             <td>
-                                <a href="@Url.Action("Edit", "Companies", new { id = item.CompanyID })" class="btn btn-warning">Edit</a>
+                                <a href="@Url.Action("Edit", "Company", new { id = item.CompanyID })" class="btn btn-warning">Edit</a>
                             </td>
                         </tr>
                         iteration++;

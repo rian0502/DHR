@@ -7,11 +7,11 @@ using Presensi360.ViewModels;
 namespace Presensi360.Controllers
 {
     [Authorize]
-    public class CompaniesController : Controller
+    public class CompanyController : Controller
     {
         private readonly CompanyService _companyService;
         private readonly WorkAreaService _workAreaService;
-        public CompaniesController(CompanyService companyService, WorkAreaService workAreaService)
+        public CompanyController(CompanyService companyService, WorkAreaService workAreaService)
         {
             _companyService = companyService;
             _workAreaService = workAreaService;

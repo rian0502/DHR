@@ -146,7 +146,7 @@
                 {
                     <li class="nav-header">Master Data</li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Location", "Employees", "JobTitles", "WorkAreas", "Companies", "Departments")">
+                        <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Employee", "JobTitle", "WorkArea", "Company", "Department", "SubDepartment")">
                             <i class="nav-icon fas fa-server"></i>
                             <p>
                                 Master Data
@@ -155,46 +155,46 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "Employees")" class="nav-link @UrlActive.IsActive(@Context, "Employees")">
+                                        <a href="@Url.Action("Index", "Employee")" class="nav-link @UrlActive.IsActive(@Context, "Employee")">
                                     <i class="fas fa-users nav-icon"></i>
-                                    <p>Employes</p>
+                                    <p>Employees</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "JobTitles")" class="nav-link @UrlActive.IsActive(@Context, "JobTitles")">
+                                        <a href="@Url.Action("Index", "JobTitle")" class="nav-link @UrlActive.IsActive(@Context, "JobTitle")">
                                     <i class="fas fa-user-tag nav-icon"></i>
                                     <p>Job Titles</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "WorkAreas")" class="nav-link @UrlActive.IsActive(@Context, "WorkAreas")">
+                                        <a href="@Url.Action("Index", "WorkArea")" class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
                                     <i class="fas fa-street-view nav-icon"></i>
                                     <p>Work Areas</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "Companies")" class="nav-link @UrlActive.IsActive(@Context, "Companies")">
+                                        <a href="@Url.Action("Index", "Company")" class="nav-link @UrlActive.IsActive(@Context, "Company")">
                                     <i class="far fa-building nav-icon"></i>
                                     <p>Companies</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Departments")">
+                                        <a href="#" class="nav-link @UrlActive.IsActive(@Context, "Department", "SubDepartment")">
                                     <i class="fas fa-sitemap nav-icon"></i>
                                     <p>
-                                        Departments
+                                        Organizational Structure
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Index", "Departments")" class="nav-link @UrlActive.IsActive(@Context, "Departments")">
+                                                <a href="@Url.Action("Index", "Department")" class="nav-link @UrlActive.IsActive(@Context, "Department")">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Department</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="@Url.Action("Index", "SubDepartment")" class="nav-link @UrlActive.IsActive(@Context, "SubDepartment")">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Sub-Department</p>
                                         </a>

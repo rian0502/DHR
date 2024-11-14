@@ -11,14 +11,14 @@ namespace Presensi360.Providers
         private readonly string _storeProcedure = "sp_JobTitle";
 
         //FindAll
-        public async Task<IEnumerable<JobTitle>> FindAll()
+        public async Task<IEnumerable<JobTitleModel>> FindAll()
         {
             var results = await _context.JobTitles.FromSql($"EXEC {_storeProcedure} @Action = 'FindAll'").ToListAsync();
             return results;
         }
 
         //FindById
-        public async Task<JobTitle> FindById(int id)
+        public async Task<JobTitleModel> FindById(int id)
         {
             var result = await _context.JobTitles.FromSql($"EXEC {_storeProcedure} @Action = 'FindById', @Id = {id}").ToListAsync();
             return result.FirstOrDefault();

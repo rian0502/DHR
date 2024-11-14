@@ -7,11 +7,11 @@ using Presensi360.ViewModels;
 namespace Presensi360.Controllers
 {
     [Authorize]
-    public class JobTitlesController : Controller
+    public class JobTitleController : Controller
     {
         private readonly JobTitleService _jobTitleService;
 
-        public JobTitlesController(JobTitleService jobTitleService)
+        public JobTitleController(JobTitleService jobTitleService)
         {
             _jobTitleService = jobTitleService;
         }

@@ -2,7 +2,7 @@
 
 namespace Presensi360.Controllers
 {
-    public class EmployeesController : Controller
+    public class EmployeeController : Controller
     {
         public IActionResult Index()
         {

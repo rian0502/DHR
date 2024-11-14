@@ -1,14 +1,15 @@
-﻿@model Presensi360.ViewModels.CreateCompanyViewModel
+﻿@model Presensi360.ViewModels.EditCompanyViewModel
 @{
-    ViewData["Title"] = "Create Company";
+    ViewData["Title"] = "Update Company Information";
 }
 
 <div class="col-12">
-    <form asp-action="Create" method="post">
+    <form asp-action="Edit" method="post">
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.CompanyID)
         <div class="card">
             <div class="card-header">
-                <a href="@Url.Action("Index", "Companies")" class="btn btn-danger">Back</a>
+                <a href="@Url.Action("Index", "Company")" class="btn btn-danger">Back</a>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -35,7 +36,7 @@
                                 <option value="">Select Location</option>
                                 @foreach (var workArea in (ViewBag.WorkAreas as IEnumerable<LocationModel>)!)
                                 {
-                                    <option value="@workArea.LocationID">@workArea.LocationCode - @workArea.LocationName</option>
+                                <option value="@workArea.LocationID">@workArea.LocationCode - @workArea.LocationName</option>
                                 }
                             </select>
                             <span asp-validation-for="LocationID" class="text-danger"></span>

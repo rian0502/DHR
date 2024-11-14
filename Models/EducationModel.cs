@@ -2,14 +2,11 @@
 
 namespace Presensi360.Models
 {
-    public class LocationModel
+    public class EducationModel
     {
         [Key]
-        public int LocationID { get; set; }
-        public string? LocationCode { get; set; }
-        public string? LocationName { get; set; }
-        //Relational Model
-        public ICollection<CompanyModel>? Companies { get; set; } // Has many companies
+        public int EducationId { get; set; }
+        public string? EducationName { get; set; }
 
         //Log Attributes
         public string? CreatedBy { get; set; }

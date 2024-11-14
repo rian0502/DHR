@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Presensi360.Models.LocationModel>
 @{
-    ViewData["Title"] = "List Work Area";
+    ViewData["Title"] = "Work Area List";
     var iteration = 1;
 }
 
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <a href="@Url.Action("Create", "WorkAreas")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Work Area</a>
+            <a href="@Url.Action("Create", "WorkArea")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Work Area</a>
         </div>
         <div class="card-body">
             <table id="example2" class="table table-bordered table-hover">
@@ -27,7 +27,7 @@
                         <td>@item.LocationCode</td>
                         <td>@item.LocationName</td>
                         <td>
-                            <a href="@Url.Action("Edit", "WorkAreas", new { id = item.LocationID })" class="btn btn-warning">Edit</a>
+                            <a href="@Url.Action("Edit", "WorkArea", new { id = item.LocationID })" class="btn btn-warning">Edit</a>
                         </td>   
                     </tr>
                     iteration++;

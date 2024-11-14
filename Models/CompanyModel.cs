@@ -12,6 +12,13 @@ namespace Presensi360.Models
 
         //Relational Model
         public LocationModel? Location { get; set; } //Belongs to Location
+        public ICollection<DepartmentModel>? Departments { get; set; } //Has many Departments
+
+        //Log Attributes
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string? UpdatedBy { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
     }
 }

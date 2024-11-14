@@ -137,7 +137,7 @@ namespace Presensi360.Helper
                 var existingDepartment = await context.Departments.FirstOrDefaultAsync(d => d.DepartmentCode == dept.DepartmentCode);
                 if (existingDepartment == null)
                 {
-                    context.Departments.Add(new Department
+                    context.Departments.Add(new DepartmentModel
                     {
                         DepartmentName = dept.DepartmentName,
                         DepartmentCode = dept.DepartmentCode
@@ -167,7 +167,7 @@ namespace Presensi360.Helper
                     var existingSubDepartment = await context.SubDepartments.FirstOrDefaultAsync(sd => sd.SubDepartmentCode == subDept.SubDepartmentCode);
                     if (existingSubDepartment == null)
                     {
-                        context.SubDepartments.Add(new SubDepartment
+                        context.SubDepartments.Add(new SubDepartmentModel
                         {
                             SubDepartmentName = subDept.SubDepartmentName,
                             SubDepartmentCode = subDept.SubDepartmentCode,
@@ -204,7 +204,7 @@ namespace Presensi360.Helper
                 var existingJobTitle = await context.JobTitles.FirstOrDefaultAsync(jt => jt.JobTitleCode == jobTitle.JobTitleCode);
                 if (existingJobTitle == null)
                 {
-                    context.JobTitles.Add(new JobTitle
+                    context.JobTitles.Add(new JobTitleModel
                     {
                         JobTitleName = jobTitle.JobTitleName,
                         JobTitleCode = jobTitle.JobTitleCode,
@@ -240,7 +240,7 @@ namespace Presensi360.Helper
                     var existingEmployee = await context.Employee.FirstOrDefaultAsync(e => e.UserId == user.Id && e.JobTitleID == jobTitle.JobTitleID);
                     if (existingEmployee == null)
                     {
-                        context.Employee.Add(new Employee
+                        context.Employee.Add(new EmployeeModel
                         {
                             EmployeeName = employee.EmployeeName,
                             UserId = user.Id,

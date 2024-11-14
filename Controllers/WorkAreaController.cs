@@ -4,11 +4,11 @@ using Presensi360.ViewModels;
 
 namespace Presensi360.Controllers
 {
-    public class WorkAreasController : Controller
+    public class WorkAreaController : Controller
     {
         private readonly WorkAreaService _workAreaService;
 
-        public WorkAreasController(WorkAreaService workAreaService)
+        public WorkAreaController(WorkAreaService workAreaService)
         {
             _workAreaService = workAreaService;
         }
