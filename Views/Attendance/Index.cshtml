@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="col-12">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1"><i class="far fa-calendar"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Calendar Days</span>
+                    <span class="info-box-number">
+                        10
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-calendar-alt"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Work Days</span>
+                    <span class="info-box-number">85000</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="far fa-calendar-check"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Meal Allowance Days</span>
+                    <span class="info-box-number">760</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-bill-wave"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Meal Allowance Total</span>
+                    <span class="info-box-number">2,000</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <div class="card">  
+        <div class="card-body">
+            <div class="row justify-content-end">
+                <div class="col-4">
+                    <div class="form-group">
+                        <select class="form-control select2bs4" style="width: 100%;">
+                            <option value="">Select Period</option>
+                            <option value="">16-10-2024 / 15-11-2024</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-success"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table id="example3" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>In</th>
+                                <th>Out</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

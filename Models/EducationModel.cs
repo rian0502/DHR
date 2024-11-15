@@ -8,6 +8,9 @@ namespace Presensi360.Models
         public int EducationId { get; set; }
         public string? EducationName { get; set; }
 
+        //Relational Model
+        public ICollection<EmployeeModel>? Employees { get; set; } // Has many Employee
+
         //Log Attributes
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

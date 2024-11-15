@@ -10,6 +10,9 @@ namespace Presensi360.Models
         public string? JobTitleCode { get; set; }
         public string? JobTitleDescription { get; set; }
 
+        //Relational Model
+        public ICollection<EmployeeModel>? Employees { get; set; } // Has many Employee
+
         //Log Attributes
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

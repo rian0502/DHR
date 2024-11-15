@@ -5,7 +5,6 @@ using System.Diagnostics;
 
 namespace Presensi360.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -2,14 +2,15 @@
 
 namespace Presensi360.Models
 {
-    public class ReligionModel
+    public class UnitModel
     {
         [Key]
-        public int ReligionId { get; set; }
-        public string? ReligionName { get; set; }
+        public int UnitID { get; set; }
+        public string UnitCode { get; set; }
+        public string UnitName { get; set; }
 
-        //Relationship Models
-        public ICollection<EmployeeModel> Employees { get; set; }
+        //Relational Model
+        public ICollection<SubUnitModel>? SubUnits { get; set; } //Has many SubUnits
 
         //Log Attributes
         public string? CreatedBy { get; set; }
