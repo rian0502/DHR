@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presensi360.Controllers
 {
+    [Authorize]
     public class DivisionController : Controller
     {
         // GET: DivisionController

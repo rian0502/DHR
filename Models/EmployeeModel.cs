@@ -28,7 +28,7 @@ namespace Presensi360.Models
         public EducationModel? Education { get; set; } // Belongs to Education
         public TaxExemptIncomeModel? TaxExemptIncome { get; set; } // Belongs to TaxExemptIncome
         public SubUnitModel? SubUnit { get; set; } // Belongs to SubUnit
-        public required Users Users { get; set; } // Belongs to Users
+        public Users? Users { get; set; } // Belongs to Users
         public ICollection<EmployeeDependentModel>? EmployeeDependents { get; set; } // Has many EmployeeDependent
 
         //Log Attributes

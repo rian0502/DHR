@@ -180,6 +180,37 @@ namespace Presensi360.Migrations
                     b.ToTable("AppLogs");
                 });
 
+            modelBuilder.Entity("Presensi360.Models.AttendanceStatusModel", b =>
+                {
+                    b.Property<int>("AttendanceStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendanceStatusId"));
+
+                    b.Property<string>("AttendanceStatusCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AttendanceStatusName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AttendanceStatusId");
+
+                    b.ToTable("AttendanceStatus");
+                });
+
             modelBuilder.Entity("Presensi360.Models.CompanyModel", b =>
                 {
                     b.Property<int>("CompanyID")
@@ -504,6 +535,40 @@ namespace Presensi360.Migrations
                     b.ToTable("Locations");
                 });
 
+            modelBuilder.Entity("Presensi360.Models.PeriodModel", b =>
+                {
+                    b.Property<int>("PeriodId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PeriodId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndPeriodDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("StartPeriodDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PeriodId");
+
+                    b.ToTable("Periods");
+                });
+
             modelBuilder.Entity("Presensi360.Models.ReligionModel", b =>
                 {
                     b.Property<int>("ReligionId")
@@ -582,6 +647,13 @@ namespace Presensi360.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocationID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubUnitAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SubUnitCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -600,6 +672,8 @@ namespace Presensi360.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SubUnitID");
+
+                    b.HasIndex("LocationID");
 
                     b.HasIndex("UnitID");
 
@@ -884,11 +958,19 @@ namespace Presensi360.Migrations
 
             modelBuilder.Entity("Presensi360.Models.SubUnitModel", b =>
                 {
+                    b.HasOne("Presensi360.Models.LocationModel", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Presensi360.Models.UnitModel", "Unit")
                         .WithMany("SubUnits")
                         .HasForeignKey("UnitID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Location");
 
                     b.Navigation("Unit");
                 });

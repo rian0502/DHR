@@ -16,6 +16,8 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 builder.Services.AddScoped<WorkAreaService>();
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<JobTitleService>();
+builder.Services.AddScoped<PeriodService>();
+builder.Services.AddScoped<UnitService>();
 
 builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.Password.RequireNonAlphanumeric = false;
@@ -52,9 +54,14 @@ app.MapControllerRoute(
 //using (var scope = app.Services.CreateScope())
 //{
 //    var services = scope.ServiceProvider;
-//    var userManager = services.GetRequiredService<UserManager<Users>>();
-//    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-//    await SeederData.Initialize(services, userManager, roleManager);
+//    try
+//    {
+//        await DatabaseSeeder.SeedData(services);
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine($"Error seeding data: {ex.Message}");
+//    }
 //}
 
 app.Run();

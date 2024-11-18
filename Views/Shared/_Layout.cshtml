@@ -152,7 +152,7 @@
                     <li class="nav-header">Master Data</li>
                     <li class="nav-item">
                         <a href="#"
-                           class="nav-link @UrlActive.IsActive(@Context, "Employee", "Education", "JobTitle", "WorkArea", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
+                           class="nav-link @UrlActive.IsActive(@Context, "Employee", "Education", "JobTitle", "WorkArea", "Unit", "SubUnit","Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
                             <i class="nav-icon fas fa-server"></i>
                             <p>
                                 Master Data
@@ -182,11 +182,37 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "WorkArea")"
+                                <a href="#"
                                    class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
                                     <i class="fas fa-street-view nav-icon"></i>
-                                    <p>Work Areas</p>
+                                    <p>
+                                        Work Areas
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "WorkArea")"
+                                           class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Location</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "Unit")"
+                                           class="nav-link @UrlActive.IsActive(@Context, "Unit")">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Units</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "SubUnit")"
+                                           class="nav-link @UrlActive.IsActive(@Context, "SubUnit")">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Sub-Unit</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "Company")"
@@ -208,7 +234,7 @@
                                    class="nav-link @UrlActive.IsActive(@Context, "Department", "SubDepartment", "Division")">
                                     <i class="fas fa-sitemap nav-icon"></i>
                                     <p>
-                                        Organizational Structure
+                                        Company Structure
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
@@ -282,7 +308,8 @@
 
                     <li class="nav-header">Employee</li>
                     <li class="nav-item">
-                            <a href="@Url.Action("Index", "Attendance")" class="nav-link @UrlActive.IsActive(@Context, "Attendance")">
+                        <a href="@Url.Action("Index", "Attendance")"
+                           class="nav-link @UrlActive.IsActive(@Context, "Attendance")">
                             <i class="nav-icon far fa-calendar-check"></i>
                             <p>
                                 Attendance
@@ -291,7 +318,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="#"
-                           class="nav-link @UrlActive.IsActive(@Context, "Employee", "Education", "JobTitle", "WorkArea", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
+                           class="nav-link">
                             <i class="nav-icon fas fa-file-signature"></i>
                             <p>
                                 Requests & Claims
@@ -301,35 +328,35 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "Employee")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Employee")">
+                                   class="nav-link">
                                     <i class="nav-icon fas fa-suitcase"></i>
                                     <p>Leave Request</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "Education")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Education")">
+                                   class="nav-link">
                                     <i class="nav-icon fas fa-user-clock"></i>
                                     <p>Permission Request</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "JobTitle")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "JobTitle")">
+                                   class="nav-link">
                                     <i class="fas fa-file-contract nav-icon"></i>
                                     <p>Work Entry Request</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "WorkArea")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
+                                   class="nav-link">
                                     <i class="nav-icon bi bi-luggage"></i>
                                     <p>Business Travel Request</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "Company")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Company")">
+                                   class="nav-link">
                                     <i class="fas fa-clinic-medical nav-icon"></i>
                                     <p>Medical Claim</p>
                                 </a>
@@ -432,6 +459,7 @@
 <script src="~/templates/plugins/select2/js/select2.full.min.js"></script>
 <script src="~/templates/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
+<script src="~/attendance/attendance-ajax.js"></script>
 <script>
     $(function () {
         $('.select2').select2();

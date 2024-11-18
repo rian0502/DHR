@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Presensi360.Providers;
 using Presensi360.ViewModels;
 
 namespace Presensi360.Controllers
 {
+    [Authorize]
     public class WorkAreaController : Controller
     {
         private readonly WorkAreaService _workAreaService;

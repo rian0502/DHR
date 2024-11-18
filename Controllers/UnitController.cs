@@ -1,31 +1,39 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Presensi360.Providers;
 
 namespace Presensi360.Controllers
 {
     [Authorize]
-    public class EmployeeDependentController : Controller
+    public class UnitController : Controller
     {
-        // GET: EmployeeDependentController
-        public ActionResult Index()
+        private readonly UnitService _unitService;
+
+        public UnitController(UnitService unitService)
         {
-            return View();
+            _unitService = unitService;
+        }
+        // GET: UnitController
+        public async Task<ActionResult> Index()
+        {
+            var units = await _unitService.FindAll();
+            return View(units);
         }
 
-        // GET: EmployeeDependentController/Details/5
+        // GET: UnitController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: EmployeeDependentController/Create
+        // GET: UnitController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EmployeeDependentController/Create
+        // POST: UnitController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -40,13 +48,13 @@ namespace Presensi360.Controllers
             }
         }
 
-        // GET: EmployeeDependentController/Edit/5
+        // GET: UnitController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: EmployeeDependentController/Edit/5
+        // POST: UnitController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -61,13 +69,13 @@ namespace Presensi360.Controllers
             }
         }
 
-        // GET: EmployeeDependentController/Delete/5
+        // GET: UnitController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: EmployeeDependentController/Delete/5
+        // POST: UnitController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Attendance";
 }
+<form id="attendanceForm">
+    @Html.AntiForgeryToken()
+</form>
 
 <div class="col-12">
     <div class="row">
@@ -64,13 +67,17 @@
                 <div class="col-4">
                     <div class="form-group">
                         <select class="form-control select2bs4" style="width: 100%;">
-                            <option value="">Select Period</option>
-                            <option value="">16-10-2024 / 15-11-2024</option>
+                            @foreach (var period in ViewBag.Periods)
+                            {
+                                <option value="@period.PeriodId">
+                                    @($"{period.StartPeriodDate:dd-MM-yyyy} / {period.EndPeriodDate:dd-MM-yyyy}")
+                                </option>
+                            }
                         </select>
                     </div>
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-success"><i class="fas fa-search"></i></button>
+                    <button type="button" id="loadAttendanceUser" class="btn btn-success"><i class="fas fa-search"></i></button>
                 </div>
             </div>
             <div class="row">

@@ -12,6 +12,22 @@ namespace Presensi360.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AppLogs",
+                columns: table => new
+                {
+                    AppLogId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Params = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppLogs", x => x.AppLogId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -49,6 +65,24 @@ namespace Presensi360.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AttendanceStatus",
+                columns: table => new
+                {
+                    AttendanceStatusId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AttendanceStatusName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttendanceStatusCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttendanceStatus", x => x.AttendanceStatusId);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,6 +137,25 @@ namespace Presensi360.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Locations", x => x.LocationID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Periods",
+                columns: table => new
+                {
+                    PeriodId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartPeriodDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndPeriodDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Periods", x => x.PeriodId);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,6 +349,8 @@ namespace Presensi360.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SubUnitName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubUnitCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubUnitAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LocationID = table.Column<int>(type: "int", nullable: false),
                     UnitID = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -305,6 +360,12 @@ namespace Presensi360.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SubUnits", x => x.SubUnitID);
+                    table.ForeignKey(
+                        name: "FK_SubUnits_Locations_LocationID",
+                        column: x => x.LocationID,
+                        principalTable: "Locations",
+                        principalColumn: "LocationID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SubUnits_Units_UnitID",
                         column: x => x.UnitID,
@@ -390,8 +451,7 @@ namespace Presensi360.Migrations
                 name: "Employee",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeID = table.Column<int>(type: "int", nullable: false),
                     NIK = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NPWP = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -577,6 +637,11 @@ namespace Presensi360.Migrations
                 column: "DepartmentID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SubUnits_LocationID",
+                table: "SubUnits",
+                column: "LocationID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubUnits_UnitID",
                 table: "SubUnits",
                 column: "UnitID");
@@ -585,6 +650,9 @@ namespace Presensi360.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppLogs");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -601,7 +669,13 @@ namespace Presensi360.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "AttendanceStatus");
+
+            migrationBuilder.DropTable(
                 name: "EmployeeDependents");
+
+            migrationBuilder.DropTable(
+                name: "Periods");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

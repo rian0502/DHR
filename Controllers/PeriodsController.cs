@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Presensi360.Providers;
 
 namespace Presensi360.Controllers
 {
     public class PeriodsController : Controller
     {
-        // GET: PeriodsController
-        public ActionResult Index()
+        private readonly PeriodService _periodService;
+
+        public PeriodsController(PeriodService periodService)
         {
-            return View();
+            _periodService = periodService;
+        }
+        // GET: PeriodsController
+        public async Task<ActionResult> Index()
+        {
+            var periods = await _periodService.FindAll();
+            return View(periods);
         }
 
         // GET: PeriodsController/Details/5

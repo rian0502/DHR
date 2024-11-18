@@ -5,27 +5,27 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presensi360.Controllers
 {
     [Authorize]
-    public class EmployeeDependentController : Controller
+    public class SubUnitController : Controller
     {
-        // GET: EmployeeDependentController
+        // GET: SubUnitController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: EmployeeDependentController/Details/5
+        // GET: SubUnitController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: EmployeeDependentController/Create
+        // GET: SubUnitController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EmployeeDependentController/Create
+        // POST: SubUnitController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -40,13 +40,13 @@ namespace Presensi360.Controllers
             }
         }
 
-        // GET: EmployeeDependentController/Edit/5
+        // GET: SubUnitController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: EmployeeDependentController/Edit/5
+        // POST: SubUnitController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -61,13 +61,13 @@ namespace Presensi360.Controllers
             }
         }
 
-        // GET: EmployeeDependentController/Delete/5
+        // GET: SubUnitController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: EmployeeDependentController/Delete/5
+        // POST: SubUnitController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

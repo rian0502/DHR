@@ -11,6 +11,8 @@ namespace Presensi360.Helper
         {
         }
         public DbSet<AppLogModel> AppLogs { get; set; }
+        public DbSet<AttendanceStatusModel> AttendanceStatus { get; set; }
+        public DbSet<PeriodModel> Periods { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<CompanyModel> Companies { get; set; }
         public DbSet<JobTitleModel> JobTitles { get; set; }
@@ -27,7 +29,6 @@ namespace Presensi360.Helper
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.Entity<LocationModel>().HasMany(l => l.Companies).WithOne(c => c.Location).HasForeignKey(c => c.LocationID);
             builder.Entity<CompanyModel>().HasMany(d => d.Departments).WithOne(d => d.Company).HasForeignKey(d => d.CompanyID);
             builder.Entity<DepartmentModel>().HasMany(sd => sd.SubDepartments).WithOne(sd => sd.Department).HasForeignKey(sd => sd.DepartmentID);

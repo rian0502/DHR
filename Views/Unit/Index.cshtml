@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Presensi360.Models.UnitModel>
+
+@{
+    ViewData["Title"] = "Unit List";
+    var iteration = 1;
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "Unit")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Period</a>
+        </div>
+
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model!)
+                    {
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@item.UnitCode</td>
+                            <td>@item.UnitName</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Unit", new { id = item.UnitID })" class="btn btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                        iteration++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

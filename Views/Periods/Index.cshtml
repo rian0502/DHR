@@ -1,3 +1,52 @@
-﻿@{
+﻿@model IEnumerable<Presensi360.Models.PeriodModel>
+
+@{
     ViewData["Title"] = "List Periods";
+    var iteration = 1;
 }
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "Period")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Period</a>
+        </div>
+
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Start Period</th>
+                        <th>End Period</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model!)
+                    {
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@item.StartPeriodDate?.ToString("MM-dd-yyyy")</td>
+                            <td>@item.EndPeriodDate?.ToString("MM-dd-yyyy")</td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="badge badge-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-danger">Inactive</span>
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Period", new { id = item.PeriodId })" class="btn btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                        iteration++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
