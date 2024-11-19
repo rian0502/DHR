@@ -18,6 +18,11 @@ builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<JobTitleService>();
 builder.Services.AddScoped<PeriodService>();
 builder.Services.AddScoped<UnitService>();
+builder.Services.AddScoped<AttendanceService>(serviceProvider =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    return new AttendanceService(connectionString);
+});
 
 builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.Password.RequireNonAlphanumeric = false;

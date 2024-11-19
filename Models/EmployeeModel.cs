@@ -5,7 +5,7 @@ namespace Presensi360.Models
     public class EmployeeModel
     {
         [Key]
-        public int? EmployeeID { get; set; }
+        public int EmployeeID { get; set; }
         public required string NIK { get; set; }
         public required string NPWP { get; set; }
         public required string Gender { get; set; }

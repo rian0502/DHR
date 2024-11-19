@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Presensi360.Helper;
 using Presensi360.Models;
 using System.Configuration;
 using System.Data;
@@ -8,56 +10,46 @@ namespace Presensi360.Providers
     public class AttendanceService
     {
         private readonly string _connectionString;
-
-        public AttendanceService()
+        public AttendanceService(string connectionString)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = connectionString;
         }
-
-        public List<AttendanceModel> GetAttendance(int emplId, int periodId)
+        public async Task<List<AttendanceModel>> GetAttendance(int employeeId, int periodId)
         {
-            var attendanceList = new List<AttendanceModel>();
+            var attendances = new List<AttendanceModel>();
 
-            // Gunakan _connectionString yang sudah diinisialisasi
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
 
-                using (var command = new SqlCommand("GetAttendance", connection))
+                using (var command = new SqlCommand("EXEC [dbo].[GetAttendance] @EmplID, @PeriodId", connection))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add(new SqlParameter("@EmplID", SqlDbType.Int) { Value = emplId });
-                    command.Parameters.Add(new SqlParameter("@PeriodId", SqlDbType.Int) { Value = periodId });
+                    command.Parameters.AddWithValue("@EmplID", employeeId);
+                    command.Parameters.AddWithValue("@PeriodId", periodId);
 
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             var attendance = new AttendanceModel
                             {
                                 EmployeeId = reader.GetInt32(reader.GetOrdinal("EmployeeId")),
-                                Day = reader.GetInt32(reader.GetOrdinal("Day")),
-                                Date = reader.IsDBNull(reader.GetOrdinal("Date")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("Date")),
+                                Day = reader.GetByte(reader.GetOrdinal("Day")),
+                                Date = reader.GetDateTime(reader.GetOrdinal("Date")),
                                 Code = reader.IsDBNull(reader.GetOrdinal("Code")) ? null : reader.GetString(reader.GetOrdinal("Code")),
-                                CheckIn = reader.IsDBNull(reader.GetOrdinal("CheckIn")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("CheckIn")),
-                                CheckOut = reader.IsDBNull(reader.GetOrdinal("CheckOut")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("CheckOut")),
-                                Late = reader.IsDBNull(reader.GetOrdinal("Late")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("Late")),
+                                CheckIn = reader.IsDBNull(reader.GetOrdinal("CheckIn")) ? null : reader.GetDecimal(reader.GetOrdinal("CheckIn")),
+                                CheckOut = reader.IsDBNull(reader.GetOrdinal("CheckOut")) ? null : reader.GetDecimal(reader.GetOrdinal("CheckOut")),
+                                Late = reader.IsDBNull(reader.GetOrdinal("Late")) ? 0 : reader.GetDecimal(reader.GetOrdinal("Late")),
                                 Note = reader.IsDBNull(reader.GetOrdinal("Note")) ? null : reader.GetString(reader.GetOrdinal("Note")),
-                                MealAllowance = reader.IsDBNull(reader.GetOrdinal("MealAllowance")) ? null : reader.GetInt32(reader.GetOrdinal("MealAllowance"))
+                                MealAllowance = reader.IsDBNull(reader.GetOrdinal("MealAllowance")) ? (short?)null : reader.GetInt16(reader.GetOrdinal("MealAllowance"))
                             };
-
-                            attendanceList.Add(attendance);
+                            attendances.Add(attendance);
                         }
                     }
                 }
             }
 
-            return attendanceList;
+            return attendances;
         }
     }
 }

@@ -1,15 +1,20 @@
-﻿namespace Presensi360.Models
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace Presensi360.Models
 {
     public class AttendanceModel
     {
+        [Key]
         public int EmployeeId { get; set; }
-        public int Day { get; set; }
+        public byte Day { get; set; }
         public DateTime? Date { get; set; }
         public string? Code { get; set; }
         public decimal? CheckIn { get; set; }
         public decimal? CheckOut { get; set; }
         public decimal? Late { get; set; }
         public string? Note { get; set; }
-        public int? MealAllowance { get; set; }
+        public short? MealAllowance { get; set; }
     }
 }

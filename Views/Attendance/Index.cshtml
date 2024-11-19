@@ -12,8 +12,8 @@
                 <span class="info-box-icon bg-info elevation-1"><i class="far fa-calendar"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Calendar Days</span>
-                    <span class="info-box-number">
-                        10
+                    <span class="info-box-number" id="total-days">
+                        0
                     </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -27,7 +27,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Work Days</span>
-                    <span class="info-box-number">85000</span>
+                    <span class="info-box-number" id="work-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -41,7 +41,7 @@
                 <span class="info-box-icon bg-warning elevation-1"><i class="far fa-calendar-check"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Meal Allowance Days</span>
-                    <span class="info-box-number">760</span>
+                    <span class="info-box-number" id="meal-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -53,7 +53,7 @@
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-bill-wave"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Meal Allowance Total</span>
-                    <span class="info-box-number">2,000</span>
+                    <span class="info-box-number" id="meal-total">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -82,11 +82,10 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <table id="example3" class="table table-bordered table-hover">
+                    <table id="attendanceRow" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Day</th>
                                 <th>In</th>
                                 <th>Out</th>
                                 <th>Status</th>

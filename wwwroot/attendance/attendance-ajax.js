@@ -1,4 +1,36 @@
 ﻿$(document).ready(function () {
+    function formatDecimal(time) {
+        if (time === null || time === undefined) return '-';
+        return time.toFixed(2);
+    }
+    function statusAttendance(code) {
+        switch (code) {
+            case '1':
+                return `<span class="badge bg-primary">Entered</span>`; // Masuk
+            case 'A':
+                return `<span class="badge bg-danger">Alpha</span>`; // Alpha
+            case 'P':
+                return `<span class="badge bg-info">Business Trip</span>`; // Perjalanan Dinas
+            case 'D':
+                return `<span class="badge bg-warning">Dispensation</span>`; // Dispensasi
+            case 'L':
+                return `<span class="badge bg-secondary">Holiday</span>`; // Hari Libur
+            case 'S':
+                return `<span class="badge bg-warning">Sick</span>`; // Sakit
+            case 'C':
+                return `<span class="badge bg-warning">Leave</span>`; // Cuti
+            case 'I':
+                return `<span class="badge bg-info">Permission</span>`; // Ijin
+            case 'CB':
+                return `<span class="badge bg-warning">Collective Leave</span>`; // Cuti Bersama
+            case 'M':
+                return `<span class="badge bg-warning">Maternity Leave</span>`; // Cuti Melahirkan
+            case 'N':
+                return `<span class="badge bg-secondary">National Holiday</span>`; // Libur Nasional
+            default:
+                return `<span class="badge bg-dark">Unknown Status</span>`; // Default
+        }
+    }
     $('#loadAttendanceUser').click(function () {
         var periodId = $('.select2bs4').val();
         var csrfToken = $('input[name="__RequestVerificationToken"]').val();
@@ -12,19 +44,33 @@
                 'RequestVerificationToken': csrfToken
             },
             success: function (response) {
-                var tableBody = $('#example3 tbody');
+                var tableBody = $('#attendanceRow tbody');
                 tableBody.empty();
-                response.data.forEach(function (attendance) {
+                var totalDays = 0;
+                var totalLeave = 0;
+                var totalMeal = 0;
+                response.attendance.result.forEach(function (attendance) {
                     var row = `<tr>
-                        <td>${attendance.Date}</td>
-                        <td>${attendance.Day}</td>
-                        <td>${attendance.In}</td>
-                        <td>${attendance.Out}</td>
-                        <td>${attendance.Status}</td>
-                        <td>${attendance.Notes}</td>
+                        <td>${new Date(attendance.date).toLocaleDateString()}</td>
+                        <td>${attendance.day}</td>
+                        <td>${formatDecimal(attendance.checkIn)}</td>
+                        <td>${formatDecimal(attendance.checkOut)}</td>
+                        <td>${statusAttendance(attendance.code)}</td>
+                        <td>${attendance.note}</td>
                     </tr>`;
                     tableBody.append(row);
+                    totalDays++;
+                    if (attendance.code == 'L') {
+                        totalLeave++;
+                    }
+                    if (attendance.mealAllowance == 1) {
+                        totalMeal++;
+                    }
                 });
+                $('#total-days').text(totalDays);
+                $('#work-days').text(totalDays - totalLeave);
+                $('#meal-days').text(totalMeal);
+                $('#meal-total').text(totalMeal * 85000);
             },
             error: function () {
                 alert("Failed to load data.");

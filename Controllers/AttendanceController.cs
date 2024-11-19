@@ -9,11 +9,20 @@ using Presensi360.Providers;
 namespace Presensi360.Controllers
 {
     [Authorize]
-    public class AttendanceController(PeriodService periodService, UserManager<Users> userManager, AppDBContext context) : Controller
+    public class AttendanceController : Controller
     {
-        private readonly PeriodService _periodService = periodService;
-        private readonly UserManager<Users> _userManager = userManager;
-        private readonly AppDBContext _context = context;
+        private readonly PeriodService _periodService;
+        private readonly UserManager<Users> _userManager;
+        private readonly AppDBContext _context;
+        private readonly AttendanceService _attendanceService;
+
+        public AttendanceController(PeriodService periodService, UserManager<Users> userManager, AppDBContext context, AttendanceService attendanceService)
+        {
+            _periodService = periodService;
+            _userManager = userManager;
+            _context = context;
+            _attendanceService = attendanceService;
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -25,15 +34,24 @@ namespace Presensi360.Controllers
         public async Task<IActionResult> GetAttendanceAsync(int periodId)
         {
 
-            var user = await userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return BadRequest(new { Status = false, Message = "User not found" });
+            }
             var employee = await _context.Employee
-                                     .FirstOrDefaultAsync(e => e.UserId == user.Id);
+                                         .FirstOrDefaultAsync(e => e.UserId == user.Id);
+            if (employee == null)
+            {
+                return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
+            }
+            var attendance = _attendanceService.GetAttendance(employee.EmployeeID, periodId);
             return Ok(new
             {
                 Status = true,
                 Message = "Success",
-                User = user,
-                Employee = employee
+                Employee = employee,
+                Attendance = attendance
             });
         }
     }
