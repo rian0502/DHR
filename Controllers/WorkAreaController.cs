@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Presensi360.Helper;
+using Presensi360.Models;
 using Presensi360.Providers;
 using Presensi360.ViewModels;
+using System.Security.Claims;
 
 namespace Presensi360.Controllers
 {
@@ -9,10 +14,13 @@ namespace Presensi360.Controllers
     public class WorkAreaController : Controller
     {
         private readonly WorkAreaService _workAreaService;
-
-        public WorkAreaController(WorkAreaService workAreaService)
+        private readonly MongoDBContext _mongoDBContext;
+        private readonly UserManager<Users> _userManager;
+        public WorkAreaController(WorkAreaService workAreaService, MongoDBContext mongoDBContext, UserManager<Users> userManager)
         {
             _workAreaService = workAreaService;
+            _mongoDBContext = mongoDBContext;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -30,7 +38,8 @@ namespace Presensi360.Controllers
         {
             if (ModelState.IsValid)
             {
-                var insert = await _workAreaService.Create(model);
+                var user = await _userManager.GetUserAsync(User);
+                var insert = await _workAreaService.Create(model, user!.Id);
                 if(insert == 0)
                 {
                     TempData["Errors"] = "Failed to create Work Area";
@@ -38,6 +47,23 @@ namespace Presensi360.Controllers
                 }
                 else
                 {
+                    var Logs = new AppLogModel()
+                    {
+                        Params = JsonConvert.SerializeObject(new
+                        {
+                            LocationCode = model.LocationCode,
+                            LocationName = model.LocationName,
+                        }),
+                        Source = JsonConvert.SerializeObject(new
+                        {
+                            Controller = "WorkAreaController",
+                            Action = "Create",
+                        }),
+                        CreatedBy = $"{user!.Id} - {user.FullName}",
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    await _mongoDBContext.AppLogs.InsertOneAsync(Logs);
+
                     TempData["Success"] = "Work Area has ben created";
                     return RedirectToAction("Index");
                 }

@@ -10,8 +10,7 @@ namespace Presensi360.Helper
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
         }
-        public DbSet<AppLogModel> AppLogs { get; set; }
-        public DbSet<AttendanceModel> attendances { get; set; }
+
         public DbSet<AttendanceStatusModel> AttendanceStatus { get; set; }
         public DbSet<PeriodModel> Periods { get; set; }
         public DbSet<LocationModel> Locations { get; set; }

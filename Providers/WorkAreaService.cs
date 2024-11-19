@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Presensi360.Helper;
 using Presensi360.Models;
 using Presensi360.ViewModels;
+using System.Security.Claims;
 
 namespace Presensi360.Providers;
 
@@ -27,9 +28,20 @@ public class WorkAreaService(AppDBContext context)
         return results.FirstOrDefault();
     }
     //Create
-    public async Task<int> Create(CreateWorkAreaViewModel model)
+    public async Task<int> Create(CreateWorkAreaViewModel model, string userId)
     {
-        var result = await _context.Database.ExecuteSqlAsync($"EXEC {_storeProcedure} @Action = 'Insert', @Code = {model.LocationCode}, @Name = {model.LocationName}");
+        var currentTime = DateTime.UtcNow;
+        var result = await _context.Database.ExecuteSqlAsync($@"
+            EXEC {_storeProcedure} 
+                @Action = 'Insert',
+                @Code = {model.LocationCode},
+                @Name = {model.LocationName},
+                @CreatedBy = {userId},
+                @CreatedAt = {currentTime},
+                @UpdatedBy = {userId},
+                @UpdatedAt = {currentTime}
+        ");
+
         return result;
     }
     //Update

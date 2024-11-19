@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Presensi360.Helper;
 using Presensi360.Models;
 using Presensi360.ViewModels;
@@ -15,12 +16,15 @@ namespace Presensi360.Controllers
         private readonly SignInManager<Users> _signInManager;
         private readonly UserManager<Users> _userManager;
         private readonly AppDBContext _context;
+        private readonly MongoDBContext _mongoContext;
 
-        public AccountController  (SignInManager<Users> signInManager, UserManager<Users> userManager, AppDBContext appDBContext)
+        public AccountController  (SignInManager<Users> signInManager, UserManager<Users> userManager, 
+            AppDBContext appDBContext, MongoDBContext mongoContext)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _context = appDBContext;
+            _mongoContext = mongoContext;
         }
 
 
