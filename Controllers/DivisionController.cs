@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presensi360.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DivisionController : Controller
     {
         // GET: DivisionController

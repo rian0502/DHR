@@ -5,7 +5,7 @@ using Presensi360.Providers;
 
 namespace Presensi360.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UnitController : Controller
     {
         private readonly UnitService _unitService;

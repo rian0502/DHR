@@ -6,7 +6,7 @@ using Presensi360.ViewModels;
 
 namespace Presensi360.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CompanyController : Controller
     {
         private readonly CompanyService _companyService;

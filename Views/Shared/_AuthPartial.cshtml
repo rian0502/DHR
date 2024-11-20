@@ -3,15 +3,17 @@
         <i class="bi bi-person-circle"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <a href="#" class="dropdown-item">
-            <i class="bi bi-gear mr-2"></i>
-            <span class="float-right text-muted text-sm">Profile</span>
-        </a>
-        <div class="dropdown-divider"></div>
+        @if (User.IsInRole("User"))
+        {
+            <a href="@Url.Action("Index", "Profile")" class="dropdown-item">
+                <i class="bi bi-gear mr-2"></i>
+                <span class="float-right text-muted text-sm">Profile</span>
+            </a>
+            <div class="dropdown-divider"></div>
+        }
         <a href="@Url.Action("Logout", "Account")" class="dropdown-item">
             <i class="bi bi-box-arrow-left mr-2"></i>
             <span class="float-right text-muted text-sm">Log out</span>
         </a>
-
     </div>
 </li>

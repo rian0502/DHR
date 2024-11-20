@@ -49,6 +49,7 @@
                 var totalDays = 0;
                 var totalLeave = 0;
                 var totalMeal = 0;
+                var totalNational = 0;
                 response.attendance.result.forEach(function (attendance) {
                     var row = `<tr>
                         <td>${new Date(attendance.date).toLocaleDateString()}</td>
@@ -59,16 +60,20 @@
                         <td>${attendance.note}</td>
                     </tr>`;
                     tableBody.append(row);
-                    totalDays++;
                     if (attendance.code == 'L') {
                         totalLeave++;
                     }
                     if (attendance.mealAllowance == 1) {
                         totalMeal++;
                     }
+                    if (attendance.code == 'N') {
+                        totalNational++;
+                    }
+                    totalDays++;
+
                 });
                 $('#total-days').text(totalDays);
-                $('#work-days').text(totalDays - totalLeave);
+                $('#work-days').text(totalDays - totalLeave - totalNational);
                 $('#meal-days').text(totalMeal);
                 $('#meal-total').text(totalMeal * 85000);
             },

@@ -31,11 +31,7 @@ namespace Presensi360.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Dashboard", "Home");
-            }
-            return View();
+            return User?.Identity?.IsAuthenticated == true ? RedirectToAction("Dashboard", "Home") : View();
         }
 
         [HttpPost]
@@ -89,7 +85,6 @@ namespace Presensi360.Controllers
         [HttpGet]
         public IActionResult ResetPassword(string email)
         {
-
             return View(new ResetPasswordViewModel { Email = email} );
         }
 
@@ -99,5 +94,17 @@ namespace Presensi360.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangePassword(IFormCollection model)
+        {
+            return Ok(model);
+        }
+
+
+        public IActionResult AccessDenied()
+        {
+            return RedirectToAction("Dashboard", "Home");
+        }
     }
 }

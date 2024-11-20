@@ -8,7 +8,7 @@ using Presensi360.Providers;
 
 namespace Presensi360.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class AttendanceController : Controller
     {
         private readonly PeriodService _periodService;

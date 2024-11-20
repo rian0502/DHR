@@ -6,11 +6,10 @@ using Presensi360.Helper;
 using Presensi360.Models;
 using Presensi360.Providers;
 using Presensi360.ViewModels;
-using System.Security.Claims;
 
 namespace Presensi360.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class WorkAreaController : Controller
     {
         private readonly WorkAreaService _workAreaService;
@@ -51,8 +50,8 @@ namespace Presensi360.Controllers
                     {
                         Params = JsonConvert.SerializeObject(new
                         {
-                            LocationCode = model.LocationCode,
-                            LocationName = model.LocationName,
+                            model.LocationCode,
+                            model.LocationName,
                         }),
                         Source = JsonConvert.SerializeObject(new
                         {

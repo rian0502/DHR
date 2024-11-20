@@ -1,5 +1,166 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Profile";
 }
+
+<div class="col-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-info card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle"
+                             src="~/templates/img/user4-128x128.jpg"
+                             alt="User profile picture">
+                    </div>
+                    <h3 class="profile-username text-center">Nina Mcintire</h3>
+
+                    <p class="text-muted text-center">32132112312321231</p>
+
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>Email</b> <a class="float-right">darmexagro.com</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Phone</b> <a class="float-right">0812345678910</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Username</b> <a class="float-right">userNameProfile</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>NPWP</b> <a class="float-right">12123131231231019</a>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default">
+                        Edit Password
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">About Me</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <strong><i class="fas fa-user-graduate mr-1"></i> Education Level</strong>
+                    <p class="text-muted">
+                        S1
+                    </p>
+                    <hr>
+                    <strong><i class="fas fa-user-tie mr-1"></i> Job Title</strong>
+                    <p class="text-muted">
+                        Staff
+                    </p>
+                    <hr>
+                    <strong><i class="far fa-building mr-1"></i> Company</strong>
+                    <p class="text-muted">Cerenti Subur</p>
+                    <hr>
+
+                    <strong><i class="fas fa-street-view mr-1"></i> Unit</strong>
+                    <p class="text-muted">Head Office</p>
+                    <hr>
+
+                    <strong><i class="fas fa-sitemap mr-1"></i> Department</strong>
+                    <p class="text-muted">IT - IT Application - Programmer</p>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><strong>Family</strong></h2>
+                </div>
+                <div class="card-body">
+                    <table id="example3" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Relation</th>
+                                <th>Gender</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Michael Doe</td>
+                                <td>Husband</td>
+                                <td>Male</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jane Doe</td>
+                                <td>Daughter</td>
+                                <td>Female</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Bob Doe</td>
+                                <td>Son</td>
+                                <td>Male</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Change Password-->
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="@Url.Action("ChangePassword", "Account")">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h4 class="modal-title">Change your Password</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="old-password">Old Password</label>
+                                <input id="old-password" type="password" class="form-control" placeholder="Old Password" name="oldPassword">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input id="new-password" type="password" class="form-control" placeholder="New Password" name="newPassword">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="confirm-new-password">Confirm Password</label>
+                                <input id="confirm-new-password" type="password" class="form-control" placeholder="Confirm New Password" name="confirmNewPassword">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
