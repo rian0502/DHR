@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Presensi360.Helper;
-using Presensi360.Models;
+﻿using DAHAR.Helper;
+using DAHAR.Models;
+using Microsoft.AspNetCore.Identity;
 
-namespace Presensi360.Providers
+namespace DAHAR.Providers
 {
     public class EmployeeService(AppDBContext context, UserManager<Users> userManager)
     {

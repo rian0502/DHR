@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Presensi360.Models
+namespace DAHAR.Models
 {
     public class ReligionModel
     {

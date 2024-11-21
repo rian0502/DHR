@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Presensi360.ViewModels;
+namespace DAHAR.ViewModels;
 
 public class EditCompanyViewModel
 {

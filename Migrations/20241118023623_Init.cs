@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Presensi360.Migrations
+namespace DAHAR.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration

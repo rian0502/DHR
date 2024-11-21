@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Presensi360.Helper;
-using Presensi360.Models;
-using Presensi360.ViewModels;
+﻿using DAHAR.Helper;
+using DAHAR.Models;
+using DAHAR.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
-namespace Presensi360.Providers
+namespace DAHAR.Providers
 {
     public class CompanyService(AppDBContext context)
     {

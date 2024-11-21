@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 
-namespace Presensi360.Models
+namespace DAHAR.Models
 {
     public class Users : IdentityUser
     {

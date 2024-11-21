@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Presensi360.Models;
+﻿using DAHAR.Models;
+using Microsoft.AspNetCore.Identity;
 
-namespace Presensi360.Helper
+namespace DAHAR.Helper
 {
     public class DatabaseSeeder
     {

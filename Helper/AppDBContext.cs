@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Presensi360.Models;
 using System.Reflection.Emit;
+using DAHAR.Models;
 
-namespace Presensi360.Helper
+namespace DAHAR.Helper
 {
     public class AppDBContext : IdentityDbContext<Users>
     {

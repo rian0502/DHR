@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-namespace Presensi360.Helper
+namespace DAHAR.Helper
 {
     public class UrlActive
     {

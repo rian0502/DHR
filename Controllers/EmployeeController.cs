@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Presensi360.Controllers
+namespace DAHAR.Controllers;
+
+[Authorize(Roles = "Admin")]
+public class EmployeeController : Controller
 {
-    [Authorize(Roles = "Admin")]
-    public class EmployeeController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
 }

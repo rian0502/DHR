@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Presensi360.Models
+namespace DAHAR.Models
 {
     public class AppLogModel
     {

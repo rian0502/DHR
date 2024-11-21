@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Presensi360.Models;
 using System.Diagnostics;
+using DAHAR.Models;
 
-namespace Presensi360.Controllers
+namespace DAHAR.Controllers
 {
     [Authorize]
     public class HomeController : Controller

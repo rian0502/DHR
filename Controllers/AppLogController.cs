@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Presensi360.Controllers
+namespace DAHAR.Controllers;
+
+public class AppLogController : Controller
 {
-    public class AppLogController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
 }

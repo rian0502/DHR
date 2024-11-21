@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DAHAR.Helper;
+using DAHAR.Models;
+using DAHAR.Providers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Presensi360.Helper;
-using Presensi360.Models;
-using Presensi360.Providers;
 
-namespace Presensi360.Controllers
+namespace DAHAR.Controllers
 {
     [Authorize(Roles = "User")]
     public class AttendanceController : Controller

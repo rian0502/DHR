@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DAHAR.Providers;
+using DAHAR.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Presensi360.Providers;
-using Presensi360.ViewModels;
 
-namespace Presensi360.Controllers
+namespace DAHAR.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class JobTitleController : Controller
