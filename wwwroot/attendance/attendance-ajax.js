@@ -53,7 +53,6 @@
                 response.attendance.result.forEach(function (attendance) {
                     var row = `<tr>
                         <td>${new Date(attendance.date).toLocaleDateString()}</td>
-                        <td>${attendance.day}</td>
                         <td>${formatDecimal(attendance.checkIn)}</td>
                         <td>${formatDecimal(attendance.checkOut)}</td>
                         <td>${statusAttendance(attendance.code)}</td>

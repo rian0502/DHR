@@ -4,7 +4,7 @@
 }
 
 <div class="col-12">
-    <form asp-action="Edit" method="post">
+    <form asp-action="Edit" method="post" asp-route-id="@Model.LocationID">
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.LocationID)
         <div class="card">

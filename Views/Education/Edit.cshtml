@@ -1,0 +1,32 @@
+@model DAHAR.ViewModels.Education.EditEducationViewModel
+
+@{
+    ViewData["Title"] = "Edit Education";
+}
+
+<div class="col-12">
+    <form asp-action="Edit" method="post" asp-route-id="@Model.EducationId">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EducationId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "Education")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="EducationName">Name</label>
+                            <input type="text" asp-for="EducationName" placeholder="Ex: Sekolah Dasar(SD), Srata 1 (S1)"
+                                   class="form-control @(ViewData.ModelState["EducationName"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="EducationName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<WorkAreaService>();
+builder.Services.AddScoped<EducationService>();
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<JobTitleService>();
 builder.Services.AddScoped<PeriodService>();

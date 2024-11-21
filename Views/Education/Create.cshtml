@@ -1,0 +1,30 @@
+@model DAHAR.ViewModels.Unit.CreateUnitViewModel
+@{
+    ViewData["Title"] = "Create Education";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "Unit")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="UnitCode">Code</label>
+                            <input type="text" asp-for="UnitCode" placeholder="Ex: HO, RO, PBK"
+                                   class="form-control @(ViewData.ModelState["UnitCode"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="UnitCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
