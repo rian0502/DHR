@@ -31,6 +31,27 @@
                 return `<span class="badge bg-dark">Unknown Status</span>`; // Default
         }
     }
+    
+    function daysAttendance(value) {
+        switch (value) {
+            case 1:
+                return 'Monday';
+            case 2:
+                return 'Tuesday';
+            case 3:
+                return 'Wednesday';
+            case 4:
+                return 'Thursday';
+            case 5:
+                return 'Friday';
+            case 6:
+                return 'Saturday';
+            default:
+                return 'Sunday';
+        }
+    }
+    
+    
     $('#loadAttendanceUser').click(function () {
         var periodId = $('.select2bs4').val();
         var csrfToken = $('input[name="__RequestVerificationToken"]').val();
@@ -50,12 +71,14 @@
                 var totalLeave = 0;
                 var totalMeal = 0;
                 var totalNational = 0;
-                response.attendance.result.forEach(function (attendance) {
+                response.attendance.result.forEach(function (attendance, index) {
                     var row = `<tr>
-                        <td>${new Date(attendance.date).toLocaleDateString()}</td>
+                        <td class="text-center">${(index + 1)}</td>
+                        <td class="text-center">${new Date(attendance.date).toLocaleDateString()}</td>
+                        <td class="text-center">${daysAttendance(attendance.day)}</td>
                         <td>${formatDecimal(attendance.checkIn)}</td>
                         <td>${formatDecimal(attendance.checkOut)}</td>
-                        <td>${statusAttendance(attendance.code)}</td>
+                        <td class="text-center">${statusAttendance(attendance.code)}</td>
                         <td>${attendance.note}</td>
                     </tr>`;
                     tableBody.append(row);

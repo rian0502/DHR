@@ -1,4 +1,4 @@
-@model DAHAR.ViewModels.Unit.CreateUnitViewModel
+@model DAHAR.ViewModels.Education.CreateEducationViewModel
 @{
     ViewData["Title"] = "Create Education";
 }
@@ -8,16 +8,16 @@
         @Html.AntiForgeryToken()
         <div class="card">
             <div class="card-header">
-                <a href="@Url.Action("Index", "Unit")" class="btn btn-danger">Back</a>
+                <a href="@Url.Action("Index", "Education")" class="btn btn-danger">Back</a>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label asp-for="UnitCode">Code</label>
-                            <input type="text" asp-for="UnitCode" placeholder="Ex: HO, RO, PBK"
-                                   class="form-control @(ViewData.ModelState["UnitCode"]?.Errors.Any() == true ? "is-invalid" : "")">
-                            <span asp-validation-for="UnitCode" class="text-danger"></span>
+                            <label asp-for="EducationName">Code</label>
+                            <input type="text" asp-for="EducationName" placeholder="Ex: Sekolah Dasar(SD), Srata 1 (S1)"
+                                   class="form-control @(ViewData.ModelState["EducationName"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="EducationName" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

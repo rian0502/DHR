@@ -1,0 +1,38 @@
+﻿@model DAHAR.ViewModels.Unit.CreateUnitViewModel
+@{
+    ViewData["Title"] = "Create Unit";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "Unit")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UnitCode">Code</label>
+                            <input type="text" asp-for="UnitCode" placeholder="Ex: HO, RO, PKS"
+                                   class="form-control @(ViewData.ModelState["UnitCode"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="UnitCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UnitName">Name</label>
+                            <input type="text" asp-for="UnitName" placeholder="Ex: Head Office, Regional Office, Plant"
+                                   class="form-control @(ViewData.ModelState["UnitName"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="UnitName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,11 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DAHAR.Helper;
+using DAHAR.Models;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace DAHAR.Controllers;
 
-public class AppLogController : Controller
+public class AppLogController(MongoDBContext mongoDbContext) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+
+        var logs = await mongoDbContext.AppLogs.Find(FilterDefinition<AppLogModel>.Empty)
+            .Sort(Builders<AppLogModel>.Sort.Descending("CreatedAt"))
+            .Limit(30)
+            .ToListAsync();
+        return View(logs);
     }
 }

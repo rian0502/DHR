@@ -70,7 +70,7 @@
                             @foreach (var period in ViewBag.Periods)
                             {
                                 <option value="@period.PeriodId">
-                                    @($"{period.StartPeriodDate:dd-MM-yyyy} / {period.EndPeriodDate:dd-MM-yyyy}")
+                                    @($"{period.StartPeriodDate:dd MMMM yyyy} - {period.EndPeriodDate:dd MMMM yyyy}")
                                 </option>
                             }
                         </select>
@@ -84,13 +84,15 @@
                 <div class="col-12">
                     <table id="attendanceRow" class="table table-bordered table-hover">
                         <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>In</th>
-                                <th>Out</th>
-                                <th>Status</th>
-                                <th>Notes</th>
-                            </tr>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Days</th>
+                            <th>In</th>
+                            <th>Out</th>
+                            <th class="text-center">Status</th>
+                            <th>Notes</th>
+                        </tr>
                         </thead>
                         <tbody>
                         </tbody>

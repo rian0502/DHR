@@ -32,37 +32,34 @@ public class EducationController(EducationService educationService, UserManager<
     {
         try
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            var user = await userManager.GetUserAsync(User);
+            var currentTime = DateTime.UtcNow;
+            var insert = await educationService.Insert(model, user!.Id, currentTime);
+            if (insert == 0)
             {
-                var user = await userManager.GetUserAsync(User);
-                var currentTime = DateTime.UtcNow;
-                var insert = await educationService.Insert(model, user!.Id, currentTime);
-                if (insert == 0)
-                {
-                    TempData["Errors"] = "Failed to create Education";
-                    return View(model);
-                }
-
-                var logs = new AppLogModel()
-                {
-                    CreatedBy = $"{user.Id} - {user.FullName}",
-                    CreatedAt = currentTime,
-                    Params = JsonConvert.SerializeObject(new
-                    {
-                        model.EducationName
-                    }),
-                    Source =JsonConvert.SerializeObject(new
-                    {
-                        Controller = "EducationController",
-                        Action = "Create",
-                        Database = "Educations"
-                    }),
-                };
-                await mongoDbContext.AppLogs.InsertOneAsync(logs);
-                TempData["Success"] = "Education created successfully";
-                return RedirectToAction(nameof(Index));
+                TempData["Errors"] = "Failed to create Education";
+                return View(model);
             }
-            return View(model: model);
+
+            var logs = new AppLogModel()
+            {
+                CreatedBy = $"{user.Id} - {user.FullName}",
+                CreatedAt = currentTime,
+                Params = JsonConvert.SerializeObject(new
+                {
+                    model.EducationName
+                }),
+                Source =JsonConvert.SerializeObject(new
+                {
+                    Controller = "EducationController",
+                    Action = "Create",
+                    Database = "Educations"
+                }),
+            };
+            await mongoDbContext.AppLogs.InsertOneAsync(logs);
+            TempData["Success"] = "Education created successfully";
+            return RedirectToAction(nameof(Index));
         }
         catch(Exception ex)
         {

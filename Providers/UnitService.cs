@@ -1,5 +1,6 @@
 ﻿using DAHAR.Helper;
 using DAHAR.Models;
+using DAHAR.ViewModels.Unit;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers
@@ -23,23 +24,38 @@ namespace DAHAR.Providers
         }
 
         // Insert
-        public async Task<int> Insert(UnitModel unit)
+        public async Task<int> Insert(CreateUnitViewModel unit, string userId, DateTime time)
         {
-            // Validasi apakah UnitCode sudah ada
-            var check = await _context.Units.FirstOrDefaultAsync(x => x.UnitCode == unit.UnitCode);
+            var check = await _context.Units.FirstOrDefaultAsync(x => x.UnitCode == unit.UnitCode || x.UnitName == unit.UnitName);
             if (check != null)
             {
-                return 3; // Mengindikasikan UnitCode sudah ada
+                return 3;
             }
-
-            var result = await _context.Database.ExecuteSqlAsync($"EXEC {_storeProcedure} @Action = 'Insert', @UnitCode = {unit.UnitCode}, @UnitName = {unit.UnitName}, @CreatedBy = {unit.CreatedBy}, @CreatedAt = {unit.CreatedAt}, @UpdatedBy = {unit.UpdatedBy}, @UpdatedAt = {unit.UpdatedAt}");
+            var result = await _context.Database.ExecuteSqlAsync($@"
+                      EXEC {_storeProcedure}
+                      @Action = 'Insert', 
+                      @UnitCode = {unit.UnitCode},
+                      @UnitName = {unit.UnitName}, 
+                      @CreatedBy = {userId}, 
+                      @CreatedAt = {time}, 
+                      @UpdatedBy = {userId}, 
+                      @UpdatedAt = {time}
+            ");
             return result;
         }
 
         // Update
         public async Task<int> Update(UnitModel unit)
         {
-            var result = await _context.Database.ExecuteSqlAsync($"EXEC {_storeProcedure} @Action = 'Update', @Id = {unit.UnitID}, @UnitCode = {unit.UnitCode}, @UnitName = {unit.UnitName}, @UpdatedBy = {unit.UpdatedBy}, @UpdatedAt = {unit.UpdatedAt}");
+            var result = await _context.Database.ExecuteSqlAsync($@"
+                      EXEC {_storeProcedure} 
+                      @Action = 'Update', 
+                      @Id = {unit.UnitID}, 
+                      @UnitCode = {unit.UnitCode}, 
+                      @UnitName = {unit.UnitName}, 
+                      @UpdatedBy = {unit.UpdatedBy}, 
+                      @UpdatedAt = {unit.UpdatedAt}
+            ");
             return result;
         }
 

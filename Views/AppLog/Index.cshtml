@@ -1,3 +1,31 @@
-﻿@{
+﻿@model IEnumerable<DAHAR.Models.AppLogModel>
+@{
     ViewData["Title"] = "Application Logs";
 }
+
+<div class="col-12">
+<div class="card">
+    <div class="card-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Date</th>
+                <th>User</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.CreatedAt</td>
+                    <td>@item.CreatedBy</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
