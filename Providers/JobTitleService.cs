@@ -20,12 +20,13 @@ namespace DAHAR.Providers
         //FindById
         public async Task<JobTitleModel> FindById(int id)
         {
-            var result = await _context.JobTitles.FromSql($"EXEC {_storeProcedure} @Action = 'FindById', @Id = {id}").ToListAsync();
+            var result = await _context.JobTitles.FromSql($"EXEC {_storeProcedure} @Action = 'FindById', @Id = {id}")
+                .ToListAsync();
             return result.FirstOrDefault();
         }
 
         //Insert
-        public async Task<int> Insert(CreateJobTitleViewModel jobTitle)
+        public async Task<int> Insert(CreateJobTitleViewModel jobTitle, string userId, DateTime time)
         {
             //check if code already exist
             var check = await _context.JobTitles.FirstOrDefaultAsync(x => x.JobTitleCode == jobTitle.JobTitleCode);
@@ -33,14 +34,34 @@ namespace DAHAR.Providers
             {
                 return 3;
             }
-            var result = await _context.Database.ExecuteSqlAsync($"EXEC {_storeProcedure} @Action = 'Insert', @Name = {jobTitle.JobTitleName}, @Code = {jobTitle.JobTitleCode}, @Description = {jobTitle.JobTitleDescription}");
+
+            var result = await _context.Database.ExecuteSqlAsync($@"
+                    EXEC {_storeProcedure} 
+                    @Action = 'Insert',
+                    @Name = {jobTitle.JobTitleName}, 
+                    @Code = {jobTitle.JobTitleCode}, 
+                    @Description = {jobTitle.JobTitleDescription},
+                    @CreatedBy = {userId},
+                    @CreatedAt = {time},
+                    @UpdatedBy = {userId},
+                    @UpdatedAt = {time}
+                ");
             return result;
         }
 
         //Update
-        public async Task<int> Update(EditJobTitleViewModel jobTitle)
+        public async Task<int> Update(EditJobTitleViewModel jobTitle, string userId, DateTime time)
         {
-            var result = await _context.Database.ExecuteSqlAsync($"EXEC {_storeProcedure} @Action = 'Update', @Id = {jobTitle.JobTitleID}, @Name = {jobTitle.JobTitleName}, @Code = {jobTitle.JobTitleCode}, @Description = {jobTitle.JobTitleDescription}");
+            var result = await _context.Database.ExecuteSqlAsync($@"
+                    EXEC {_storeProcedure} 
+                    @Action = 'Update', 
+                    @Id = {jobTitle.JobTitleID}, 
+                    @Name = {jobTitle.JobTitleName}, 
+                    @Code = {jobTitle.JobTitleCode}, 
+                    @Description = {jobTitle.JobTitleDescription},
+                    @UpdatedBy = {userId},
+                    @UpdatedAt = {time}
+            ");
             return result;
         }
     }

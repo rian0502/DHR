@@ -1,87 +1,148 @@
-﻿using DAHAR.Providers;
+﻿using DAHAR.Helper;
+using DAHAR.Models;
+using DAHAR.Providers;
 using DAHAR.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 
-namespace DAHAR.Controllers
+namespace DAHAR.Controllers;
+
+[Authorize(Roles = "Admin")]
+public class JobTitleController(
+    JobTitleService jobTitleService,
+    UserManager<Users> userManager,
+    MongoDBContext mongoDbContext) : Controller
 {
-    [Authorize(Roles = "Admin")]
-    public class JobTitleController : Controller
+    public async Task<IActionResult> Index()
     {
-        private readonly JobTitleService _jobTitleService;
+        var jobTitles = await jobTitleService.FindAll();
+        return View(jobTitles);
+    }
 
-        public JobTitleController(JobTitleService jobTitleService)
-        {
-            _jobTitleService = jobTitleService;
-        }
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
 
-        public async Task<IActionResult> Index()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CreateJobTitleViewModel model)
+    {
+        try
         {
-            var jobTitles = await _jobTitleService.FindAll();
-            return View(jobTitles);
-        }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateJobTitleViewModel model)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var insert = await _jobTitleService.Insert(model);
-                if (insert == 3)
-                {
+                return View(model);
+            }
+
+            var user = await userManager.GetUserAsync(User);
+            var currentTime = DateTime.UtcNow;
+            var insert = await jobTitleService.Insert(model, user!.Id, currentTime);
+            switch (insert)
+            {
+                case 3:
                     TempData["Errors"] = "Job Title Code already exist";
-                }
-                else if (insert == 0)
-                {
+                    break;
+                case 0:
                     TempData["Errors"] = "Failed to create Job Title";
-                }
-                else
-                {
+                    break;
+                default:
+                    var logs = new AppLogModel
+                    {
+                        CreatedBy = $"{user.Id} - {user.FullName}",
+                        CreatedAt = currentTime,
+                        Params = JsonConvert.SerializeObject(new
+                        {
+                            model.JobTitleCode,
+                            model.JobTitleName,
+                            model.JobTitleDescription
+                        }),
+                        Source = JsonConvert.SerializeObject(new
+                        {
+                            Controller = "JobTitleController",
+                            Action = "Create",
+                            Database = "JobTitle",
+                        })
+                    };
+                    await mongoDbContext.AppLogs.InsertOneAsync(logs);
                     TempData["Success"] = "Job Title has been created";
-                }
-                return RedirectToAction("Index");
+                    break;
             }
-            return View(model);
-        }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var jobTitle = await _jobTitleService.FindById(id);
-            EditJobTitleViewModel model = new()
-            {
-                JobTitleID = jobTitle.JobTitleID,
-                JobTitleName = jobTitle.JobTitleName,
-                JobTitleCode = jobTitle.JobTitleCode,
-                JobTitleDescription = jobTitle.JobTitleDescription
-            };
-            return View(model);
+            return RedirectToAction(nameof(Index));
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditJobTitleViewModel model)
+        catch (Exception e)
         {
-            if (ModelState.IsValid)
-            {
-                var update = await _jobTitleService.Update(model);
+            TempData["Errors"] = e.Message;
+            return RedirectToAction(nameof(Index));
+        }
+    }
 
-                if(update == 0)
-                {
-                    TempData["Errors"] = "Failed to update Job Title";
-                }
-                else
-                {
-                    TempData["Success"] = "Job Title has been updated";
-                }
-                return RedirectToAction("Index");
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var jobTitle = await jobTitleService.FindById(id);
+        EditJobTitleViewModel model = new()
+        {
+            JobTitleID = jobTitle.JobTitleID,
+            JobTitleName = jobTitle.JobTitleName,
+            JobTitleCode = jobTitle.JobTitleCode,
+            JobTitleDescription = jobTitle.JobTitleDescription
+        };
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, EditJobTitleViewModel model)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
             }
-            return View(model);
+
+            var user = await userManager.GetUserAsync(User);
+            var oldData = await jobTitleService.FindById(id);
+            var currentTime = DateTime.UtcNow;
+            var update = await jobTitleService.Update(model, user!.Id, currentTime);
+
+            if (update == 0)
+            {
+                TempData["Errors"] = "Failed to update Job Title";
+            }
+            else
+            {
+                var logs = new AppLogModel
+                {
+                    CreatedBy = $"{user.Id} - {user.FullName}",
+                    CreatedAt = currentTime,
+                    Params = JsonConvert.SerializeObject(new
+                    {
+                        oldData = JsonConvert.SerializeObject(oldData),
+                        newData = JsonConvert.SerializeObject(model)
+                    }),
+                    Source = JsonConvert.SerializeObject(new
+                    {
+                        Controller = "JobTitleController",
+                        Action = "Edit",
+                        Database = "JobTitle",
+                    })
+                };
+                await mongoDbContext.AppLogs.InsertOneAsync(logs);
+                TempData["Success"] = "Job Title has been updated";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception e)
+        {
+            TempData["Errors"] = e.Message;
+            return RedirectToAction(nameof(Index));
         }
     }
 }

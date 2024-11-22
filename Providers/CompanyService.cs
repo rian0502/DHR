@@ -14,8 +14,8 @@ namespace DAHAR.Providers
         public async Task<IEnumerable<CompanyModel>> FindAll()
         {
             var results = await _context.Companies
-                         .Include(c => c.Location)
-                         .ToListAsync();
+                .Include(c => c.Location)
+                .ToListAsync();
             return results;
         }
 
@@ -29,24 +29,43 @@ namespace DAHAR.Providers
         }
 
         // Insert
-        public async Task<int> Insert(CreateCompanyViewModel company)
+        public async Task<int> Insert(CreateCompanyViewModel company, string userId, DateTime time)
         {
-           //check if code already exist
-            var check = await _context.Companies.FirstOrDefaultAsync(x => x.CompanyCode == company.CompanyCode);
+            //check if code already exist
+            var check = await _context.Companies
+                .FirstOrDefaultAsync(x => x.CompanyCode == company.CompanyCode);
             if (check != null)
             {
                 return 3;
             }
-           var result = await _context.Database.ExecuteSqlAsync(
-                $"EXEC {_storeProcedure} @Action = 'Insert', @Code = {company.CompanyCode}, @Name = {company.CompanyName}, @LocationID = {company.LocationID}");
+
+            var result = await _context.Database.ExecuteSqlAsync($@"
+                    EXEC {_storeProcedure} 
+                    @Action = 'Insert',
+                    @Code = {company.CompanyCode},
+                    @Name = {company.CompanyName},
+                    @LocationID = {company.LocationID},
+                    @CreatedBy = {userId},
+                    @CreatedAt = {time},
+                    @UpdatedBy = {userId},
+                    @UpdatedAt = {time}
+            ");
             return result;
         }
 
         // Update
-        public async Task<int> Update(EditCompanyViewModel company)
+        public async Task<int> Update(EditCompanyViewModel company, string userId, DateTime time)
         {
-            var result = await _context.Database.ExecuteSqlAsync(
-                $"EXEC {_storeProcedure} @Action = 'Update', @Id = {company.CompanyID}, @Code = {company.CompanyCode}, @Name = {company.CompanyName}, @LocationID = {company.LocationID}");
+            var result = await _context.Database.ExecuteSqlAsync($@"
+                    EXEC {_storeProcedure} 
+                    @Action = 'Update', 
+                    @Id = {company.CompanyID}, 
+                    @Code = {company.CompanyCode}, 
+                    @Name = {company.CompanyName}, 
+                    @LocationID = {company.LocationID},
+                    @UpdatedBy = {userId},
+                    @UpdatedAt = {time}
+            ");
             return result;
         }
     }
