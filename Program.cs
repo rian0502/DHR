@@ -19,6 +19,7 @@ builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<JobTitleService>();
 builder.Services.AddScoped<PeriodService>();
 builder.Services.AddScoped<UnitService>();
+builder.Services.AddScoped<SubUnitService>();
 builder.Services.AddScoped<MongoDBContext>();
 
 builder.Services.AddScoped<AttendanceService>(serviceProvider =>

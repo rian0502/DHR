@@ -1,0 +1,78 @@
+@model DAHAR.ViewModels.SubUnit.CreateSubUnitViewModel
+
+@{
+    ViewBag.Title = "Create Sub-Unit";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "SubUnit")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="SubUnitCode">Code</label>
+                            <input type="text" asp-for="SubUnitCode" placeholder="Ex: PBKS, ESCB1, EL1"
+                                   class="form-control @(ViewData.ModelState["SubUnitCode"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="SubUnitCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="SubUnitName">Name</label>
+                            <input type="text" asp-for="SubUnitName"
+                                   placeholder="Ex: Regional Office Riau, Plant 1, Plant 2"
+                                   class="form-control @(ViewData.ModelState["SubUnitName"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="SubUnitName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="LocationId">Location</label>
+                            <select class="form-control select2bs4" style="width: 100%;" asp-for="LocationId">
+                                <option>Select Location</option>
+                                @foreach (var workArea in (ViewBag.WorkAreas as IEnumerable<LocationModel>)!)
+                                {
+                                    <option value="@workArea.LocationID">@workArea.LocationCode - @workArea.LocationName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="LocationId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UnitId">Unit</label>
+                            <select class="form-control select2bs4" style="width: 100%;" asp-for="UnitId">
+                                <option>Select Unit</option>
+                                @foreach (var unit in (ViewBag.Units as IEnumerable<UnitModel>)!)
+                                {
+                                    <option value="@unit.UnitID">@unit.UnitCode - @unit.UnitName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="UnitId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="SubUnitAddress">Address</label>
+                            <textarea asp-for="SubUnitAddress" class="form-control @(ViewData.ModelState["SubUnitAddress"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                      placeholder="Enter a Address sub-unit" rows="4"></textarea>
+                            <span asp-validation-for="SubUnitAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

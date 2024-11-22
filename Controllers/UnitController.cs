@@ -36,15 +36,77 @@ public class UnitController(UnitService unitService, UserManager<Users> userMana
             if (!ModelState.IsValid) return View(model);
             var user = await userManager.GetUserAsync(User);
             var currentTime = DateTime.UtcNow;
-            var insert = await unitService.Insert(model, user.Id, currentTime);
-            if (insert == 3)
+            var insert = await unitService.Insert(model, user!.Id, currentTime);
+            switch (insert)
             {
-                TempData["Errors"] = "Unit Already Exist";
-                return View(model);
-            }else if (insert == 0)
+                case 3:
+                    TempData["Errors"] = "Unit Already Exist";
+                    return View(model);
+                case 0:
+                    TempData["Errors"] = "Something Went Wrong";
+                    return View(model);
+                default:
+                {
+                    var logs = new AppLogModel()
+                    {
+                        CreatedBy = $"{user.Id} - {user.FullName}",
+                        CreatedAt = currentTime,
+                        Params = JsonConvert.SerializeObject(new
+                        {
+                            model.UnitCode,
+                            model.UnitName
+                        }),
+                        Source =JsonConvert.SerializeObject(new
+                        {
+                            Controller = "UnitController",
+                            Action = "Create",
+                            Database = "Units"
+                        }),
+                    };
+                    await mongoDbContext.AppLogs.InsertOneAsync(logs);
+                    TempData["Success"] = "Unit Created Successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            TempData["Errors"] = e.Message;
+            return View(model);
+        }
+    }
+
+    // GET: UnitController/Edit/5
+    public async Task<ActionResult> Edit(int id)
+    {
+        var unit = await unitService.FindById(id);
+        return View(new EditUnitViewModel
+        {
+            UnitId = unit.UnitID,
+            UnitCode = unit.UnitCode,
+            UnitName = unit.UnitName
+        });
+    }
+
+    // POST: UnitController/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(int id, EditUnitViewModel model)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
             {
-                TempData["Errors"] = "Something Went Wrong";
                 return View(model);
+            }
+
+            var oldData = await unitService.FindById(id);
+            var user = await userManager.GetUserAsync(User);
+            var currentTime = DateTime.UtcNow;
+            var update = await unitService.Update(model, user!.Id, currentTime);
+            if (update == 0)
+            {
+                TempData["Errors"] = "Failed to Update Unit";
             }
             else
             {
@@ -54,45 +116,25 @@ public class UnitController(UnitService unitService, UserManager<Users> userMana
                     CreatedAt = currentTime,
                     Params = JsonConvert.SerializeObject(new
                     {
-                        model.UnitCode,
-                        model.UnitName
+                        OldData = oldData,
+                        NewData = model
                     }),
-                    Source =JsonConvert.SerializeObject(new
+                    Source = JsonConvert.SerializeObject(new
                     {
                         Controller = "UnitController",
-                        Action = "Create",
+                        Action = "Edit",
                         Database = "Units"
-                    }),
+                    })
                 };
                 await mongoDbContext.AppLogs.InsertOneAsync(logs);
-                TempData["Success"] = "Unit Created Successfully";
-                return RedirectToAction(nameof(Index));
+                TempData["Success"] = "Unit Updated Successfully";
             }
-        }
-        catch
-        {
-            return View();
-        }
-    }
-
-    // GET: UnitController/Edit/5
-    public ActionResult Edit(int id)
-    {
-        return View();
-    }
-
-    // POST: UnitController/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
-    {
-        try
-        {
             return RedirectToAction(nameof(Index));
         }
-        catch
+        catch(Exception e)
         {
-            return View();
+            TempData["Errors"] = e.Message;
+            return View(model);
         }
     }
 

@@ -9,10 +9,10 @@ public class AppLogController(MongoDBContext mongoDbContext) : Controller
 {
     public async Task<IActionResult> Index()
     {
-
-        var logs = await mongoDbContext.AppLogs.Find(FilterDefinition<AppLogModel>.Empty)
-            .Sort(Builders<AppLogModel>.Sort.Descending("CreatedAt"))
-            .Limit(30)
+        var logs = await mongoDbContext.AppLogs
+            .Find(FilterDefinition<AppLogModel>.Empty)
+            .Sort(Builders<AppLogModel>.Sort.Descending(nameof(AppLogModel.CreatedAt)))
+            .Limit(10)
             .ToListAsync();
         return View(logs);
     }

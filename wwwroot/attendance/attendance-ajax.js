@@ -100,7 +100,11 @@
                 $('#meal-total').text(totalMeal * 85000);
             },
             error: function () {
-                alert("Failed to load data.");
+                Swal2.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please Contact Tim IT Application !.'
+                });
             }
         });
     });

@@ -1,5 +1,47 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<DAHAR.Models.SubUnitModel>
+
 @{
+    ViewData["Title"] = "Sub-Unit List";
+    var iteration = 1;
 }
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "SubUnit")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Sub-Unit</a>
+        </div>
+
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Code</th>
+                    <th>Unit</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@iteration</td>
+                        <td>@item.SubUnitCode</td>
+                        <td>@(item.Unit?.UnitName ?? "-")</td>
+                        <td>@item.SubUnitName</td>
+                        <td>@item.SubUnitAddress</td>
+                        <td>@(item.Location?.LocationName ?? "-")</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "SubUnit", new { id = item.SubUnitID })" class="btn btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                    iteration++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

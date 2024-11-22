@@ -45,16 +45,16 @@ namespace DAHAR.Providers
         }
 
         // Update
-        public async Task<int> Update(UnitModel unit)
+        public async Task<int> Update(EditUnitViewModel unit, string userId, DateTime time)
         {
             var result = await _context.Database.ExecuteSqlAsync($@"
                       EXEC {_storeProcedure} 
                       @Action = 'Update', 
-                      @Id = {unit.UnitID}, 
+                      @Id = {unit.UnitId}, 
                       @UnitCode = {unit.UnitCode}, 
                       @UnitName = {unit.UnitName}, 
-                      @UpdatedBy = {unit.UpdatedBy}, 
-                      @UpdatedAt = {unit.UpdatedAt}
+                      @UpdatedBy = {userId}, 
+                      @UpdatedAt = {time}
             ");
             return result;
         }
