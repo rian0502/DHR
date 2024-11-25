@@ -1,5 +1,43 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<DivisionModel>
+
 @{
+    ViewData["Title"] = "Division List";
+    var iteration = 1;
 }
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "Division")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Sub-Department</a>
+        </div>
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Sub-Department</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@iteration</td>
+                        <td>@item.DivisionCode</td>
+                        <td>@item.DivisionName</td>
+                        <td>@(item.SubDepartment?.SubDepartmentName ?? "-")</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Division", new { id = item.DivisionId })"
+                               class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                        </td>
+                    </tr>
+                    iteration++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

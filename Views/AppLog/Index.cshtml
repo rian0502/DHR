@@ -1,4 +1,5 @@
-﻿@model IEnumerable<DAHAR.Models.AppLogModel>
+﻿@using Newtonsoft.Json
+@model IEnumerable<DAHAR.Models.AppLogModel>
 @{
     ViewData["Title"] = "Application Logs";
     var iteration = 1;
@@ -10,18 +11,36 @@
         <table id="example2" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>No</th>
-                <th>Date</th>
-                <th>User</th>
+                <th style="text-align: center; vertical-align: middle;">No</th>
+                <th style="text-align: center; vertical-align: middle;">Date</th>
+                <th style="text-align: center; vertical-align: middle;">Activity</th>
+                <th style="text-align: center; vertical-align: middle;">User</th>
             </tr>
             </thead>
             <tbody>
             @foreach(var item in Model)
             {
                 <tr>
-                    <td>@iteration</td>
-                    <td>@item.CreatedAt</td>
-                    <td>@item.CreatedBy</td>
+                    <td style="text-align: center; vertical-align: middle;">@iteration</td>
+                    <td style="text-align: center; vertical-align: middle;">@item.CreatedAt</td>
+                    <td>
+                        @{
+                            try
+                            {
+                                var sourceData = JsonConvert.DeserializeObject<Dictionary<string, string>>(item.Source!);
+                                <ul>
+                                    <li>Controller: @sourceData?["Controller"]</li>
+                                    <li>Action: @sourceData?["Action"]</li>
+                                    <li>Database: @sourceData?["Database"]</li>
+                                </ul>
+                            }
+                            catch
+                            {
+                                <span>Invalid JSON Format</span>
+                            }
+                        }
+                    </td>
+                    <td style="text-align: center; vertical-align: middle;">@item.CreatedBy</td>
                 </tr>
                 iteration++;
             }

@@ -2,36 +2,24 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Transactions;
 using DAHAR.Helper;
 using DAHAR.Models;
 using DAHAR.ViewModels;
 
 namespace DAHAR.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController(
+        SignInManager<Users> signInManager,
+        UserManager<Users> userManager,
+        AppDBContext appDbContext)
+        : Controller
     {
-
-        private readonly SignInManager<Users> _signInManager;
-        private readonly UserManager<Users> _userManager;
-        private readonly AppDBContext _context;
-        private readonly MongoDBContext _mongoContext;
-
-        public AccountController  (SignInManager<Users> signInManager, UserManager<Users> userManager, 
-            AppDBContext appDBContext, MongoDBContext mongoContext)
-        {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _context = appDBContext;
-            _mongoContext = mongoContext;
-        }
 
 
         [HttpGet]
         public IActionResult Login()
         {
-            return User?.Identity?.IsAuthenticated == true ? RedirectToAction("Dashboard", "Home") : View();
+            return User.Identity?.IsAuthenticated == true ? RedirectToAction("Dashboard", "Home") : View();
         }
 
         [HttpPost]
@@ -41,15 +29,14 @@ namespace DAHAR.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false).Result;
+                var result = signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false).Result;
 
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByNameAsync(model.Username);
+                    var user = await userManager.FindByNameAsync(model.Username);
                     if (user != null)
-                    { 
-                        var employee = await _context.Employee.FirstOrDefaultAsync(e => e.UserId == user.Id);
-                        
+                    {
+                        await appDbContext.Employee.FirstOrDefaultAsync(e => e.UserId == user.Id);
                     }
                     return RedirectToAction("Dashboard", "Home");
                 }
@@ -61,7 +48,7 @@ namespace DAHAR.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
 

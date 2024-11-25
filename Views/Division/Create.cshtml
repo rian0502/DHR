@@ -1,0 +1,58 @@
+@model DAHAR.ViewModels.Divison.CreateDivisionViewModel
+
+@{
+    ViewBag.Title = "Create Division";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "SubDepartment")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="DivisionCode">Code</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["DivisionCode"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="DivisionCode" placeholder="Ex: IT, ACT">
+                            <span asp-validation-for="DivisionCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="DivisionName">Name</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["DivisionName"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="DivisionName"
+                                   placeholder="Ex: Accounting, Finance, Information Technology">
+                            <span asp-validation-for="DivisionName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="SubDepartmentId">Sub-Department</label>
+                            <select class="form-control select2bs4" style="width: 100%;" asp-for="SubDepartmentId">
+                                <option>Select Department</option>
+                                @foreach (var subdepartment in (ViewBag.SubDepartments as IEnumerable<SubDepartmentModel>)!)
+                                {
+                                    <option
+                                        value="@subdepartment.DepartmentID">@subdepartment.SubDepartmentCode - @subdepartment.SubDepartmentName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="SubDepartmentId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
