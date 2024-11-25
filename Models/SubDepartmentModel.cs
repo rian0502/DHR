@@ -8,7 +8,7 @@ namespace DAHAR.Models
         public int SubDepartmentID { get; set; }
         public string? SubDepartmentName { get; set; }
         public string? SubDepartmentCode { get; set; }
-        public int? DepartmentID { get; set; }
+        public int DepartmentID { get; set; }
 
         //Relational Model
         public DepartmentModel? Department { get; set; } // Belongs to Department

@@ -21,9 +21,10 @@ builder.Services.AddScoped<PeriodService>();
 builder.Services.AddScoped<UnitService>();
 builder.Services.AddScoped<SubUnitService>();
 builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddScoped<SubDepartmentService>();
 builder.Services.AddScoped<MongoDBContext>();
 
-builder.Services.AddScoped<AttendanceService>(serviceProvider =>
+builder.Services.AddScoped<AttendanceService>(_ =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     return new AttendanceService(connectionString);
