@@ -30,7 +30,7 @@ namespace DAHAR.Helper
         {
             base.OnModelCreating(builder);
             builder.Entity<LocationModel>().HasMany(l => l.Companies).WithOne(c => c.Location).HasForeignKey(c => c.LocationID);
-            builder.Entity<CompanyModel>().HasMany(d => d.Departments).WithOne(d => d.Company).HasForeignKey(d => d.CompanyID);
+            builder.Entity<CompanyModel>().HasMany(d => d.Departments).WithOne(d => d.Company).HasForeignKey(d => d.CompanyId);
             builder.Entity<DepartmentModel>().HasMany(sd => sd.SubDepartments).WithOne(sd => sd.Department).HasForeignKey(sd => sd.DepartmentID);
             builder.Entity<UnitModel>().HasMany(d => d.SubUnits).WithOne(d => d.Unit).HasForeignKey(d => d.UnitID);
             builder.Entity<EmployeeModel>().HasOne(e => e.SubUnit).WithMany(su => su.Employees).HasForeignKey(e => e.SubUnitId);

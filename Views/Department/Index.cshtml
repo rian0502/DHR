@@ -1,3 +1,42 @@
-﻿@{
+﻿@model IEnumerable<DepartmentModel>
+
+@{
     ViewData["Title"] = "Departments List";
+    var iteration = 1;
 }
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "Department")" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Department</a>
+        </div>
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@iteration</td>
+                        <td>@item.DepartmentCode</td>
+                        <td>@item.DepartmentName</td>
+                        <td>@(item.Company?.CompanyName ?? "-")</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Department", new { id = item.DepartmentID })"
+                               class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                        </td>
+                    </tr>
+                    iteration++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

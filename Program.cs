@@ -20,6 +20,7 @@ builder.Services.AddScoped<JobTitleService>();
 builder.Services.AddScoped<PeriodService>();
 builder.Services.AddScoped<UnitService>();
 builder.Services.AddScoped<SubUnitService>();
+builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<MongoDBContext>();
 
 builder.Services.AddScoped<AttendanceService>(serviceProvider =>
@@ -38,6 +39,13 @@ builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 }).AddEntityFrameworkStores<AppDBContext>().AddDefaultTokenProviders();
+
+
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-CSRF-TOKEN";
+    options.SuppressXFrameOptionsHeader = false;
+});
 
 
 var app = builder.Build();
