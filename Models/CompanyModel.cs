@@ -8,7 +8,7 @@ namespace DAHAR.Models
         public int CompanyID { get; set; }
         public string? CompanyCode { get; set; }
         public string? CompanyName { get; set; }
-        public int? LocationID { get; set; }
+        public int LocationID { get; set; }
 
         //Relational Model
         public LocationModel? Location { get; set; } //Belongs to Location

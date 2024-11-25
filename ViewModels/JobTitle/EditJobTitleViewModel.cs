@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels
+namespace DAHAR.ViewModels.JobTitle
 {
     public class EditJobTitleViewModel
     {

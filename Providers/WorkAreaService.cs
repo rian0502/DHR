@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using DAHAR.Helper;
 using DAHAR.Models;
-using DAHAR.ViewModels;
+using DAHAR.ViewModels.WorkArea;
 
 namespace DAHAR.Providers;
 

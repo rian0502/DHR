@@ -1,6 +1,6 @@
 ﻿using DAHAR.Helper;
 using DAHAR.Models;
-using DAHAR.ViewModels;
+using DAHAR.ViewModels.JobTitle;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers

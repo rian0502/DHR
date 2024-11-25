@@ -1,7 +1,7 @@
 ﻿using DAHAR.Helper;
 using DAHAR.Models;
 using DAHAR.Providers;
-using DAHAR.ViewModels;
+using DAHAR.ViewModels.Company;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -87,14 +87,13 @@ public class CompanyController(
     {
         var result = await companyService.FindById(id);
         ViewBag.WorkAreas = await workAreaService.FindAll();
-        EditCompanyViewModel model = new EditCompanyViewModel
+        return View(new EditCompanyViewModel
         {
             CompanyID = result.CompanyID,
-            CompanyCode = result.CompanyCode,
-            CompanyName = result.CompanyName,
-            LocationID = result.LocationID,
-        };
-        return View(model);
+            CompanyCode = result.CompanyCode ?? "",
+            CompanyName = result.CompanyName ?? "",
+            LocationID = result.LocationID
+        });
     }
 
     [HttpPost]

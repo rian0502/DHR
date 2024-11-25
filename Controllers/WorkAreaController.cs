@@ -1,7 +1,7 @@
 ﻿using DAHAR.Helper;
 using DAHAR.Models;
 using DAHAR.Providers;
-using DAHAR.ViewModels;
+using DAHAR.ViewModels.WorkArea;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

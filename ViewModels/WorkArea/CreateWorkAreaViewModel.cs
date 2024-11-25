@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels;
+namespace DAHAR.ViewModels.WorkArea;
 
 public class CreateWorkAreaViewModel
 {
