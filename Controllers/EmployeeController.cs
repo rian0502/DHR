@@ -7,6 +7,7 @@ namespace DAHAR.Controllers;
 [Authorize(Roles = "Admin")]
 public class EmployeeController(EmployeeService employeeService) : Controller
 {
+    // GET: EmployeeController/Index
     public async Task<IActionResult> Index()
     {
         var employees = await employeeService.FindAll();
