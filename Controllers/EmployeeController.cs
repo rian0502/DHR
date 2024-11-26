@@ -12,4 +12,11 @@ public class EmployeeController(EmployeeService employeeService) : Controller
         var employees = await employeeService.FindAll();
         return View(employees);
     }
+    
+    // GET: EmployeeController/Details/id
+    public async Task<IActionResult> Details(int id)
+    {
+        var employee = await employeeService.FindById(id);
+        return View(employee);
+    }
 }

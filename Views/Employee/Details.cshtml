@@ -1,0 +1,160 @@
+@model DAHAR.Models.EmployeeModel
+
+@{
+    ViewData["Title"] = "Details Employee";
+}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header p-2">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="#dependent" data-toggle="tab">Dependent</a></li>
+            </ul>
+        </div><!-- /.card-header -->
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="profile">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="EmployeeID">NIP</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="EmployeeID">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Users!.FullName">Name</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="Users!.FullName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="NIK">NIK</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="NIK">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="NPWP">NPWP</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="NPWP">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Users!.Email">Email</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="Users!.Email">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Users!.PhoneNumber">Phone Number</label>
+                                <input type="text" disabled="disabled" class="form-control"
+                                       asp-for="Users!.PhoneNumber">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="JobTitle!.JobTitleName">Job Title</label>
+                                <input type="text" disabled="disabled" class="form-control"
+                                       asp-for="JobTitle!.JobTitleName">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="SubUnit!.SubUnitName">Unit</label>
+                                <input type="text" disabled="disabled" class="form-control"
+                                       asp-for="SubUnit!.SubUnitName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Division!.DivisionName">Division</label>
+                                <input type="text" disabled="disabled" class="form-control"
+                                       asp-for="Division!.DivisionName">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="TaxExemptIncome!.TaxExemptIncomeCode">Tax</label>
+                                <input type="text" disabled="disabled" class="form-control"
+                                       asp-for="TaxExemptIncome!.TaxExemptIncomeCode">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Gender">Gender</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="Gender">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Address">Address</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="Address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Education!.EducationName">Education</label>
+                                <input type="text" disabled="disabled" class="form-control"
+                                       asp-for="Education!.EducationName">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Religion!.ReligionName">Religion</label>
+                                <input type="text" disabled="disabled" class="form-control"
+                                       asp-for="Religion!.ReligionName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="JoinDate">Join</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="JoinDate">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ResignDate">Resign</label>
+                                <input type="text" disabled="disabled" class="form-control" asp-for="ResignDate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="dependent">
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div><!-- /.card-body -->
+        <div class="card-footer d-flex justify-content-end">
+            <a href="@Url.Action("Index", "Employee")" class="btn btn-danger">Back</a>
+        </div>
+    </div>
+</div>
