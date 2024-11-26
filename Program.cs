@@ -18,10 +18,12 @@ builder.Services.AddScoped<PeriodService>();
 builder.Services.AddScoped<SubUnitService>();
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<WorkAreaService>();
+builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<JobTitleService>();
 builder.Services.AddScoped<DivisionService>();
 builder.Services.AddScoped<EducationService>();
 builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddScoped<TaxExemptService>();
 builder.Services.AddScoped<SubDepartmentService>();
 builder.Services.AddScoped<MongoDBContext>();
 

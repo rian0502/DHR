@@ -1,15 +1,21 @@
 ﻿using DAHAR.Helper;
 using DAHAR.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers
+namespace DAHAR.Providers;
+
+public class EmployeeService(AppDBContext context)
 {
-    public class EmployeeService(AppDBContext context, UserManager<Users> userManager)
+    //FindAll
+    public async Task<IEnumerable<EmployeeModel>> FindAll()
     {
-        private readonly AppDBContext _context = context;
-        private readonly UserManager<Users> _userManager = userManager;
-
-
-       
+        var results = await context.Employee
+            .Include(x => x.Users)
+            .Include(x => x.JobTitle)
+            .Include(x => x.SubUnit)
+            .Include(x => x.Division)
+            .ToListAsync();
+        return results;
     }
 }

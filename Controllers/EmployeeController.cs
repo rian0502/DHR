@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DAHAR.Providers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DAHAR.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class EmployeeController : Controller
+public class EmployeeController(EmployeeService employeeService) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var employees = await employeeService.FindAll();
+        return View(employees);
     }
 }
