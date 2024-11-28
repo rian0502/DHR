@@ -1,16 +1,34 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using DAHAR.Helper;
+using DAHAR.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace DAHAR.Controllers;
 
 [Authorize(Roles = "User")]
-public class ProfileController : Controller
+public class ProfileController(UserManager<Users> userManager, AppDBContext context) : Controller
 {
     // GET: ProfileController
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-        return View();
+        var user = await userManager.GetUserAsync(User);
+        var profile = await context.Employee
+            .Include(e => e.Users)
+            .Include(e => e.SubUnit)
+            .Include(e => e.JobTitle)
+            .Include(e => e.Education)
+            .Include(e => e.Religion)
+            .Include(e => e.Division)
+            .ThenInclude(d => d!.SubDepartment)
+            .ThenInclude(de => de.Department)
+            .ThenInclude(c => c!.Company)
+            .Include(e => e.TaxExemptIncome)
+            .Include(e => e.EmployeeDependents)
+            .FirstOrDefaultAsync(e => e.Users!.Id == user!.Id);
+        return View(profile);
     }
 
     // GET: ProfileController/Details/5

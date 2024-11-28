@@ -1,0 +1,114 @@
+@model DAHAR.ViewModels.Employee.CreateEmployeeViewModel
+
+@{
+    ViewBag.Title = "Register Employee";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "Employee")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="Nip">NIP</label>
+                            <input type="number"
+                                   class="form-control @(ViewData.ModelState["Nip"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Nip" placeholder="Ex: 1234, 2233, 1122, 7777, 8888">
+                            <span asp-validation-for="Nip" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="FullName">Name</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["FullName"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="FullName"
+                                   placeholder="Ex: Jhon Doe, Jane Doe, Ran Doe">
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="Email">Email</label>
+                            <input type="email"
+                                   class="form-control @(ViewData.ModelState["Email"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Email" placeholder="Ex: jhon.doe@darmexagro.com, jane.doe@darmexagro.com">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber">Phone Number</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["PhoneNumber"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="PhoneNumber"
+                                   placeholder="Ex: 0812345678900, 089876543211">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="Nik">NIK</label>
+                            <input type="number"
+                                   class="form-control @(ViewData.ModelState["Nik"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Nik" placeholder="Ex: 1234567897654321, 9876543212345678">
+                            <span asp-validation-for="Nik" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="Npwp">NPWP</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["Npwp"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Npwp"
+                                   placeholder="Ex: 412312312312333">
+                            <span asp-validation-for="Npwp" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="DivisionId">Division</label>
+                            <select class="form-control select2bs4" style="width: 100%;" asp-for="DivisionId">
+                                <option>Select Department</option>
+                                @foreach (var division in (ViewBag.Divisions as IEnumerable<DivisionModel>)!)
+                                {
+                                    <option
+                                        value="@division.DivisionId">@division.DivisionCode - @division.DivisionName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="DivisionId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="JobTitleId">Job Title</label>
+                            <select class="form-control select2bs4" style="width: 100%;" asp-for="JobTitleId">
+                                <option>Select Job Title</option>
+                                @foreach (var jobTitle in (ViewBag.JobTitle as IEnumerable<JobTitleModel>)!)
+                                {
+                                    <option
+                                        value="@jobTitle.JobTitleID">@jobTitle.JobTitleCode - @jobTitle.JobTitleName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="JobTitleId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

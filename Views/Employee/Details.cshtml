@@ -10,7 +10,7 @@
                 <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profile</a></li>
                 <li class="nav-item"><a class="nav-link" href="#dependent" data-toggle="tab">Dependent</a></li>
             </ul>
-        </div><!-- /.card-header -->
+        </div>
         <div class="card-body">
             <div class="tab-content">
                 <div class="active tab-pane" id="profile">
@@ -134,25 +134,38 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.tab-pane -->
-                <!-- /.tab-pane -->
                 <div class="tab-pane" id="dependent">
                     <div class="row">
                         <div class="col-12">
                             <table id="example2" class="table table-bordered table-hover">
+                                <thead>
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th>Name</th>
                                     <th>Status</th>
                                 </tr>
+                                </thead>
+                                <tbody>
+                                @if (Model.EmployeeDependents != null)
+                                {
+                                    var i = 0;
+                                    foreach (var item in Model.EmployeeDependents)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@i</td>
+                                            <td>@item.DependentName</td>
+                                            <td>@item.DependentStatus</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- /.tab-pane -->
             </div>
-            <!-- /.tab-content -->
-        </div><!-- /.card-body -->
+        </div>
         <div class="card-footer d-flex justify-content-end">
             <a href="@Url.Action("Index", "Employee")" class="btn btn-danger">Back</a>
         </div>

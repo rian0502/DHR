@@ -62,7 +62,7 @@
                 periodId: periodId
             },
             headers: {
-                'RequestVerificationToken': csrfToken
+                'X-CSRF-TOKEN': csrfToken
             },
             success: function (response) {
                 var tableBody = $('#attendanceRow tbody');
@@ -99,12 +99,9 @@
                 $('#meal-days').text(totalMeal);
                 $('#meal-total').text(totalMeal * 85000);
             },
-            error: function () {
-                Swal2.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Please Contact Tim IT Application !.'
-                });
+            error: function (error) {
+                console.log('Error occurred:', error);
+                console.error('HTTP Error Details:', error.responseText);
             }
         });
     });

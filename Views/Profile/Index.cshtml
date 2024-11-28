@@ -1,4 +1,5 @@
-﻿@{
+﻿@model EmployeeModel
+@{
     ViewData["Title"] = "Profile";
 }
 
@@ -12,25 +13,24 @@
                              src="~/templates/img/user4-128x128.jpg"
                              alt="User profile picture">
                     </div>
-                    <h3 class="profile-username text-center">Nina Mcintire</h3>
-
-                    <p class="text-muted text-center">32132112312321231</p>
-
+                    <h3 class="profile-username text-center">@Model.Users!.FullName</h3>
+                    <p class="text-muted text-center">00@(Model.EmployeeID)</p>
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Email</b> <a class="float-right">darmexagro.com</a>
+                            <b>Email</b> <a class="float-right">@Model.Users!.Email</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Phone</b> <a class="float-right">0812345678910</a>
+                            <b>Phone</b> <a class="float-right">@(Model.Users?.PhoneNumber ?? "-")</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Username</b> <a class="float-right">userNameProfile</a>
+                            <b>Username</b> <a class="float-right">@Model.Users!.UserName</a>
                         </li>
                         <li class="list-group-item">
-                            <b>NPWP</b> <a class="float-right">12123131231231019</a>
+                            <b>NPWP</b> <a class="float-right">@Model.NPWP</a>
                         </li>
                     </ul>
-                    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default">
+                    <button type="button" class="btn btn-info btn-block" data-toggle="modal"
+                            data-target="#modal-default">
                         Edit Password
                     </button>
                 </div>
@@ -45,30 +45,30 @@
                 <div class="card-body">
                     <strong><i class="fas fa-user-graduate mr-1"></i> Education Level</strong>
                     <p class="text-muted">
-                        S1
+                        @Model.Education!.EducationName
                     </p>
                     <hr>
                     <strong><i class="fas fa-user-tie mr-1"></i> Job Title</strong>
                     <p class="text-muted">
-                        Staff
+                        @(Model.JobTitle?.JobTitleName ?? "-")
                     </p>
                     <hr>
                     <strong><i class="far fa-building mr-1"></i> Company</strong>
-                    <p class="text-muted">Cerenti Subur</p>
+                    <p class="text-muted">@Model.Division?.SubDepartment?.Department?.Company?.CompanyName</p>
                     <hr>
 
                     <strong><i class="fas fa-street-view mr-1"></i> Unit</strong>
-                    <p class="text-muted">Head Office</p>
+                    <p class="text-muted">@Model.SubUnit!.SubUnitName</p>
                     <hr>
 
                     <strong><i class="fas fa-sitemap mr-1"></i> Department</strong>
-                    <p class="text-muted">IT - IT Application - Programmer</p>
+                    <p class="text-muted">@Model.Division!.DivisionName - @Model.Division?.SubDepartment?.SubDepartmentName</p>
                 </div>
                 <!-- /.card-body -->
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -78,42 +78,35 @@
                 <div class="card-body">
                     <table id="example3" class="table table-bordered table-hover">
                         <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Relation</th>
-                                <th>Gender</th>
-                                <th>Action</th>
-                            </tr>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th>Name</th>
+                            <th class="text-center">Relation</th>
+                            <th class="text-center">Gender</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Michael Doe</td>
-                                <td>Husband</td>
-                                <td>Male</td>
-                                <td>
-                                    <a href="#" class="btn btn-warning">Edit</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jane Doe</td>
-                                <td>Daughter</td>
-                                <td>Female</td>
-                                <td>
-                                    <a href="#" class="btn btn-warning">Edit</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Bob Doe</td>
-                                <td>Son</td>
-                                <td>Male</td>
-                                <td>
-                                    <a href="#" class="btn btn-warning">Edit</a>
-                                </td>
-                            </tr>
+                        @if (Model?.EmployeeDependents != null)
+                        {
+                            var iteration = 1;
+                            foreach (var item in Model.EmployeeDependents)
+                            {
+                                <tr>
+                                    <td class="text-center">@iteration</td>
+                                    <td>@item.DependentName</td>
+                                    <td class="text-center">@item.DependentStatus</td>
+                                    <td class="text-center">
+                                        @(item.DependentGender switch
+                                        {
+                                            "M" => "Male",
+                                            "F" => "Female",
+                                            _ => "-"
+                                        })
+                                    </td>
+                                </tr>
+                                iteration++;
+                            }
+                        }
                         </tbody>
                     </table>
                 </div>
@@ -126,7 +119,7 @@
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="@Url.Action("ChangePassword", "Account")">
+            <form id="changePasswordForm">
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
                     <h4 class="modal-title">Change your Password</h4>
@@ -139,28 +132,110 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="old-password">Old Password</label>
-                                <input id="old-password" type="password" class="form-control" placeholder="Old Password" name="oldPassword">
+                                <input id="old-password" type="password" class="form-control" placeholder="Old Password"
+                                       name="oldPassword">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="new-password">New Password</label>
-                                <input id="new-password" type="password" class="form-control" placeholder="New Password" name="newPassword">
+                                <input id="new-password" type="password" class="form-control" placeholder="New Password"
+                                       name="newPassword">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="confirm-new-password">Confirm Password</label>
-                                <input id="confirm-new-password" type="password" class="form-control" placeholder="Confirm New Password" name="confirmNewPassword">
+                                <input id="confirm-new-password" type="password" class="form-control"
+                                       placeholder="Confirm New Password" name="confirmNewPassword">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">Save changes</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log("Page Loaded with jQuery");
+            $("#changePasswordForm").submit(function (event) {
+                event.preventDefault();
+
+                var submitButton = $("#submit-btn");
+                submitButton.prop("disabled", true);
+                submitButton.text("Saving...");
+                let oldPassword = $("#old-password").val();
+                let newPassword = $("#new-password").val();
+                let confirmNewPassword = $("#confirm-new-password").val();
+                if (newPassword !== confirmNewPassword) {
+                    Swal.fire({
+                        title: "Validation Error",
+                        text: "Passwords do not match!",
+                        icon: "warning"
+                    });
+                    submitButton.prop("disabled", false);
+                    submitButton.text("Save changes");
+                    return;
+                }
+
+                var csrfToken = $('input[name="__RequestVerificationToken"]').val();
+                $.ajax({
+                    url: '@Url.Action("ChangePassword", "Account")',
+                    type: 'POST',
+                    data: {
+                        oldPassword: oldPassword,
+                        newPassword: newPassword,
+                        confirmNewPassword: confirmNewPassword
+                    },
+                    dataType: 'json',
+                    headers: {
+                        "X-CSRF-TOKEN": csrfToken
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: "Success",
+                                text: "Password has been changed successfully",
+                                icon: "success"
+                            });
+                            $('#modal-default').modal('hide');
+                            $('#changePasswordForm').trigger("reset");
+                        } else {
+                            let errorMessages = '';
+                            if (response.errors && Array.isArray(response.errors)) {
+                                response.errors.forEach(function (error) {
+                                    errorMessages += error + "<br/>";
+                                });
+                            } else {
+                                errorMessages = "An unknown error occurred.";
+                            }
+                            Swal.fire({
+                                title: "Error",
+                                html: errorMessages,
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "Fatal Error",
+                            text: "An error occurred. Please Contact Administrator !",
+                            icon: "error"
+                        });
+                    },
+                    complete: function () {
+                        submitButton.prop("disabled", false);
+                        submitButton.text("Save changes");
+                    }
+                });
+            });
+        });
+    </script>
+}

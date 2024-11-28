@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="~/templates/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="~/templates/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -479,8 +480,10 @@
 <script src="~/templates/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="~/templates/plugins/select2/js/select2.full.min.js"></script>
 <script src="~/templates/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
+
 <script src="~/attendance/attendance-ajax.js"></script>
+
+@RenderSection("Scripts", required: false)
 <script>
     $(function () {
         $('.select2').select2();
