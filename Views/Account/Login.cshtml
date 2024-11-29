@@ -29,9 +29,9 @@
                         <div class="form-group">
                             <label asp-for="Password">Password</label>
                             <input type="password"
-                                   class="form-control" asp-for="Password"
-                                   placeholder="Password"
-                                   @(ViewData.ModelState["Password"]?.Errors.Any() == true ? "is-invalid" : "")>
+                                   class="form-control @(ViewData.ModelState["Password"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Password"
+                                   placeholder="Password" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>

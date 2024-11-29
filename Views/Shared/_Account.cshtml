@@ -27,6 +27,16 @@
                 });
             </text>
         }
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '@TempData["Success"]'
+                });
+            </text>
+        }
     </script>
 </body>
 </html>

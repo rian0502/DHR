@@ -7,6 +7,7 @@ using DAHAR.Models;
 using DAHAR.ViewModels;
 using DAHAR.ViewModels.Profile;
 using Newtonsoft.Json;
+
 namespace DAHAR.Controllers;
 
 public class AccountController(
@@ -65,10 +66,17 @@ public class AccountController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult VerifyEmail(VerifyEmailViewModel model)
+    public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
     {
         if (ModelState.IsValid)
         {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("Email", "Email Not Found");
+                return View(model);
+            }
+
             return RedirectToAction("ResetPassword", new { model.Email });
         }
 
@@ -82,8 +90,26 @@ public class AccountController(
     }
 
     [HttpPost]
-    public IActionResult ResetPassword(ResetPasswordViewModel model)
+    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
     {
+        var user = await userManager.FindByEmailAsync(model.Email);
+        if (user == null)
+        {
+            ModelState.AddModelError("Email", "Email Not Found");
+            return View(model.Email);
+        }
+
+        var remove = await userManager.RemovePasswordAsync(user);
+        var password = model!.Password;
+        if (password != null)
+        {
+            var add = await userManager.AddPasswordAsync(user, password);
+            if (remove.Succeeded && add.Succeeded)
+            {
+                TempData["Success"] = "Password Reset Successfully";
+                return RedirectToAction("Login", "Account");
+            }
+        }
         return View(model);
     }
 
