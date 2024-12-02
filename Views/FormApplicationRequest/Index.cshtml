@@ -1,0 +1,42 @@
+﻿@model IEnumerable<FormApplicationRequestModel>
+@{
+    ViewData["Title"] = "List Form Application Request";
+    var iteration = 1;
+}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="text-center">No</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@iteration</td>
+                        <td>@item.FormCode</td>
+                        <td>@item.FormName</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "FormApplicationRequest", new { id = item.IdForm })"
+                               class="btn btn-warning btn-sm"><i class="far fa-edit"></i></a>
+                            @if (!string.IsNullOrEmpty(item.PathForm))
+                            {
+                                <a href="@Url.Content("~/uploads/TemplateForm/" + item.PathForm)" class="btn btn-info btn-sm" target="_blank"><i class="far fa-eye"></i></a>
+                            }
+                        </td>
+                    </tr>
+                    iteration++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

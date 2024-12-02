@@ -1,0 +1,86 @@
+@model DAHAR.ViewModels.FormApplicationRequest.EditFormApplicationRequest;
+
+@{
+    ViewData["Title"] = "Edit Form Application Request";
+}
+
+<div class="col-12">
+    <form asp-action="Edit" method="post" asp-route-id="@Model.IdForm" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.IdForm)
+        @Html.HiddenFor(m => m.FormPath)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "Unit")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="FormCode">Code</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["FormCode"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="FormCode">
+                            <span asp-validation-for="FormCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="FormName">Name</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["FormName"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="FormName"
+                                   placeholder="Ex: Form Pengajuan Cuti, Pengajuan Izin.">
+                            <span asp-validation-for="FormName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="form-group">
+                                    <label asp-for="File">Upload Application Form</label>
+                                    <input type="file"
+                                           class="form-control @(ViewData.ModelState["File"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                           asp-for="File" accept=".pdf">
+                                    <span asp-validation-for="File" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label>File</label>
+                                    @if (!string.IsNullOrEmpty(Model.FormPath))
+                                    {
+                                        <a href="@Url.Content("~/uploads/TemplateForm/" + @Model.FormPath)"
+                                           class="btn btn-secondary" target="_blank"><i class="far fa-eye"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#"
+                                           class="btn btn-secondary disabled"><i class="far fa-eye"></i></a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Description">Description</label>
+                            <textarea
+                                class="form-control @(ViewData.ModelState["Description"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                asp-for="Description"
+                                rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

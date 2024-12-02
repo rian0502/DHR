@@ -16,7 +16,8 @@ namespace DAHAR.Controllers
         private readonly AppDBContext _context;
         private readonly AttendanceService _attendanceService;
 
-        public AttendanceController(PeriodService periodService, UserManager<Users> userManager, AppDBContext context, AttendanceService attendanceService)
+        public AttendanceController(PeriodService periodService, UserManager<Users> userManager, AppDBContext context,
+            AttendanceService attendanceService)
         {
             _periodService = periodService;
             _userManager = userManager;
@@ -29,22 +30,24 @@ namespace DAHAR.Controllers
             ViewBag.Periods = await _periodService.FindAll();
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GetAttendanceAsync(int periodId)
         {
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return BadRequest(new { Status = false, Message = "User not found" });
             }
+
             var employee = await _context.Employee
-                                         .FirstOrDefaultAsync(e => e.UserId == user.Id);
+                .FirstOrDefaultAsync(e => e.UserId == user.Id);
             if (employee == null)
             {
                 return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
             }
+
             var attendance = _attendanceService.GetAttendance(employee.EmployeeID, periodId);
             return Ok(new
             {

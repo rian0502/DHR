@@ -312,7 +312,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "FormApplication")">
+                               class="nav-link @UrlActive.IsActive(@Context, "FormApplicationRequest")">
                                 <i class="nav-icon fab fa-wpforms"></i>
                                 <p>
                                     Management Form
@@ -321,8 +321,8 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index", "FormApplication")"
-                                       class="nav-link @UrlActive.IsActive(@Context, "FormApplication")">
+                                    <a href="@Url.Action("Index", "FormApplicationRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "FormApplicationRequest")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Form Application</p>
                                     </a>
@@ -344,7 +344,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest")">
+                               class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest", "PermissionRequest", "WorkEntryRequest", "BusinessTravelRequest")">
                                 <i class="nav-icon fas fa-file-signature"></i>
                                 <p>
                                     Requests & Claims
@@ -360,22 +360,22 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index", "LeaveRequest")"
-                                       class="nav-link">
+                                    <a href="@Url.Action("Index", "PermissionRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "PermissionRequest")">
                                         <i class="nav-icon fas fa-user-clock"></i>
                                         <p>Permission Request</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index", "LeaveRequest")"
-                                       class="nav-link">
+                                    <a href="@Url.Action("Index", "WorkEntryRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "WorkEntryRequest")">
                                         <i class="fas fa-file-contract nav-icon"></i>
                                         <p>Work Entry Request</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index", "LeaveRequest")"
-                                       class="nav-link">
+                                    <a href="@Url.Action("Index", "BusinessTravelRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "BusinessTravelRequest")">
                                         <i class="nav-icon bi bi-luggage"></i>
                                         <p>Business Travel Request</p>
                                     </a>
