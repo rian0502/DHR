@@ -13,8 +13,8 @@ namespace DAHAR.Controllers;
 public class AccountController(
     SignInManager<Users> signInManager,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext,
-    AppDBContext appDbContext)
+    MongoDbContext mongoDbContext,
+    AppDbContext appDbContext)
     : Controller
 {
     [HttpGet]

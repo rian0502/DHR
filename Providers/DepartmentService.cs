@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers;
 
-public class DepartmentService(AppDBContext context)
+public class DepartmentService(AppDbContext context)
 {
     private const string StoreProcedure = "sp_Department";
 
@@ -23,7 +23,7 @@ public class DepartmentService(AppDBContext context)
     public async Task<DepartmentModel> FindById(int id)
     {
         var results = await context.Departments
-            .Where(x => x.DepartmentID == id)
+            .Where(x => x.DepartmentId == id)
             .Include(d => d.Company)
             .FirstOrDefaultAsync();
         return results ?? new DepartmentModel();

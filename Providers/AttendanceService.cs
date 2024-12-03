@@ -22,9 +22,9 @@ namespace DAHAR.Providers
             {
                 await connection.OpenAsync();
 
-                using (var command = new SqlCommand("EXEC [dbo].[GetAttendance] @EmplID, @PeriodId", connection))
+                using (var command = new SqlCommand("EXEC [dbo].[GetAttendance] @EmplId, @PeriodId", connection))
                 {
-                    command.Parameters.AddWithValue("@EmplID", employeeId);
+                    command.Parameters.AddWithValue("@EmplId", employeeId);
                     command.Parameters.AddWithValue("@PeriodId", periodId);
 
                     using (var reader = await command.ExecuteReaderAsync())

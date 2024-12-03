@@ -35,7 +35,7 @@
                         <td>@item.SubUnitAddress</td>
                         <td>@(item.Location?.LocationName ?? "-")</td>
                         <td>
-                            <a href="@Url.Action("Edit", "SubUnit", new { id = item.SubUnitID })" class="btn btn-warning">Edit</a>
+                            <a href="@Url.Action("Edit", "SubUnit", new { id = item.SubUnitId })" class="btn btn-warning">Edit</a>
                         </td>
                     </tr>
                     iteration++;

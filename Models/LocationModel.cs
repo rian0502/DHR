@@ -5,7 +5,7 @@ namespace DAHAR.Models
     public class LocationModel
     {
         [Key]
-        public int LocationID { get; set; }
+        public int LocationId { get; set; }
         public string? LocationCode { get; set; }
         public string? LocationName { get; set; }
         //Relational Model

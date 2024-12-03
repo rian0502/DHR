@@ -5,13 +5,13 @@ namespace DAHAR.Models
     public class SubUnitModel
     {
         [Key]
-        public int SubUnitID { get; set; }
+        public int SubUnitId { get; set; }
         public string SubUnitName { get; set; }
         public string SubUnitCode { get; set; }
         public string SubUnitAddress { get; set; }
 
-        public int LocationID { get; set; }
-        public int UnitID { get; set; }
+        public int LocationId { get; set; }
+        public int UnitId { get; set; }
 
         //Relational Model
         public UnitModel? Unit { get; set; } // Belongs to Unit

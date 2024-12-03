@@ -65,14 +65,14 @@
                 'X-CSRF-TOKEN': csrfToken
             },
             success: function (response) {
-                var tableBody = $('#attendanceRow tbody');
+                let tableBody = $('#attendanceRow tbody');
                 tableBody.empty();
-                var totalDays = 0;
-                var totalLeave = 0;
-                var totalMeal = 0;
-                var totalNational = 0;
+                let totalDays = 0;
+                let totalLeave = 0;
+                let totalMeal = 0;
+                let totalNational = 0;
                 response.attendance.result.forEach(function (attendance, index) {
-                    var row = `<tr>
+                    let row = `<tr>
                         <td class="text-center">${(index + 1)}</td>
                         <td class="text-center">${new Date(attendance.date).toLocaleDateString()}</td>
                         <td class="text-center">${daysAttendance(attendance.day)}</td>

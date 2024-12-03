@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace DAHAR.Controllers;
 
-public class AppLogController(MongoDBContext mongoDbContext) : Controller
+public class AppLogController(MongoDbContext mongoDbContext) : Controller
 {
     public async Task<IActionResult> Index()
     {

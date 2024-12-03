@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace DAHAR.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class EducationController(EducationService educationService, UserManager<Users> userManager, MongoDBContext mongoDbContext) : Controller
+public class EducationController(EducationService educationService, UserManager<Users> userManager, MongoDbContext mongoDbContext) : Controller
 {
     // GET: EducationController
     public async Task<ActionResult> Index()

@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-builder.Services.AddDbContext<AppDBContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<UnitService>();
@@ -25,7 +25,7 @@ builder.Services.AddScoped<EducationService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<TaxExemptService>();
 builder.Services.AddScoped<SubDepartmentService>();
-builder.Services.AddScoped<MongoDBContext>();
+builder.Services.AddScoped<MongoDbContext>();
 
 builder.Services.AddScoped<AttendanceService>(_ =>
 {
@@ -42,7 +42,7 @@ builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
-}).AddEntityFrameworkStores<AppDBContext>().AddDefaultTokenProviders();
+}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 
 builder.Services.AddAntiforgery(options =>

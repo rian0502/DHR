@@ -15,7 +15,7 @@ public class SubUnitController(
     WorkAreaService workAreaService,
     UnitService unitService,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext) : Controller
+    MongoDbContext mongoDbContext) : Controller
 {
     // GET: SubUnitController
     public async Task<ActionResult> Index()
@@ -93,12 +93,12 @@ public class SubUnitController(
         var subUnit = await subUnitService.FindById(id);
         return View(new EditSubUnitViewModel
         {
-            SubUnitId = subUnit.SubUnitID,
+            SubUnitId = subUnit.SubUnitId,
             SubUnitCode = subUnit.SubUnitCode,
             SubUnitName = subUnit.SubUnitName,
             SubUnitAddress = subUnit.SubUnitAddress,
-            UnitId = subUnit.UnitID,
-            LocationId = subUnit.LocationID,
+            UnitId = subUnit.UnitId,
+            LocationId = subUnit.LocationId,
         });
     }
 
@@ -132,13 +132,13 @@ public class SubUnitController(
                 {
                     oldData = JsonConvert.SerializeObject(new
                     {
-                        oldData.SubUnitID,
+                        oldData.SubUnitId,
                         oldData.SubUnitCode,
                         oldData.SubUnitAddress,
                         oldData.SubUnitName,
-                        oldData.LocationID,
+                        oldData.LocationId,
                         oldData.Location!.LocationName,
-                        oldData.UnitID,
+                        oldData.UnitId,
                         oldData.Unit!.UnitName,
                         oldData.CreatedAt,
                         oldData.CreatedBy,

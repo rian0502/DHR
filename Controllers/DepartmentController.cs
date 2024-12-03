@@ -14,7 +14,7 @@ public class DepartmentController(
     DepartmentService departmentService,
     CompanyService companyService,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext) : Controller
+    MongoDbContext mongoDbContext) : Controller
 {
     public async Task<IActionResult> Index()
     {
@@ -92,7 +92,7 @@ public class DepartmentController(
         var department = await departmentService.FindById(id);
         return View(new EditDepartmentViewModel
         {
-            DepartmentId = department.DepartmentID,
+            DepartmentId = department.DepartmentId,
             DepartmentCode = department.DepartmentCode ?? "",
             DepartmentName = department.DepartmentName ?? "",
             CompanyId = department.CompanyId ?? 0
@@ -132,7 +132,7 @@ public class DepartmentController(
                     {
                         oldData = JsonConvert.SerializeObject(new
                         {
-                            oldData.DepartmentID,
+                            oldData.DepartmentId,
                             oldData.DepartmentCode,
                             oldData.DepartmentName,
                             oldData.CompanyId,

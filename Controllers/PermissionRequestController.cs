@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DAHAR.Controllers;
 
-public class PermissionRequestController(AppDBContext context) : Controller
+public class PermissionRequestController(AppDbContext context) : Controller
 {
     // GET
     public IActionResult Index()

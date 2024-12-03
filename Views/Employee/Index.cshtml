@@ -26,18 +26,16 @@
                 {
                     <tr>
                         <td class="text-center">@iteration</td>
-                        <td>00@(item.EmployeeID)</td>
+                        <td>00@(item.Nip)</td>
                         <td>@item.Users?.FullName</td>
                         <td>@item.JobTitle?.JobTitleName</td>
                         <td>@item.SubUnit?.SubUnitName</td>
                         <td>@item.Division?.DivisionName</td>
                         <td>
-                            <a href="@Url.Action("Details", "Employee", new { id = item.EmployeeID })"
+                            <a href="@Url.Action("Details", "Employee", new { id = item.EmployeeId })"
                                class="btn btn-info">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="@Url.Action("Edit", "Employee", new { id = item.EmployeeID })"
-                               class="btn btn-warning"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                     iteration++;

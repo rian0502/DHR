@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers
 {
-    public class JobTitleService(AppDBContext context)
+    public class JobTitleService(AppDbContext context)
     {
-        private readonly AppDBContext _context = context;
+        private readonly AppDbContext _context = context;
         private readonly string _storeProcedure = "sp_JobTitle";
 
         //FindAll
@@ -55,7 +55,7 @@ namespace DAHAR.Providers
             var result = await _context.Database.ExecuteSqlAsync($@"
                     EXEC {_storeProcedure} 
                     @Action = 'Update', 
-                    @Id = {jobTitle.JobTitleID}, 
+                    @Id = {jobTitle.JobTitleId}, 
                     @Name = {jobTitle.JobTitleName}, 
                     @Code = {jobTitle.JobTitleCode}, 
                     @Description = {jobTitle.JobTitleDescription},

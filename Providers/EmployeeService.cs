@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers;
 
-public class EmployeeService(AppDBContext context)
+public class EmployeeService(AppDbContext context)
 {
     //FindAll
     public async Task<IEnumerable<EmployeeModel>> FindAll()
@@ -29,7 +29,7 @@ public class EmployeeService(AppDBContext context)
             .Include(x => x.Education)
             .Include(x => x.Religion)
             .Include(x => x.EmployeeDependents)
-            .FirstOrDefaultAsync(x => x.EmployeeID == id);
+            .FirstOrDefaultAsync(x => x.EmployeeId == id);
         return result;
     }
 }

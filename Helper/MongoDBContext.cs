@@ -3,11 +3,11 @@ using MongoDB.Driver;
 
 namespace DAHAR.Helper
 {
-    public class MongoDBContext
+    public class MongoDbContext
     {
         private readonly IMongoDatabase _database;
 
-        public MongoDBContext(IConfiguration configuration)
+        public MongoDbContext(IConfiguration configuration)
         {
             var mongoSettings = configuration.GetSection("MongoDBSettings");
             var client = new MongoClient(mongoSettings.GetValue<string>("ConnectionString"));

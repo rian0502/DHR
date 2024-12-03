@@ -5,7 +5,7 @@ namespace DAHAR.Models
     public class DepartmentModel
     {
         [Key]
-        public int DepartmentID { get; set; }
+        public int DepartmentId { get; set; }
         public string? DepartmentName { get; set; }
         public string? DepartmentCode { get; set; }
         public int? CompanyId { get; set; }

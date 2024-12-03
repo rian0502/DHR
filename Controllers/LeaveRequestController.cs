@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DAHAR.Controllers
 {
-    public class LeaveRequestController(AppDBContext context) : Controller
+    public class LeaveRequestController(AppDbContext context) : Controller
     {
         public IActionResult Index()
         {

@@ -13,7 +13,7 @@ namespace DAHAR.Controllers;
 public class JobTitleController(
     JobTitleService jobTitleService,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext) : Controller
+    MongoDbContext mongoDbContext) : Controller
 {
     public async Task<IActionResult> Index()
     {
@@ -87,7 +87,7 @@ public class JobTitleController(
         var jobTitle = await jobTitleService.FindById(id);
         EditJobTitleViewModel model = new()
         {
-            JobTitleID = jobTitle.JobTitleID,
+            JobTitleId = jobTitle.JobTitleId,
             JobTitleName = jobTitle.JobTitleName,
             JobTitleCode = jobTitle.JobTitleCode,
             JobTitleDescription = jobTitle.JobTitleDescription

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers
 {
-    public class CompanyService(AppDBContext context)
+    public class CompanyService(AppDbContext context)
     {
-        private readonly AppDBContext _context = context;
+        private readonly AppDbContext _context = context;
         private readonly string _storeProcedure = "sp_Company";
 
         // FindAll
@@ -45,7 +45,7 @@ namespace DAHAR.Providers
                     @Action = 'Insert',
                     @Code = {company.CompanyCode},
                     @Name = {company.CompanyName},
-                    @LocationID = {company.LocationID},
+                    @LocationID = {company.LocationId},
                     @CreatedBy = {userId},
                     @CreatedAt = {time},
                     @UpdatedBy = {userId},
@@ -60,10 +60,10 @@ namespace DAHAR.Providers
             var result = await _context.Database.ExecuteSqlAsync($@"
                     EXEC {_storeProcedure} 
                     @Action = 'Update', 
-                    @Id = {company.CompanyID}, 
+                    @Id = {company.CompanyId}, 
                     @Code = {company.CompanyCode}, 
                     @Name = {company.CompanyName}, 
-                    @LocationID = {company.LocationID},
+                    @LocationID = {company.LocationId},
                     @UpdatedBy = {userId},
                     @UpdatedAt = {time}
             ");

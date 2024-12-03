@@ -40,7 +40,7 @@
                                 @foreach (var department in (ViewBag.Departments as IEnumerable<DepartmentModel>)!)
                                 {
                                     <option
-                                        value="@department.DepartmentID">@department.DepartmentCode - @department.DepartmentName</option>
+                                        value="@department.DepartmentId">@department.DepartmentCode - @department.DepartmentName</option>
                                 }
                             </select>
                             <span asp-validation-for="DepartmentId" class="text-danger"></span>

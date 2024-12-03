@@ -4,9 +4,9 @@
 }
 
 <div class="col-12">
-    <form asp-action="Edit" method="post" asp-route-id="@Model.LocationID">
+    <form asp-action="Edit" method="post" asp-route-id="@Model.LocationId">
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.LocationID)
+        @Html.HiddenFor(model => model.LocationId)
         <div class="card">
             <div class="card-header">
                 <a href="@Url.Action("Index", "WorkArea")" class="btn btn-danger">Back</a>

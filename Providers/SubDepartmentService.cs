@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers;
 
-public class SubDepartmentService(AppDBContext context)
+public class SubDepartmentService(AppDbContext context)
 {
     private const string StoreProcedure = "sp_SubDepartment";
 
@@ -23,7 +23,7 @@ public class SubDepartmentService(AppDBContext context)
     {
         var subDepartment = await context.SubDepartments
             .Include(s => s.Department)
-            .FirstOrDefaultAsync(s => s.SubDepartmentID == id);
+            .FirstOrDefaultAsync(s => s.SubDepartmentId == id);
         return subDepartment ?? new SubDepartmentModel();
     }
     
@@ -33,7 +33,7 @@ public class SubDepartmentService(AppDBContext context)
         var check = await context.SubDepartments.
             FirstOrDefaultAsync(x => x.SubDepartmentCode == model.SubDepartmentCode 
                                      && x.SubDepartmentName == model.SubDepartmentName
-                                     && x.DepartmentID == model.DepartmentId);
+                                     && x.DepartmentId == model.DepartmentId);
         if (check != null)
         {
             return 3;

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DAHAR.Controllers
 {
-    public class BusinessTravelRequestController(AppDBContext context) : Controller
+    public class BusinessTravelRequestController(AppDbContext context) : Controller
     {
         // GET: BusinessTravelRequestController
         public ActionResult Index()

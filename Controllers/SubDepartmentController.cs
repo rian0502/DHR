@@ -14,7 +14,7 @@ public class SubDepartmentController(
     SubDepartmentService subDepartmentService,
     DepartmentService departmentService,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext)
+    MongoDbContext mongoDbContext)
     : Controller
 {
     // GET
@@ -94,10 +94,10 @@ public class SubDepartmentController(
         var subDepartment = await subDepartmentService.FindById(id);
         return View(new EditSubDepartmentViewModel
         {
-            SubDepartmentId = subDepartment.SubDepartmentID,
+            SubDepartmentId = subDepartment.SubDepartmentId,
             SubDepartmentCode = subDepartment.SubDepartmentCode ?? "",
             SubDepartmentName = subDepartment.SubDepartmentName ?? "",
-            DepartmentId = subDepartment.DepartmentID
+            DepartmentId = subDepartment.DepartmentId
         });
     }
 
@@ -136,10 +136,10 @@ public class SubDepartmentController(
                     {
                         oldData = JsonConvert.SerializeObject(new
                         {
-                            oldData.SubDepartmentID,
+                            oldData.SubDepartmentId,
                             oldData.SubDepartmentCode,
                             oldData.SubDepartmentName,
-                            oldData.DepartmentID,
+                            oldData.DepartmentId,
                             oldData.CreatedAt,
                             oldData.CreatedBy,
                             oldData.UpdatedAt,

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace DAHAR.Controllers;
 
 [Authorize(Roles = "User")]
-public class ProfileController(UserManager<Users> userManager, AppDBContext context) : Controller
+public class ProfileController(UserManager<Users> userManager, AppDbContext context) : Controller
 {
     // GET: ProfileController
     public async Task<ActionResult> Index()

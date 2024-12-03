@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers;
 
-public class EducationService(AppDBContext context)
+public class EducationService(AppDbContext context)
 {
     private const string StoreProcedure = "sp_Education";
 

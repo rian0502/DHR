@@ -12,7 +12,7 @@ namespace DAHAR.Controllers;
 [Authorize(Roles = "Admin")]
 public class WorkAreaController(
     WorkAreaService workAreaService,
-    MongoDBContext mongoDbContext,
+    MongoDbContext mongoDbContext,
     UserManager<Users> userManager)
     : Controller
 {
@@ -56,7 +56,7 @@ public class WorkAreaController(
                         Action = "Create",
                         Database = "Locations"
                     }),
-                    CreatedBy = $"{user!.Id} - {user.FullName}",
+                    CreatedBy = $"{user.Id} - {user.FullName}",
                     CreatedAt = DateTime.UtcNow
                 };
                 await mongoDbContext.AppLogs.InsertOneAsync(logs);
@@ -74,7 +74,7 @@ public class WorkAreaController(
         var result = await workAreaService.FindById(id);
         EditWorkAreaViewModel model = new()
         {
-            LocationID = result.LocationID,
+            LocationId = result.LocationId,
             LocationCode = result.LocationCode,
             LocationName = result.LocationName
         };
@@ -85,41 +85,46 @@ public class WorkAreaController(
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, EditWorkAreaViewModel model)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var currentTime = DateTime.UtcNow;
-            var user = await userManager.GetUserAsync(User);
-            var oldData = await workAreaService.FindById(id);
-            var result = await workAreaService.Update(model: model, userId: user.Id, time: currentTime);
-            if (result == 0)
-            {
-                TempData["Errors"] = "Failed to create Work Area";
-                return View(model);
-            }
-            else
-            {
-                var logs = new AppLogModel()
-                {
-                    Params = JsonConvert.SerializeObject(new
-                    {
-                        oldData,
-                        newData = model
-                    }),
-                    Source = JsonConvert.SerializeObject(new
-                    {
-                        Controller = "WorkAreaController",
-                        Action = "Edit",
-                        Database = "Locations"
-                    }),
-                    CreatedBy = $"{user!.Id} - {user.FullName}",
-                    CreatedAt = DateTime.UtcNow
-                };
-                await mongoDbContext.AppLogs.InsertOneAsync(logs);
-                TempData["Success"] = "Work Area has ben updated";
-                return RedirectToAction("Index");
-            }
+            return View(model);
         }
 
-        return View(model);
+        var currentTime = DateTime.UtcNow;
+        var user = await userManager.GetUserAsync(User);
+        var oldData = await workAreaService.FindById(id);
+        if (user == null)
+        {
+            return RedirectToAction("Logout", "Account");
+        }
+
+        var result = await workAreaService.Update(model: model, userId: user.Id, time: currentTime);
+        if (result == 0)
+        {
+            TempData["Errors"] = "Failed to create Work Area";
+            return View(model);
+        }
+        else
+        {
+            var logs = new AppLogModel()
+            {
+                Params = JsonConvert.SerializeObject(new
+                {
+                    oldData,
+                    newData = model
+                }),
+                Source = JsonConvert.SerializeObject(new
+                {
+                    Controller = "WorkAreaController",
+                    Action = "Edit",
+                    Database = "Locations"
+                }),
+                CreatedBy = $"{user.Id} - {user.FullName}",
+                CreatedAt = DateTime.UtcNow
+            };
+            await mongoDbContext.AppLogs.InsertOneAsync(logs);
+            TempData["Success"] = "Work Area has ben updated";
+            return RedirectToAction("Index");
+        }
     }
 }

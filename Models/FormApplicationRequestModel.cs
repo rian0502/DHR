@@ -5,7 +5,7 @@ namespace DAHAR.Models;
 public class FormApplicationRequestModel
 {
     [Key]
-    public int IdForm { get; set; }
+    public int FormId { get; set; }
     public string? FormCode { get; set; }
     public string? FormName { get; set; }
     public string? PathForm { get; set; }

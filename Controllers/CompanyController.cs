@@ -14,7 +14,7 @@ public class CompanyController(
     CompanyService companyService,
     WorkAreaService workAreaService,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext)
+    MongoDbContext mongoDbContext)
     : Controller
 {
     public async Task<IActionResult> Index()
@@ -60,7 +60,7 @@ public class CompanyController(
                         {
                             model.CompanyCode,
                             model.CompanyName,
-                            model.LocationID
+                            LocationID = model.LocationId
                         }),
                         Source = JsonConvert.SerializeObject(new
                         {
@@ -89,10 +89,10 @@ public class CompanyController(
         ViewBag.WorkAreas = await workAreaService.FindAll();
         return View(new EditCompanyViewModel
         {
-            CompanyID = result.CompanyID,
+            CompanyId = result.CompanyId,
             CompanyCode = result.CompanyCode ?? "",
             CompanyName = result.CompanyName ?? "",
-            LocationID = result.LocationID
+            LocationId = result.LocationId
         });
     }
 
@@ -119,10 +119,10 @@ public class CompanyController(
                 {
                     oldData = JsonConvert.SerializeObject(new
                     {
-                        oldData.CompanyID,
+                        oldData.CompanyId,
                         oldData.CompanyCode,
                         oldData.CompanyName,
-                        oldData.LocationID,
+                        oldData.LocationId,
                         oldData.CreatedAt,
                         oldData.CreatedBy,
                         oldData.UpdatedAt,
@@ -130,7 +130,7 @@ public class CompanyController(
                     }),
                     newData = JsonConvert.SerializeObject(new
                     {
-                        model.CompanyID,
+                        CompanyID = model.CompanyId,
                         model.CompanyCode,
                         model.CompanyName
                     })

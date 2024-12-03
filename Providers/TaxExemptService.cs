@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers;
 
-public class TaxExemptService(AppDBContext context)
+public class TaxExemptService(AppDbContext context)
 {
     private const string StoreProcedure = "sp_TaxExemptIncome";
 

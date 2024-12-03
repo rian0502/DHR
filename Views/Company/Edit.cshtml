@@ -6,7 +6,7 @@
 <div class="col-12">
     <form asp-action="Edit" method="post">
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.CompanyID)
+        @Html.HiddenFor(m => m.CompanyId)
         <div class="card">
             <div class="card-header">
                 <a href="@Url.Action("Index", "Company")" class="btn btn-danger">Back</a>
@@ -31,15 +31,15 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label asp-for="LocationID">Location</label>
-                            <select class="form-control select2bs4" style="width: 100%;" asp-for="LocationID">
+                            <label asp-for="LocationId">Location</label>
+                            <select class="form-control select2bs4" style="width: 100%;" asp-for="LocationId">
                                 <option value="">Select Location</option>
                                 @foreach (var workArea in (ViewBag.WorkAreas as IEnumerable<LocationModel>)!)
                                 {
-                                <option value="@workArea.LocationID">@workArea.LocationCode - @workArea.LocationName</option>
+                                <option value="@workArea.LocationId">@workArea.LocationCode - @workArea.LocationName</option>
                                 }
                             </select>
-                            <span asp-validation-for="LocationID" class="text-danger"></span>
+                            <span asp-validation-for="LocationId" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

@@ -5,16 +5,18 @@ namespace DAHAR.Models
     public class EmployeeModel
     {
         [Key]
-        public int EmployeeID { get; set; }
-        public required string NIK { get; set; }
-        public required string NPWP { get; set; }
+        public int? EmployeeId { get; set; }
+        
+        public int Nip { get; set; }
+        
+        public required string Nik { get; set; }
+        public required string Npwp { get; set; }
         public required string Gender { get; set; }
         public required string Address { get; set; }
         public DateTime? JoinDate { get; set; }
         public DateTime? ResignDate { get; set; }
-        
-        public int? DivisionID { get; set; }
-        public int? JobTitleID { get; set; }
+        public int? DivisionId { get; set; }
+        public int? JobTitleId { get; set; }
         public int? ReligionId { get; set; }
         public int? EducationId { get; set; }
         public int? TaxExemptIncomeId { get; set; }

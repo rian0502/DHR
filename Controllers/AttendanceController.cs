@@ -13,10 +13,10 @@ namespace DAHAR.Controllers
     {
         private readonly PeriodService _periodService;
         private readonly UserManager<Users> _userManager;
-        private readonly AppDBContext _context;
+        private readonly AppDbContext _context;
         private readonly AttendanceService _attendanceService;
 
-        public AttendanceController(PeriodService periodService, UserManager<Users> userManager, AppDBContext context,
+        public AttendanceController(PeriodService periodService, UserManager<Users> userManager, AppDbContext context,
             AttendanceService attendanceService)
         {
             _periodService = periodService;
@@ -48,7 +48,7 @@ namespace DAHAR.Controllers
                 return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
             }
 
-            var attendance = _attendanceService.GetAttendance(employee.EmployeeID, periodId);
+            var attendance = _attendanceService.GetAttendance(employee.Nip, periodId);
             return Ok(new
             {
                 Status = true,

@@ -40,7 +40,7 @@
                                 <option>Select Location</option>
                                 @foreach (var workArea in (ViewBag.WorkAreas as IEnumerable<LocationModel>)!)
                                 {
-                                    <option value="@workArea.LocationID">@workArea.LocationCode - @workArea.LocationName</option>
+                                    <option value="@workArea.LocationId">@workArea.LocationCode - @workArea.LocationName</option>
                                 }
                             </select>
                             <span asp-validation-for="LocationId" class="text-danger"></span>
@@ -53,7 +53,7 @@
                                 <option>Select Unit</option>
                                 @foreach (var unit in (ViewBag.Units as IEnumerable<UnitModel>)!)
                                 {
-                                    <option value="@unit.UnitID">@unit.UnitCode - @unit.UnitName</option>
+                                    <option value="@unit.UnitId">@unit.UnitCode - @unit.UnitName</option>
                                 }
                             </select>
                             <span asp-validation-for="UnitId" class="text-danger"></span>

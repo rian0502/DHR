@@ -5,7 +5,7 @@ using DAHAR.ViewModels.WorkArea;
 
 namespace DAHAR.Providers;
 
-public class WorkAreaService(AppDBContext context)
+public class WorkAreaService(AppDbContext context)
 {
     private const string StoreProcedure = "sp_Location";
 
@@ -46,7 +46,7 @@ public class WorkAreaService(AppDBContext context)
         var result= await context.Database.ExecuteSqlAsync($@"
             EXEC {StoreProcedure} 
                 @Action = 'Update',
-                @Id = {model.LocationID},
+                @Id = {model.LocationId},
                 @Code = {model.LocationCode},
                 @Name = {model.LocationName},
                 @UpdatedBy = {userId},

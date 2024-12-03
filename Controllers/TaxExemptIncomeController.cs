@@ -13,7 +13,7 @@ namespace DAHAR.Controllers;
 public class TaxExemptIncomeController(
     TaxExemptService taxExemptService,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext) : Controller
+    MongoDbContext mongoDbContext) : Controller
 {
     // GET: TaxExemptIncomeController
     public async Task<ActionResult> Index()

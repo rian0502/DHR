@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace DAHAR.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class UnitController(UnitService unitService, UserManager<Users> userManager, MongoDBContext mongoDbContext)
+public class UnitController(UnitService unitService, UserManager<Users> userManager, MongoDbContext mongoDbContext)
     : Controller
 {
     // GET: UnitController
@@ -82,7 +82,7 @@ public class UnitController(UnitService unitService, UserManager<Users> userMana
         var unit = await unitService.FindById(id);
         return View(new EditUnitViewModel
         {
-            UnitId = unit.UnitID,
+            UnitId = unit.UnitId,
             UnitCode = unit.UnitCode,
             UnitName = unit.UnitName
         });

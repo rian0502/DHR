@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 namespace DAHAR.Controllers;
 
 public class FormApplicationRequestController(
-    AppDBContext context,
+    AppDbContext context,
     UserManager<Users> userManager,
-    MongoDBContext mongoDbContext) : Controller
+    MongoDbContext mongoDbContext) : Controller
 {
     // GET
     public async Task<IActionResult> Index()
@@ -25,7 +25,7 @@ public class FormApplicationRequestController(
         var form = await context.FormApplication.FindAsync(id);
         return View(new EditFormApplicationRequest
         {
-            IdForm = form!.IdForm,
+            IdForm = form!.FormId,
             FormCode = form.FormCode ?? "",
             FormName = form.FormName ?? "",
             Description = form.Description ?? "",

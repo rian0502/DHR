@@ -5,7 +5,7 @@ namespace DAHAR.Models
     public class JobTitleModel
     {
         [Key]   
-        public int JobTitleID { get; set; }
+        public int JobTitleId { get; set; }
         public string? JobTitleName { get; set; }
         public string? JobTitleCode { get; set; }
         public string? JobTitleDescription { get; set; }

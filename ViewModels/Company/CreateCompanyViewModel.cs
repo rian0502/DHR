@@ -9,5 +9,5 @@ public class CreateCompanyViewModel
     [Required(ErrorMessage = "Company Name is required")]
     public required string CompanyName { get; set; }
     [Required(ErrorMessage = "Location is required")]
-    public required int LocationID { get; set; }
+    public required int LocationId { get; set; }
 }

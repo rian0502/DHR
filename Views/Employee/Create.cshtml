@@ -78,9 +78,33 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
+                            <label asp-for="Gender">Gender</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["Gender"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="Gender">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="JoinDate">Join Date</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["JoinDate"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="JoinDate">
+                            <span asp-validation-for="JoinDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
                             <label asp-for="DivisionId">Division</label>
-                            <select class="form-control select2bs4" style="width: 100%;" asp-for="DivisionId">
-                                <option>Select Department</option>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["DivisionId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="DivisionId">
                                 @foreach (var division in (ViewBag.Divisions as IEnumerable<DivisionModel>)!)
                                 {
                                     <option
@@ -93,15 +117,92 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="JobTitleId">Job Title</label>
-                            <select class="form-control select2bs4" style="width: 100%;" asp-for="JobTitleId">
-                                <option>Select Job Title</option>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["JobTitleId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="JobTitleId">
                                 @foreach (var jobTitle in (ViewBag.JobTitle as IEnumerable<JobTitleModel>)!)
                                 {
                                     <option
-                                        value="@jobTitle.JobTitleID">@jobTitle.JobTitleCode - @jobTitle.JobTitleName</option>
+                                        value="@jobTitle.JobTitleId">@jobTitle.JobTitleCode - @jobTitle.JobTitleName</option>
                                 }
                             </select>
                             <span asp-validation-for="JobTitleId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="TaxExemptIncomeId">Tax Income</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["TaxExemptIncomeId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="TaxExemptIncomeId">
+                                @foreach (var tax in (ViewBag.Taxes as IEnumerable<TaxExemptIncomeModel>)!)
+                                {
+                                    <option
+                                        value="@tax.TaxExemptIncomeId">@tax.TaxExemptIncomeCode - @tax.TaxExemptIncomeName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="TaxExemptIncomeId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="SubUnitId">Sub-Unit</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["SubUnitId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="SubUnitId">
+                                @foreach (var subUnit in (ViewBag.SubUnits as IEnumerable<SubUnitModel>)!)
+                                {
+                                    <option
+                                        value="@subUnit.SubUnitId">@subUnit.Unit?.UnitName - @subUnit.SubUnitName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="SubUnitId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="ReligionId">Religion</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["ReligionId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="ReligionId">
+                                @foreach (var religion in (ViewBag.Religions as IEnumerable<ReligionModel>)!)
+                                {
+                                    <option
+                                        value="@religion.ReligionId">@religion.ReligionName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="ReligionId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="EducationId">Education</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["EducationId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="EducationId">
+                                @foreach (var education in (ViewBag.Educations as IEnumerable<EducationModel>)!)
+                                {
+                                    <option value="@education.EducationId">@education.EducationName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="EducationId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Address">Address</label>
+                            <textarea
+                                class="form-control @(ViewData.ModelState["Address"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                asp-for="Address"
+                                placeholder="Ex: Jl. TB. Simatupang No.1, Jakarta Selatan."
+                                rows="4"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

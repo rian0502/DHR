@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers;
 
-public class DivisionService(AppDBContext context)
+public class DivisionService(AppDbContext context)
 {
     private const string StoreProcedure = "sp_Division";
     

@@ -35,7 +35,7 @@
                                 <option>Select Company</option>
                                 @foreach (var company in (ViewBag.Companies as IEnumerable<CompanyModel>)!)
                                 {
-                                    <option value="@company.CompanyID">@company.CompanyCode - @company.CompanyName</option>
+                                    <option value="@company.CompanyId">@company.CompanyCode - @company.CompanyName</option>
                                 }
                             </select>
                             <span asp-validation-for="CompanyId" class="text-danger"></span>

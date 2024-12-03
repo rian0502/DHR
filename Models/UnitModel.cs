@@ -5,7 +5,7 @@ namespace DAHAR.Models
     public class UnitModel
     {
         [Key]
-        public int UnitID { get; set; }
+        public int UnitId { get; set; }
         public string UnitCode { get; set; }
         public string UnitName { get; set; }
 

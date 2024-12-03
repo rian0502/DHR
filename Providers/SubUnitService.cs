@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers;
 
-public class SubUnitService(AppDBContext context)
+public class SubUnitService(AppDbContext context)
 {
     private const string StoreProcedure = "sp_SubUnit";
 
@@ -25,7 +25,7 @@ public class SubUnitService(AppDBContext context)
         var subUnit = await context.SubUnits
             .Include(s => s.Unit)
             .Include(s => s.Location)
-            .FirstOrDefaultAsync(s => s.SubUnitID == id);
+            .FirstOrDefaultAsync(s => s.SubUnitId == id);
         return subUnit;
     }
 

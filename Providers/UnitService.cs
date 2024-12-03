@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Providers
 {
-    public class UnitService(AppDBContext context)
+    public class UnitService(AppDbContext context)
     {
-        private readonly AppDBContext _context = context;
+        private readonly AppDbContext _context = context;
         private readonly string _storeProcedure = "sp_Unit";
         // FindAll
         public async Task<IEnumerable<UnitModel>> FindAll()

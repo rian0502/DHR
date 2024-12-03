@@ -25,7 +25,7 @@
                         <td>@item.FormName</td>
                         <td>@item.Description</td>
                         <td>
-                            <a href="@Url.Action("Edit", "FormApplicationRequest", new { id = item.IdForm })"
+                            <a href="@Url.Action("Edit", "FormApplicationRequest", new { id = item.FormId })"
                                class="btn btn-warning btn-sm"><i class="far fa-edit"></i></a>
                             @if (!string.IsNullOrEmpty(item.PathForm))
                             {

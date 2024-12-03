@@ -5,7 +5,7 @@ namespace DAHAR.ViewModels.JobTitle
     public class EditJobTitleViewModel
     {
         [Required(ErrorMessage ="Missing Attribute")]
-        public int JobTitleID { get; set; }
+        public int JobTitleId { get; set; }
         [Required(ErrorMessage = "Name is required")]
         public string? JobTitleName { get; set; }
         [Required(ErrorMessage = "Code is required")]
