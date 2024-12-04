@@ -1,0 +1,64 @@
+@model DAHAR.ViewModels.EmployeeDependent.EditDepentdentViewModel
+
+@{
+    ViewData["Title"] = "Edit Dependent";
+}
+
+<div class="col-12">
+    <form asp-action="Edit" method="post" asp-route-id="@Model.EmployeeDependentId">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EmployeeDependentId)
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                    <a href="@Url.Action("Index", "Profile")" class="btn btn-danger">Back</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="DependentName">Full Name</label>
+                            <input type="text" asp-for="DependentName" placeholder="Ex: Jon Doe, Jane Doe."
+                                   class="form-control @(ViewData.ModelState["DependentName"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="DependentName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="DependentGender">Gender</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["DependentGender"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="DependentGender">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                            <span asp-validation-for="DependentGender" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="DependentStatus">Status</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["DependentStatus"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="DependentStatus">
+                                <option value="Son">Anak Laki-laki</option>
+                                <option value="Daughter">Anak Perempuan</option>
+                                <option value="Husband">Suami</option>
+                                <option value="Wife">Istri</option>
+                                <option value="Parent">Orang Tua</option>
+                                <option value="Sibling">Saudara</option>
+                            </select>
+                            <span asp-validation-for="DependentStatus" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -4,6 +4,7 @@ using DAHAR.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAHAR.Controllers
@@ -27,13 +28,24 @@ namespace DAHAR.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.Periods = await _periodService.FindAll();
+            var periods = await _periodService.FindAll();
+            var periodModels = periods.ToList();
+            ViewBag.Periods = new SelectList(
+                periodModels.Select(period => new
+                {
+                    Value = period.PeriodId,
+                    Text = $"{period.StartPeriodDate:dd MMMM} - {period.EndPeriodDate:dd MMMM}"
+                }),
+                "Value",
+                "Text",
+                periodModels.FirstOrDefault(p => p.IsActive)?.PeriodId
+            );
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetAttendanceAsync(int periodId)
+        public async Task<IActionResult> GetAttendanceAsync(int periodId, int year = 0)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -48,7 +60,10 @@ namespace DAHAR.Controllers
                 return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
             }
 
-            var attendance = _attendanceService.GetAttendance(employee.Nip, periodId);
+            var attendance = year == 0
+                ? _attendanceService.GetAttendance(employee.Nip, periodId)
+                : _attendanceService.GetAttendance(employee.Nip, periodId, year);
+
             return Ok(new
             {
                 Status = true,

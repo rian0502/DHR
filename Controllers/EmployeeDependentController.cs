@@ -1,24 +1,21 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using DAHAR.Helper;
+using DAHAR.Models;
 using Microsoft.AspNetCore.Mvc;
+using DAHAR.ViewModels.EmployeeDependent;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace DAHAR.Controllers;
 
-[Authorize(Roles = "Admin")]
-public class EmployeeDependentController : Controller
+[Authorize(Roles = "User")]
+public class EmployeeDependentController(
+    AppDbContext context,
+    UserManager<Users> userManager,
+    MongoDbContext mongoDbContext
+) : Controller
 {
-    // GET: EmployeeDependentController
-    public ActionResult Index()
-    {
-        return View();
-    }
-
-    // GET: EmployeeDependentController/Details/5
-    public ActionResult Details(int id)
-    {
-        return View();
-    }
-
     // GET: EmployeeDependentController/Create
     public ActionResult Create()
     {
@@ -28,57 +25,213 @@ public class EmployeeDependentController : Controller
     // POST: EmployeeDependentController/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
+    public async Task<ActionResult> Create(CreateDepentdentViewModel model)
     {
         try
         {
-            return RedirectToAction(nameof(Index));
+            var user = await userManager.GetUserAsync(User);
+            var time = DateTime.UtcNow;
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+
+            var employee = await context.Employee
+                .Include(x => x.EmployeeDependents)
+                .FirstOrDefaultAsync(x => x.UserId == user.Id);
+            if (employee == null)
+            {
+                TempData["Errors"] = "Employee not found";
+                return RedirectToAction("Index", "Profile");
+            }
+
+            var insert = await context.EmployeeDependents.AddAsync(new EmployeeDependentModel
+            {
+                EmployeeId = employee.EmployeeId,
+                DependentName = model.DependentName,
+                DependentGender = model.DependentGender,
+                DependentStatus = model.DependentStatus,
+                CreatedBy = user.Id,
+                CreatedAt = time,
+                UpdatedBy = user.Id,
+                UpdatedAt = time
+            });
+            await context.SaveChangesAsync();
+            var logs = new AppLogModel
+            {
+                CreatedBy = $"{user.Id} - {user.FullName}",
+                CreatedAt = time,
+                Params = JsonConvert.SerializeObject(new
+                {
+                    newData = JsonConvert.SerializeObject(new
+                    {
+                        insert.Entity.EmployeeDependentId,
+                        insert.Entity.DependentName,
+                        insert.Entity.DependentGender,
+                        insert.Entity.DependentStatus
+                    })
+                }),
+                Source = JsonConvert.SerializeObject(new
+                {
+                    Controller = "EmployeeDependentController",
+                    Action = "Create",
+                    Database = "EmployeeDependents",
+                })
+            };
+            await mongoDbContext.AppLogs.InsertOneAsync(logs);
+            TempData["Success"] = "Dependent added successfully";
+            return RedirectToAction("Index", "Profile");
         }
         catch
         {
-            return View();
+            return RedirectToAction("Index", "Profile");
         }
     }
 
     // GET: EmployeeDependentController/Edit/5
-    public ActionResult Edit(int id)
+    public async Task<ActionResult> Edit(int id)
     {
-        return View();
+        var dependent = await context.EmployeeDependents.FindAsync(id);
+        if (dependent != null)
+        {
+            return View(new EditDepentdentViewModel
+            {
+                EmployeeDependentId = dependent.EmployeeDependentId,
+                DependentName = dependent.DependentName ?? "",
+                DependentGender = dependent.DependentGender ?? "",
+                DependentStatus = dependent.DependentStatus ?? ""
+            });
+        }
+
+        TempData["Errors"] = "Dependent not found";
+        return RedirectToAction("Index", "Profile");
     }
 
     // POST: EmployeeDependentController/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
+    public async Task<ActionResult> Edit(int id, EditDepentdentViewModel model)
     {
         try
         {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
-    }
+            var user = await userManager.GetUserAsync(User);
+            var time = DateTime.UtcNow;
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
 
-    // GET: EmployeeDependentController/Delete/5
-    public ActionResult Delete(int id)
-    {
-        return View();
+            var dependent = await context.EmployeeDependents.FindAsync(id);
+            if (dependent == null)
+            {
+                TempData["Errors"] = "Dependent not found";
+                return RedirectToAction("Index", "Profile");
+            }
+
+            //update
+            var logs = new AppLogModel
+            {
+                CreatedBy = $"{user.Id} - {user.FullName}",
+                CreatedAt = time,
+                Params = JsonConvert.SerializeObject(new
+                {
+                    oldData = JsonConvert.SerializeObject(new
+                    {
+                        dependent.EmployeeDependentId,
+                        dependent.DependentName,
+                        dependent.DependentGender,
+                        dependent.DependentStatus,
+                        dependent.EmployeeId,
+                        dependent.CreatedBy,
+                        dependent.CreatedAt,
+                        dependent.UpdatedAt,
+                        dependent.UpdatedBy
+                    }),
+                    newData = JsonConvert.SerializeObject(new
+                    {
+                        model.EmployeeDependentId,
+                        model.DependentName,
+                        model.DependentGender,
+                        model.DependentStatus
+                    })
+                }),
+                Source = JsonConvert.SerializeObject(new
+                {
+                    Controller = "EmployeeDependentController",
+                    Action = "Edit",
+                    Database = "EmployeeDependents",
+                })
+            };
+            dependent.DependentName = model.DependentName;
+            dependent.DependentGender = model.DependentGender;
+            dependent.DependentStatus = model.DependentStatus;
+            dependent.UpdatedBy = user.Id;
+            dependent.UpdatedAt = time;
+            context.EmployeeDependents.Update(dependent);
+            await context.SaveChangesAsync();
+            await mongoDbContext.AppLogs.InsertOneAsync(logs);
+            TempData["Success"] = "Dependent updated successfully";
+            return RedirectToAction("Index", "Profile");
+        }
+        catch (Exception exception)
+        {
+            TempData["Errors"] = exception.Message;
+            return RedirectToAction("Index", "Profile");
+        }
     }
 
     // POST: EmployeeDependentController/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, IFormCollection collection)
+    public async Task<ActionResult> Delete(int id, IFormCollection collection)
     {
         try
         {
-            return RedirectToAction(nameof(Index));
+            var family = await context.EmployeeDependents.FindAsync(id);
+            var current = DateTime.UtcNow;
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+
+            if (family == null)
+            {
+                TempData["Errors"] = "Dependent not found";
+                return RedirectToAction("Index", "Profile");
+            }
+
+            var logs = new AppLogModel
+            {
+                CreatedBy = $"{user.Id} - {user.FullName}",
+                CreatedAt = current,
+                Params = JsonConvert.SerializeObject(new
+                {
+                    oldData = JsonConvert.SerializeObject(new
+                    {
+                        family.EmployeeDependentId,
+                        family.DependentName,
+                        family.DependentGender,
+                        family.DependentStatus
+                    })
+                }),
+                Source = JsonConvert.SerializeObject(new
+                {
+                    Controller = "EmployeeDependentController",
+                    Action = "Delete",
+                    Database = "EmployeeDependents",
+                })
+            };
+            await context.EmployeeDependents
+                .Where(x => x.EmployeeDependentId == id).ExecuteDeleteAsync();
+            await mongoDbContext.AppLogs.InsertOneAsync(logs);
+            TempData["Success"] = "Dependent deleted successfully";
+            return RedirectToAction("Index", "Profile");
         }
-        catch
+        catch (Exception e)
         {
-            return View();
+            TempData["Errors"] = e.Message;
+            return RedirectToAction("Index", "Profile");
         }
     }
 }
