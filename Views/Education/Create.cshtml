@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label asp-for="EducationName">Code</label>
+                            <label asp-for="EducationName">Name</label>
                             <input type="text" asp-for="EducationName" placeholder="Ex: Sekolah Dasar(SD), Srata 1 (S1)"
                                    class="form-control @(ViewData.ModelState["EducationName"]?.Errors.Any() == true ? "is-invalid" : "")">
                             <span asp-validation-for="EducationName" class="text-danger"></span>

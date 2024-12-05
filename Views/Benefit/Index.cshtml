@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DAHAR.Models.BenefitModel>
+@{
+    ViewData["Title"] = "Benefit List";
+    var iteration = 1;
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-tools">
+                <a href="@Url.Action("Create", "Benefit")" class="btn btn-primary"><i
+                        class="fas fa-plus-square mr-2"></i>Benefit</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th class="text-center">Active</th>
+                    <th class="text-center">Monetary</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@iteration</td>
+                        <td>@item.BenefitName</td>
+                        <td class="text-center">
+                            @if (item.IsActive)
+                            {
+                                <span class="badge badge-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Inactive</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (item.IsMonetary)
+                            {
+                                <span class="badge badge-primary">Monetary</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-info">Non-Monetary</span>
+                            }
+                        </td>
+                        <td>@item.Category</td>
+                        <td>@item.BenefitDescription</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Benefit", new { id = item.BenefitId })"
+                               class="btn btn-warning"><i class="far fa-edit"></i></a>
+                        </td>
+                    </tr>
+                    iteration++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -272,7 +272,7 @@
                         <li class="nav-header">Configuration</li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "Periods", "Status", "Parameter", "Allowance")">
+                               class="nav-link @UrlActive.IsActive(@Context, "Benefit", "Periods", "Status", "Parameter", "Allowance")">
                                 <i class="nav-icon fas fa-tools"></i>
                                 <p>
                                     Attendance
@@ -280,6 +280,13 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Benefit")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Benefit")">
+                                        <i class="fas fa-gifts nav-icon"></i>
+                                        <p>Benefit</p>
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "Periods")"
                                        class="nav-link @UrlActive.IsActive(@Context, "Periods")">

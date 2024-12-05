@@ -1,0 +1,84 @@
+﻿@model DAHAR.ViewModels.Benefit.CreateBenefitViewModel
+@{
+    ViewData["Title"] = "Create Benefit";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                    <a href="@Url.Action("Index", "Benefit")" class="btn btn-danger">Back</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="BenefitName">Name</label>
+                            <input type="text" asp-for="BenefitName"
+                                   placeholder="Ex: Daily Meal Allowance, Annual Leave"
+                                   class="form-control @(ViewData.ModelState["BenefitName"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="BenefitName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Category">Category</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["Category"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="Category">
+                                <option value="periodic">Periodic</option>
+                                <option value="hourly">Hourly</option>
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weakly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="yearly">Yearly</option>
+                            </select>
+                            <span asp-validation-for="Category" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="icheck-primary d-inline">
+                                <input type="checkbox" asp-for="IsMonetary">
+                                <label asp-for="IsMonetary">
+                                    Monetary
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="icheck-primary d-inline">
+                                <input type="checkbox" asp-for="IsActive">
+                                <label asp-for="IsActive">
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="BenefitDescription">Description</label>
+                            <textarea
+                                class="form-control @(ViewData.ModelState["BenefitDescription"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                asp-for="BenefitDescription"
+                                placeholder="Ex: Daily Meal Allowance for employee who work in the office"
+                                rows="4"></textarea>
+                            <span asp-validation-for="BenefitDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

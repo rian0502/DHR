@@ -9,6 +9,7 @@ namespace DAHAR.Helper
         public DbSet<FormApplicationRequestModel> FormApplication { get; set; }
         public DbSet<AttendanceStatusModel> AttendanceStatus { get; set; }
         public DbSet<PeriodModel> Periods { get; set; }
+        public DbSet<BenefitModel> Benefits { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<CompanyModel> Companies { get; set; }
         public DbSet<JobTitleModel> JobTitles { get; set; }
@@ -22,9 +23,11 @@ namespace DAHAR.Helper
         public DbSet<SubUnitModel> SubUnits { get; set; }
         public DbSet<EmployeeModel> Employee { get; set; }
         public DbSet<EmployeeDependentModel> EmployeeDependents { get; set; }
+        public DbSet<EmployeeBenefit> EmployeeBenefits { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<EmployeeBenefit>().HasOne(b => b.Benefit).WithMany().HasForeignKey(b => b.BenefitId);
             builder.Entity<LocationModel>().HasMany(l => l.Companies).WithOne(c => c.Location).HasForeignKey(c => c.LocationId);
             builder.Entity<CompanyModel>().HasMany(d => d.Departments).WithOne(d => d.Company).HasForeignKey(d => d.CompanyId);
             builder.Entity<DepartmentModel>().HasMany(sd => sd.SubDepartments).WithOne(sd => sd.Department).HasForeignKey(sd => sd.DepartmentId);
@@ -37,6 +40,7 @@ namespace DAHAR.Helper
             builder.Entity<EmployeeModel>().HasOne(e => e.Education).WithMany(ed => ed.Employees).HasForeignKey(e => e.EducationId);
             builder.Entity<EmployeeModel>().HasOne(e => e.TaxExemptIncome).WithMany(tei => tei.Employees).HasForeignKey(e => e.TaxExemptIncomeId);
             builder.Entity<EmployeeModel>().HasMany(e => e.EmployeeDependents).WithOne(ed => ed.Employee).HasForeignKey(ed => ed.EmployeeId);
+            builder.Entity<EmployeeModel>().HasMany(e => e.Benefits).WithOne(b => b.Employee).HasForeignKey(b => b.EmployeeId);
         }
     }
 }

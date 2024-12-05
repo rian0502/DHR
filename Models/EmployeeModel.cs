@@ -32,6 +32,7 @@ namespace DAHAR.Models
         public SubUnitModel? SubUnit { get; set; } // Belongs to SubUnit
         public Users? Users { get; set; } // Belongs to Users
         public ICollection<EmployeeDependentModel>? EmployeeDependents { get; set; } // Has many EmployeeDependent
+        public ICollection<EmployeeBenefit>? Benefits { get; set; } // Has many Benefit
 
         //Log Attributes
         public string? CreatedBy { get; set; }
