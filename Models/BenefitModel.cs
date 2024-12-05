@@ -13,6 +13,8 @@ public class BenefitModel
     // Examples: hourly, daily, weekly, monthly, yearly
     public string? Category { get; set; }
     
+    public ICollection<EmployeeBenefit>? EmployeeBenefits { get; set; }
+    
     
     public string? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }

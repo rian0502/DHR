@@ -56,6 +56,12 @@
                         <td>
                             <a href="@Url.Action("Edit", "Benefit", new { id = item.BenefitId })"
                                class="btn btn-warning"><i class="far fa-edit"></i></a>
+                            <form asp-action="Delete" asp-route-id="@item.BenefitId" method="post"
+                                  class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" value="@item.BenefitId" name="id" />
+                                <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                            </form>
                         </td>
                     </tr>
                     iteration++;

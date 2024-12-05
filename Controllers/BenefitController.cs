@@ -19,7 +19,7 @@ public class BenefitController(
     // GET: BenefitController
     public async Task<ActionResult> Index()
     {
-        var benefits = await context.Benefits.ToListAsync();
+        var benefits = await EntityFrameworkQueryableExtensions.ToListAsync(context.Benefits);
         return View(benefits);
     }
 
@@ -170,14 +170,64 @@ public class BenefitController(
     // POST: BenefitController/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, IFormCollection collection)
+    public async Task<ActionResult> Delete(int id, IFormCollection collection)
     {
         try
         {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+
+            var model = await context.Benefits
+                .Include(b => b.EmployeeBenefits)
+                .FirstOrDefaultAsync(b => b.BenefitId == id);
+
+            if (model == null)
+            {
+                TempData["Errors"] = "Benefit not found";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (model.EmployeeBenefits is { Count: > 0 })
+            {
+                TempData["Errors"] = "Benefit cannot be deleted because it is being used by employees";
+            }
+
+            var logs = new AppLogModel
+            {
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = $"{user.Id} - {user.FullName}",
+                Source = JsonConvert.SerializeObject(new
+                {
+                    Controller = "BenefitController",
+                    Action = "Delete",
+                    Database = "Benefits"
+                }),
+                Params = JsonConvert.SerializeObject(new
+                {
+                    model.BenefitId,
+                    model.BenefitName,
+                    model.Category,
+                    model.BenefitDescription,
+                    model.IsActive,
+                    model.IsMonetary,
+                    model.CreatedBy,
+                    model.CreatedAt,
+                    model.UpdatedBy,
+                    model.UpdatedAt
+                })
+            };
+            context.Benefits.Remove(model);
+            await context.SaveChangesAsync();
+            await mongoDbContext.AppLogs.InsertOneAsync(logs);
+            TempData["Success"] = "Benefit has been deleted successfully";
             return RedirectToAction(nameof(Index));
         }
-        catch
+        catch (Exception exception)
         {
+            TempData["Errors"] = exception.Message;
             return RedirectToAction(nameof(Index));
         }
     }
