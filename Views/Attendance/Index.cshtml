@@ -90,7 +90,7 @@
                         <thead>
                         <tr>
                             <th class="text-center">No</th>
-                            <th class="text-center">Date</th>
+                            <th>Date</th>
                             <th>In</th>
                             <th>Out</th>
                             <th class="text-center">Status</th>
@@ -120,7 +120,7 @@
             const dropdownYear = $('#year-period');
             for (let i = startYear; i <= endYear; i++) {
                 const isSelected = i === currentYear ? 'selected' : '';
-                dropdownYear.append(`<option value="${i}" ${isSelected}>${i}</option>`);
+                dropdownYear.append(`<option value="${i}" ${isSelected}>${i}/${(i+1)}</option>`);
             }
         }
     </script>

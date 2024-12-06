@@ -2,7 +2,20 @@
     function formatDecimal(time) {
         return time === null || time === undefined ? '-' : time.toFixed(2);
     }
-    
+
+    function noteLateInformation(late, note, code, lateCount) {
+        if (note && note.trim() !== '') {
+            return note;
+        }
+        if (lateCount > 3 && code === '-') {
+            return `<span class="badge bg-danger">Not eligible for meal allowance due to being late ${lateCount} times</span>`;
+        }
+        if (late > 0) {
+            return `<span class="badge bg-warning">Late ${late} Hour</span>`;
+        }
+        return '-';
+    }
+
     function statusAttendance(code) {
         switch (code) {
             case '1': return `<span class="badge bg-primary">Entered</span>`;
@@ -16,9 +29,11 @@
             case 'CB': return `<span class="badge bg-warning">Collective Leave</span>`;
             case 'M': return `<span class="badge bg-warning">Maternity Leave</span>`;
             case 'N': return `<span class="badge bg-secondary">National Holiday</span>`;
+            case '-': return `<span class="badge bg-primary">Entered</span>`;
             default: return `<span class="badge bg-dark">Unknown Status</span>`;
         }
     }
+
     function formatDateWithDay(dateString) {
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const dateObj = new Date(dateString);
@@ -26,7 +41,7 @@
         const formattedDate = dateObj.toLocaleDateString();
         return `${day}, ${formattedDate}`;
     }
-    
+
     const table = $('#attendanceRow').DataTable({
         ajax: {
             url: '/Attendance/GetAttendance',
@@ -40,27 +55,47 @@
             headers: {
                 'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val()
             },
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Loading...',
+                    html: '<strong>Loading data, please wait !.</strong>',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+            complete: function () {
+                Swal.close();
+            },
             dataSrc: function (response) {
-                totalDays = 0;
-                totalLeave = 0;
-                totalMeal = 0;
-                totalNational = 0;
-                let tableRows = [];
+                let totalDays = 0;
+                let totalLeave = 0;
+                let totalMeal = 0;
+                let totalNational = 0;
+                let lateCount = 0;
+                const tableRows = [];
+
                 response.attendance.result.forEach(function (attendance, index) {
+                    const isMealEligible = attendance.mealAllowance === 1 && attendance.code !== '-';
+                    if (attendance.late > 0) {
+                        lateCount++;
+                    }
                     tableRows.push({
                         no: index + 1,
                         date: formatDateWithDay(attendance.date),
                         checkIn: formatDecimal(attendance.checkIn),
                         checkOut: formatDecimal(attendance.checkOut),
                         status: statusAttendance(attendance.code),
-                        note: attendance.note
+                        note: noteLateInformation(attendance.late, attendance.note, attendance.code, lateCount)
                     });
 
-                    if (attendance.code == 'L') totalLeave++;
-                    if (attendance.mealAllowance == 1 || attendance.code == 'P') totalMeal++;
-                    if (attendance.code == 'N') totalNational++;
+                    if (attendance.code === 'L') totalLeave++;
+                    if (isMealEligible || attendance.code === 'P') totalMeal++;
+                    if (attendance.code === 'N') totalNational++;
                     totalDays++;
                 });
+
                 $('#total-days').text(totalDays);
                 $('#work-days').text(totalDays - totalLeave - totalNational);
                 $('#meal-days').text(totalMeal);
@@ -71,7 +106,7 @@
         },
         columns: [
             { data: 'no', className: 'text-center' },
-            { data: 'date', className: 'text-center' },
+            { data: 'date'},
             { data: 'checkIn' },
             { data: 'checkOut' },
             { data: 'status', className: 'text-center' },
