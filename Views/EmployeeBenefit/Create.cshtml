@@ -1,5 +1,69 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model DAHAR.ViewModels.EmployeeBenefit.CreateEmployeeBenefit
+
 @{
+    ViewData["Title"] = "Create Employee Benefit";
 }
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EmployeeId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Details", "EmployeeBenefit", new { id = Model.EmployeeId })"
+                   class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="StartDate">Start Date</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["StartDate"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="StartDate">
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="EndDate">End Date</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["EndDate"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="EndDate">
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="BenefitId">Benefit</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["BenefitId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="BenefitId">
+                                @foreach (var division in (ViewBag.Benefits as IEnumerable<BenefitModel>)!)
+                                {
+                                    <option value="@division.BenefitId">@division.BenefitName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="BenefitId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="Amount">Amount</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["Amount"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Amount"
+                                   placeholder="Ex: 12, 1, 60000, 10000.">
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

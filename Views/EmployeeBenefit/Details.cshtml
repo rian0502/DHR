@@ -1,0 +1,70 @@
+@model EmployeeModel
+@{
+    ViewData["Title"] = "Employee Benefit";
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Index", "Employee")" class="btn btn-danger">Back</a>
+            <div class="card-tools">
+                <a href="@Url.Action("Create", "EmployeeBenefit", new { id = Model.EmployeeId })" class="btn btn-primary"><i class="fas fa-plus-square mr-2"></i>Benefit</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="NIP">NIP</label>
+                        <input type="text" class="form-control" disabled="disabled" id="NIP" value="@Model.Nip">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control" disabled="disabled" id="Name"
+                               value="@(Model.Users?.FullName ?? "-")">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Periods</th>
+                    <th>Value</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.Benefits != null)
+                {
+                    var iteration = 1;
+                    foreach (var item in Model.Benefits)
+                    {
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@(item.Benefit?.BenefitName ?? "")</td>
+                            <td>@item.StartDate - @item.EndDate</td>
+                            <td>@item.Amount</td>
+                            <td>@(item.Benefit?.Category ?? "")</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "EmployeeBenefit", new { id = (int?)item.EmployeeBenefitId })" class="btn btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                        iteration++;
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

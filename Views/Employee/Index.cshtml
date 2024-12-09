@@ -33,8 +33,12 @@
                         <td>@item.Division?.DivisionName</td>
                         <td>
                             <a href="@Url.Action("Details", "Employee", new { id = item.EmployeeId })"
-                               class="btn btn-info">
+                               class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View">
                                 <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="@Url.Action("Details", "EmployeeBenefit", new { id = item.EmployeeId })"
+                               class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Employee Benefit">
+                                <i class="fas fa-money-check-alt"></i>
                             </a>
                         </td>
                     </tr>
