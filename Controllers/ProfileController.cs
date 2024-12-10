@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace DAHAR.Controllers;
 
@@ -27,6 +26,8 @@ public class ProfileController(UserManager<Users> userManager, AppDbContext cont
             .ThenInclude(c => c!.Company)
             .Include(e => e.TaxExemptIncome)
             .Include(e => e.EmployeeDependents)
+            .Include(be => be.Benefits)
+            .ThenInclude(b => b.Benefit)
             .FirstOrDefaultAsync(e => e.Users!.Id == user!.Id);
         return View(profile);
     }

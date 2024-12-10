@@ -58,7 +58,7 @@
             beforeSend: function () {
                 Swal.fire({
                     title: 'Loading...',
-                    html: '<strong>Loading data, please wait !.</strong>',
+                    html: '<strong>Loading data, please wait!</strong>',
                     allowOutsideClick: false,
                     didOpen: () => {
                         Swal.showLoading();
@@ -70,17 +70,36 @@
             },
             dataSrc: function (response) {
                 let totalDays = 0;
+                let totalAlpa = 0;
                 let totalLeave = 0;
+                let totalSick = 0;
+                let totalLate = 0;
                 let totalMeal = 0;
                 let totalNational = 0;
                 let lateCount = 0;
+                let totalMealAmount = 0;
                 const tableRows = [];
 
                 response.attendance.result.forEach(function (attendance, index) {
                     const isMealEligible = attendance.mealAllowance === 1 && attendance.code !== '-';
                     if (attendance.late > 0) {
                         lateCount++;
+                        totalLate++; // Increment total late days
                     }
+
+                    if (attendance.code === 'S') {
+                        totalSick++; // Increment total sick days
+                    }
+
+                    if (attendance.code === 'A') {
+                        totalAlpa++; // Increment total leave days
+                    }
+
+                    if (isMealEligible) {
+                        totalMeal++;
+                        totalMealAmount += attendance.benefitAmount || 0;
+                    }
+
                     tableRows.push({
                         no: index + 1,
                         date: formatDateWithDay(attendance.date),
@@ -91,22 +110,29 @@
                     });
 
                     if (attendance.code === 'L') totalLeave++;
-                    if (isMealEligible || attendance.code === 'P') totalMeal++;
                     if (attendance.code === 'N') totalNational++;
                     totalDays++;
                 });
 
+                const workDays = totalDays - totalLeave - totalNational;
+                const mealAllowancePerDay = totalMeal > 0 ? (totalMealAmount / totalMeal) : 0;
+                
                 $('#total-days').text(totalDays);
-                $('#work-days').text(totalDays - totalLeave - totalNational);
+                $('#work-days').text(workDays);
                 $('#meal-days').text(totalMeal);
-                $('#meal-total').text(totalMeal * 85000);
+                $('#meal-allowance-days').text(mealAllowancePerDay.toLocaleString('id-ID'));
+                $('#meal-total').text(totalMealAmount.toLocaleString('id-ID'));
+                
+                $('#sick-days').text(totalSick);
+                $('#late-days').text(totalLate);
+                $('#alpa-days').text(totalAlpa);
 
                 return tableRows;
             }
         },
         columns: [
             { data: 'no', className: 'text-center' },
-            { data: 'date'},
+            { data: 'date' },
             { data: 'checkIn' },
             { data: 'checkOut' },
             { data: 'status', className: 'text-center' },
@@ -118,7 +144,8 @@
         ordering: true,
         info: true,
         autoWidth: false,
-        responsive: true
+        responsive: true,
+        fixedHeader: true
     });
 
     $('#loadAttendanceUser').click(function () {

@@ -16,5 +16,6 @@ namespace DAHAR.Models
         public decimal? Late { get; set; }
         public string? Note { get; set; }
         public short? MealAllowance { get; set; }
+        public double? BenefitAmount { get; set; }
     }
 }

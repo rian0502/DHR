@@ -23,11 +23,11 @@
         <!-- /.col -->
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-calendar-alt"></i></span>
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-virus"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Work Days</span>
-                    <span class="info-box-number" id="work-days">0</span>
+                    <span class="info-box-text">Sick</span>
+                    <span class="info-box-number" id="sick-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -51,6 +51,59 @@
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-bill-wave"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Meal Allowance</span>
+                    <span class="info-box-number" id="meal-allowance-days">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-calendar-alt"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Work Days</span>
+                    <span class="info-box-number" id="work-days">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger elevation-1"><i class="far fa-calendar-times"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Alpha</span>
+                    <span class="info-box-number" id="alpa-days">
+                        0
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-yellow elevation-1"><i class="fas fa-hourglass-end"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Late</span>
+                    <span class="info-box-number" id="late-days">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-wallet"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Meal Allowance Total</span>
                     <span class="info-box-number" id="meal-total">0</span>
@@ -120,7 +173,7 @@
             const dropdownYear = $('#year-period');
             for (let i = startYear; i <= endYear; i++) {
                 const isSelected = i === currentYear ? 'selected' : '';
-                dropdownYear.append(`<option value="${i}" ${isSelected}>${i}/${(i+1)}</option>`);
+                dropdownYear.append(`<option value="${i}" ${isSelected}>${i}/${(i + 1)}</option>`);
             }
         }
     </script>

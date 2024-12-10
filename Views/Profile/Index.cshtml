@@ -77,7 +77,46 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><strong>Benefit</strong></h2>
+                </div>
+                <div class="card-body">
+                    <table id="example3" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th>Period</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.Benefits != null)
+                        {
+                            var iteration = 1;
+                            foreach (var item in Model.Benefits)
+                            {
+                                <tr>
+                                    <td class="text-center">@iteration</td>
+                                    <td>@item.StartDate - @item.EndDate</td>
+                                    <td>@item.Benefit.BenefitName</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.Benefit.Category</td>
 
+                                </tr>
+                                iteration++;
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -127,7 +166,7 @@
                                         <form asp-action="Delete" asp-controller="EmployeeDependent" method="post"
                                               class="d-inline" asp-route-id="@item.EmployeeDependentId">
                                             @Html.AntiForgeryToken()
-                                            <input type="hidden" name="id" value="@item.EmployeeDependentId" />
+                                            <input type="hidden" name="id" value="@item.EmployeeDependentId"/>
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                     onclick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="fas fa-trash"></i>

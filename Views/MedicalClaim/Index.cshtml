@@ -1,12 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Permintaan Cuti";
+    ViewData["Title"] = "Medical Claim";
 }
 
 <div class="col-12">
     <div class="card">
         <div class="card-header">
             <div class="card-tools">
-                <a href="@Url.Action("DownloadForm", "LeaveRequest")" class="btn btn-info">
+                <a href="@Url.Action("DownloadForm", "MedicalClaim")" class="btn btn-info">
                     <i class="fas fa-file-download mr-2"></i>
                     Form
                 </a>
@@ -19,42 +19,50 @@
                     <tr>
                         <th>No</th>
                         <th>Date</th>
-                        <th>Duration</th>
-                        <th>Reason</th>
                         <th>Status</th>
+                        <th>Amount</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
                         <td>2024-06-01</td>
-                        <td>2 Days</td>
-                        <td>Cuti tahunan</td>
                         <td>Approved</td>
+                        <td>IDR 500,000</td>
+                        <td>Konsultasi dokter umum</td>
                     </tr>
                     <tr>
                         <td>2</td>
                         <td>2024-06-05</td>
-                        <td>0.5 Day</td>
-                        <td>Sakit</td>
                         <td>Pending</td>
+                        <td>IDR 1,200,000</td>
+                        <td>Rawat inap 2 hari</td>
                     </tr>
                     <tr>
                         <td>3</td>
                         <td>2024-06-10</td>
-                        <td>2 Days</td>
-                        <td>Urusan keluarga</td>
                         <td>Rejected</td>
+                        <td>IDR 300,000</td>
+                        <td>Pembelian obat non-resep</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2024-06-15</td>
+                        <td>Approved</td>
+                        <td>IDR 800,000</td>
+                        <td>Pemeriksaan laboratorium</td>
                     </tr>
                     <tr>
                         <td>5</td>
                         <td>2024-06-20</td>
-                        <td>2 Days</td>
-                        <td>Pernikahan</td>
                         <td>Pending</td>
+                        <td>IDR 700,000</td>
+                        <td>Fisioterapi</td>
                     </tr>
                 </tbody>
             </table>
+
         </div>
     </div>
 </div>

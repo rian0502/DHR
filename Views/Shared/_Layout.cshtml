@@ -336,6 +336,34 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-header">Management Request & Claim</li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "ManagementPermissionRequest")"
+                               class="nav-link @UrlActive.IsActive(@Context, "ManagementPermissionRequest")">
+                                <i class="nav-icon fas fa-user-clock"></i>
+                                <p>
+                                    Permission Request
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "ManagementLeaveRequest")"
+                               class="nav-link @UrlActive.IsActive(@Context, "ManagementLeaveRequest")">
+                                <i class="nav-icon fas fa-suitcase"></i>
+                                <p>
+                                    Leave Request
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "ManagementMedicalClaim")"
+                               class="nav-link @UrlActive.IsActive(@Context, "ManagementClaim")">
+                                <i class="fas fa-clinic-medical nav-icon"></i>
+                                <p>
+                                    Medical Claim
+                                </p>
+                            </a>
+                        </li>
                     }
                     @if (User.IsInRole("User"))
                     {
@@ -351,7 +379,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest", "PermissionRequest", "WorkEntryRequest", "BusinessTravelRequest")">
+                               class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest", "PermissionRequest", "WorkEntryRequest", "BusinessTravelRequest", "MedicalClaim")">
                                 <i class="nav-icon fas fa-file-signature"></i>
                                 <p>
                                     Requests & Claims
@@ -388,8 +416,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index", "LeaveRequest")"
-                                       class="nav-link">
+                                    <a href="@Url.Action("Index", "MedicalClaim")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "MedicalClaim")">
                                         <i class="fas fa-clinic-medical nav-icon"></i>
                                         <p>Medical Claim</p>
                                     </a>

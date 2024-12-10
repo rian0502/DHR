@@ -1,0 +1,62 @@
+@model DAHAR.ViewModels.ManagementMedicalClaimViewModel.ImportMedicalClaimViewModel
+
+@{
+    ViewData["Title"] = "Import Medical Claim";
+}
+
+<div class="col-12">
+    <form asp-action="Import" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementMedicalClaim")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label" asp-for="ExcelFile">File Excel</label>
+                            <input type="file"
+                                   class="form-control @(ViewData.ModelState["ExcelFile"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="ExcelFile" accept=".xls, .xlsx, .csv">
+                            <span asp-validation-for="ExcelFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12" id="accordion">
+                <div class="card card-info card-outline">
+                    <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                        <div class="card-header">
+                            <h4 class="card-title w-100">
+                                Medical Claim Data Upload Tutorial
+                            </h4>
+                        </div>
+                    </a>
+                    <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol>
+                                <li>Download the medical claim data template from the system.</li>
+                                <li>Open the template using a spreadsheet application (e.g., Microsoft Excel).</li>
+                                <li>Fill in the required fields with accurate information.</li>
+                                <li>Save the completed template in the correct format (e.g., XLSX, XLS).</li>
+                                <li>Return to the upload section of the system.</li>
+                                <li>Click the "Upload" button and select the completed template file.</li>
+                                <li>Click "Save" to finalize the upload process.</li>
+                                <li>Check for any confirmation message indicating a successful upload.</li>
+                            </ol>
+                            <p><strong>Note:</strong> Do not modify any dropdown data or change the position of the existing columns.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -27,7 +27,8 @@ public class AttendanceService(string connectionString)
                 CheckOut = reader.IsDBNull(reader.GetOrdinal("CheckOut")) ? null : reader.GetDecimal(reader.GetOrdinal("CheckOut")),
                 Late = reader.IsDBNull(reader.GetOrdinal("Late")) ? 0 : reader.GetDecimal(reader.GetOrdinal("Late")),
                 Note = reader.IsDBNull(reader.GetOrdinal("Note")) ? null : reader.GetString(reader.GetOrdinal("Note")),
-                MealAllowance = reader.IsDBNull(reader.GetOrdinal("MealAllowance")) ? null : reader.GetInt16(reader.GetOrdinal("MealAllowance"))
+                MealAllowance = reader.IsDBNull(reader.GetOrdinal("MealAllowance")) ? null : reader.GetInt16(reader.GetOrdinal("MealAllowance")),
+                BenefitAmount = reader.IsDBNull(reader.GetOrdinal("BenefitAmount")) ? null : reader.GetDouble(reader.GetOrdinal("BenefitAmount"))
             };
             attendances.Add(attendance);
         }
@@ -58,7 +59,8 @@ public class AttendanceService(string connectionString)
                 CheckOut = reader.IsDBNull(reader.GetOrdinal("CheckOut")) ? null : reader.GetDecimal(reader.GetOrdinal("CheckOut")),
                 Late = reader.IsDBNull(reader.GetOrdinal("Late")) ? 0 : reader.GetDecimal(reader.GetOrdinal("Late")),
                 Note = reader.IsDBNull(reader.GetOrdinal("Note")) ? null : reader.GetString(reader.GetOrdinal("Note")),
-                MealAllowance = reader.IsDBNull(reader.GetOrdinal("MealAllowance")) ? null : reader.GetInt16(reader.GetOrdinal("MealAllowance"))
+                MealAllowance = reader.IsDBNull(reader.GetOrdinal("MealAllowance")) ? null : reader.GetInt16(reader.GetOrdinal("MealAllowance")),
+                BenefitAmount = reader.IsDBNull(reader.GetOrdinal("BenefitAmount")) ? null : reader.GetDouble(reader.GetOrdinal("BenefitAmount"))
             };
             attendances.Add(attendance);
         }
