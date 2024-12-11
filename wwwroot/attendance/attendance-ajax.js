@@ -8,7 +8,7 @@
             return note;
         }
         if (lateCount > 3 && code === '-') {
-            return `<span class="badge bg-danger">Not eligible for meal allowance due to being late ${lateCount} times</span>`;
+            return `<span class="badge bg-danger">Not eligible for allowance due to being late ${lateCount} times</span>`;
         }
         if (late > 0) {
             return `<span class="badge bg-warning">Late ${late} Hour</span>`;
@@ -18,19 +18,32 @@
 
     function statusAttendance(code) {
         switch (code) {
-            case '1': return `<span class="badge bg-primary">Entered</span>`;
-            case 'A': return `<span class="badge bg-danger">Alpha</span>`;
-            case 'P': return `<span class="badge bg-info">Business Trip</span>`;
-            case 'D': return `<span class="badge bg-warning">Dispensation</span>`;
-            case 'L': return `<span class="badge bg-secondary">Holiday</span>`;
-            case 'S': return `<span class="badge bg-warning">Sick</span>`;
-            case 'C': return `<span class="badge bg-warning">Leave</span>`;
-            case 'I': return `<span class="badge bg-info">Permission</span>`;
-            case 'CB': return `<span class="badge bg-warning">Collective Leave</span>`;
-            case 'M': return `<span class="badge bg-warning">Maternity Leave</span>`;
-            case 'N': return `<span class="badge bg-secondary">National Holiday</span>`;
-            case '-': return `<span class="badge bg-primary">Entered</span>`;
-            default: return `<span class="badge bg-dark">Unknown Status</span>`;
+            case '1':
+                return `<span class="badge bg-primary">Entered</span>`;
+            case 'A':
+                return `<span class="badge bg-danger">Alpha</span>`;
+            case 'P':
+                return `<span class="badge bg-info">Business Trip</span>`;
+            case 'D':
+                return `<span class="badge bg-warning">Dispensation</span>`;
+            case 'L':
+                return `<span class="badge bg-secondary">Holiday</span>`;
+            case 'S':
+                return `<span class="badge bg-warning">Sick</span>`;
+            case 'C':
+                return `<span class="badge bg-warning">Leave</span>`;
+            case 'I':
+                return `<span class="badge bg-info">Permission</span>`;
+            case 'CB':
+                return `<span class="badge bg-warning">Collective Leave</span>`;
+            case 'M':
+                return `<span class="badge bg-warning">Maternity Leave</span>`;
+            case 'N':
+                return `<span class="badge bg-secondary">National Holiday</span>`;
+            case '-':
+                return `<span class="badge bg-danger">Late</span>`;
+            default:
+                return `<span class="badge bg-dark">Unknown Status</span>`;
         }
     }
 
@@ -44,13 +57,13 @@
 
     const table = $('#attendanceRow').DataTable({
         ajax: {
-            url: '/Attendance/GetAttendance',
+            url: '/Attendance/GetViewAttendanceAsync',
             type: 'POST',
             data: function () {
-                return {
-                    periodId: $('.select2bs4').val(),
-                    year: $('#year-period').val(),
-                };
+                const selectedPeriod = $('#SelectedPeriod').val();
+                const [startDate, endDate] = selectedPeriod.split('/');
+
+                return {startDate, endDate};
             },
             headers: {
                 'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val()
@@ -73,7 +86,6 @@
                 let totalAlpa = 0;
                 let totalLeave = 0;
                 let totalSick = 0;
-                let totalLate = 0;
                 let totalMeal = 0;
                 let totalNational = 0;
                 let lateCount = 0;
@@ -84,15 +96,14 @@
                     const isMealEligible = attendance.mealAllowance === 1 && attendance.code !== '-';
                     if (attendance.late > 0) {
                         lateCount++;
-                        totalLate++; // Increment total late days
                     }
 
                     if (attendance.code === 'S') {
-                        totalSick++; // Increment total sick days
+                        totalSick++;
                     }
 
                     if (attendance.code === 'A') {
-                        totalAlpa++; // Increment total leave days
+                        totalAlpa++;
                     }
 
                     if (isMealEligible) {
@@ -116,27 +127,27 @@
 
                 const workDays = totalDays - totalLeave - totalNational;
                 const mealAllowancePerDay = totalMeal > 0 ? (totalMealAmount / totalMeal) : 0;
-                
+
                 $('#total-days').text(totalDays);
                 $('#work-days').text(workDays);
                 $('#meal-days').text(totalMeal);
                 $('#meal-allowance-days').text(mealAllowancePerDay.toLocaleString('id-ID'));
                 $('#meal-total').text(totalMealAmount.toLocaleString('id-ID'));
-                
+
                 $('#sick-days').text(totalSick);
-                $('#late-days').text(totalLate);
+                $('#late-days').text(lateCount);
                 $('#alpa-days').text(totalAlpa);
 
                 return tableRows;
             }
         },
         columns: [
-            { data: 'no', className: 'text-center' },
-            { data: 'date' },
-            { data: 'checkIn' },
-            { data: 'checkOut' },
-            { data: 'status', className: 'text-center' },
-            { data: 'note' }
+            {data: 'no', className: 'text-center'},
+            {data: 'date'},
+            {data: 'checkIn'},
+            {data: 'checkOut'},
+            {data: 'status', className: 'text-center'},
+            {data: 'note'}
         ],
         paging: false,
         lengthChange: true,

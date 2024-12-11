@@ -13,13 +13,8 @@ public class PeriodsController(PeriodService periodService) : Controller
         var periods = await periodService.FindAll();
         return View(periods);
     }
-
-    // GET: PeriodsController/Details/5
-    public ActionResult Details(int id)
-    {
-        return View();
-    }
-
+    
+    
     // GET: PeriodsController/Create
     public ActionResult Create()
     {
@@ -62,12 +57,6 @@ public class PeriodsController(PeriodService periodService) : Controller
         }
     }
 
-    // GET: PeriodsController/Delete/5
-    public ActionResult Delete(int id)
-    {
-        return View();
-    }
-
     // POST: PeriodsController/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -79,7 +68,7 @@ public class PeriodsController(PeriodService periodService) : Controller
         }
         catch
         {
-            return View();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

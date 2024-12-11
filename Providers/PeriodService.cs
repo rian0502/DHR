@@ -11,9 +11,17 @@ namespace DAHAR.Providers
         //Find All
         public async Task<IEnumerable<PeriodModel>> FindAll()
         {
-            return await _context.Periods.FromSql($"EXECUTE {_storeProcedure} @‌Action = 'FindAll'").ToListAsync();
+            return await _context.Periods.FromSql($"EXECUTE {_storeProcedure} @Action = 'FindAll'").ToListAsync();
         }
 
+        //Find All
+        public async Task<IEnumerable<PeriodModel>> AttandancePeriod()
+        {
+            return await _context.Periods.FromSql($"EXECUTE {_storeProcedure} @Action = 'AttandancePeriod'").ToListAsync();
+        }
+        
+        
+        
         //Find Active Periode
         public async Task<PeriodModel> ActivePeriod()
         {

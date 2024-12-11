@@ -28,18 +28,24 @@ namespace DAHAR.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var periods = await _periodService.FindAll();
+            var periods = await _periodService.AttandancePeriod();
             var periodModels = periods.ToList();
+            var activePeriod = periodModels.FirstOrDefault(p => p.IsActive);
+            var activeValue = activePeriod != null
+                ? $"{activePeriod.StartPeriodDate:yyyy-MM-dd}/{activePeriod.EndPeriodDate:yyyy-MM-dd}"
+                : null;
+
             ViewBag.Periods = new SelectList(
                 periodModels.Select(period => new
                 {
-                    Value = period.PeriodId,
-                    Text = $"{period.StartPeriodDate:dd MMMM} - {period.EndPeriodDate:dd MMMM}"
+                    Value = $"{period.StartPeriodDate:yyyy-MM-dd}/{period.EndPeriodDate:yyyy-MM-dd}",
+                    Text = $"{period.StartPeriodDate:dd MMMM yyyy} - {period.EndPeriodDate:dd MMMM yyyy}"
                 }),
                 "Value",
                 "Text",
-                periodModels.FirstOrDefault(p => p.IsActive)?.PeriodId
+                activeValue
             );
+
             return View();
         }
 
@@ -72,5 +78,34 @@ namespace DAHAR.Controllers
                 Attendance = attendance
             });
         }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Attendance/GetViewAttendanceAsync")]
+        public async Task<IActionResult> GetViewAttendanceAsync(string startDate, string endDate)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return BadRequest(new { Status = false, Message = "User not found" });
+            }
+            
+            var employee = await _context.Employee
+                .FirstOrDefaultAsync(e => e.UserId == user.Id);
+            if (employee == null)
+            {
+                return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
+            }
+            var attendance = _attendanceService.GetAttendance(employee.Nip, startDate, endDate);
+            return Ok(new
+            {
+                Status = true,
+                Message = "Success",
+                Employee = employee,
+                Attendance = attendance
+            });
+            
+        }
+        
     }
 }

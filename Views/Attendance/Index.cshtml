@@ -40,7 +40,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-warning elevation-1"><i class="far fa-calendar-check"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Meal Allowance Days</span>
+                    <span class="info-box-text">Allowance Days</span>
                     <span class="info-box-number" id="meal-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -52,7 +52,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-bill-wave"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Meal Allowance</span>
+                    <span class="info-box-text">Allowance</span>
                     <span class="info-box-number" id="meal-allowance-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -105,7 +105,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-wallet"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Meal Allowance Total</span>
+                    <span class="info-box-text">Allowance Total</span>
                     <span class="info-box-number" id="meal-total">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -116,24 +116,17 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <div class="row justify-content-end">
-                <div class="col-md-3">
-                    <div class="form-group">
+            <div class="card-tools">
+                <div class="form-group d-flex align-items-center">
+                    <div class="flex-grow-1 mr-3">
                         @Html.DropDownList("SelectedPeriod", (SelectList)ViewBag.Periods,
                             htmlAttributes: new { @class = "form-control select2bs4", style = "width: 100%;" })
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <select id="year-period" class="form-control select2bs4" style="width: 100%;">
-
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <button type="button" id="loadAttendanceUser" class="btn btn-success"><i class="fas fa-search"></i>
+                    <button type="button" id="loadAttendanceUser" class="btn btn-success">
+                        <i class="fas fa-search"></i>
                     </button>
                 </div>
+
             </div>
         </div>
         <div class="card-body">
@@ -160,21 +153,4 @@
 
 </div>
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            generateDateDropdown();
-        });
 
-        function generateDateDropdown() {
-            const currentYear = new Date().getFullYear();
-            const startYear = currentYear - 3;
-            const endYear = currentYear + 2;
-            const dropdownYear = $('#year-period');
-            for (let i = startYear; i <= endYear; i++) {
-                const isSelected = i === currentYear ? 'selected' : '';
-                dropdownYear.append(`<option value="${i}" ${isSelected}>${i}/${(i + 1)}</option>`);
-            }
-        }
-    </script>
-}
