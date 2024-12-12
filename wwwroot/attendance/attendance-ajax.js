@@ -57,13 +57,12 @@
 
     const table = $('#attendanceRow').DataTable({
         ajax: {
-            url: '/Attendance/GetViewAttendanceAsync',
+            url: '/Attendance/GetAttendanceData',
             type: 'POST',
             data: function () {
-                const selectedPeriod = $('#SelectedPeriod').val();
-                const [startDate, endDate] = selectedPeriod.split('/');
-
-                return {startDate, endDate};
+                return {
+                    periodId: $('.select2bs4').val(),
+                };
             },
             headers: {
                 'X-CSRF-TOKEN': $('input[name="__RequestVerificationToken"]').val()
@@ -83,27 +82,27 @@
             },
             dataSrc: function (response) {
                 let totalDays = 0;
-                let totalAlpa = 0;
+                let totalAlpha = 0;
                 let totalLeave = 0;
-                let totalSick = 0;
+                let timeOff = 0;
                 let totalMeal = 0;
                 let totalNational = 0;
                 let lateCount = 0;
                 let totalMealAmount = 0;
                 const tableRows = [];
 
-                response.attendance.result.forEach(function (attendance, index) {
+                response.attendance.forEach(function (attendance, index) {
                     const isMealEligible = attendance.mealAllowance === 1 && attendance.code !== '-';
                     if (attendance.late > 0) {
                         lateCount++;
                     }
 
-                    if (attendance.code === 'S') {
-                        totalSick++;
+                    if (attendance.code === 'S' || attendance.code === 'M' || attendance.code === 'C' || attendance.code === 'I') {
+                        timeOff++;
                     }
 
                     if (attendance.code === 'A') {
-                        totalAlpa++;
+                        totalAlpha++;
                     }
 
                     if (isMealEligible) {
@@ -134,9 +133,9 @@
                 $('#meal-allowance-days').text(mealAllowancePerDay.toLocaleString('id-ID'));
                 $('#meal-total').text(totalMealAmount.toLocaleString('id-ID'));
 
-                $('#sick-days').text(totalSick);
+                $('#time-off').text(timeOff);
                 $('#late-days').text(lateCount);
-                $('#alpa-days').text(totalAlpa);
+                $('#alpha-days').text(totalAlpha);
 
                 return tableRows;
             }

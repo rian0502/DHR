@@ -1,30 +1,31 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DAHAR.Controllers
 {
     [Authorize(Roles = "User")]
-    public class OpticalServicesController : Controller
+    public class MaternityServicesController : Controller
     {
-        // GET: OpticalServicesController
+        // GET: MaternityServicesController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: OpticalServicesController/Details/5
+        // GET: MaternityServicesController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: OpticalServicesController/Create
+        // GET: MaternityServicesController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: OpticalServicesController/Create
+        // POST: MaternityServicesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -39,13 +40,13 @@ namespace DAHAR.Controllers
             }
         }
 
-        // GET: OpticalServicesController/Edit/5
+        // GET: MaternityServicesController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: OpticalServicesController/Edit/5
+        // POST: MaternityServicesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -60,13 +61,13 @@ namespace DAHAR.Controllers
             }
         }
 
-        // GET: OpticalServicesController/Delete/5
+        // GET: MaternityServicesController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: OpticalServicesController/Delete/5
+        // POST: MaternityServicesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

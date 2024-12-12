@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DAHAR.Controllers
 {
+    [Authorize(Roles = "User")]
     public class InpatientController : Controller
     {
         // GET: InpatientController

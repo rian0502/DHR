@@ -420,7 +420,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "Inpatient", "Outpatient", "OpticalServices")">
+                                   class="nav-link @UrlActive.IsActive(@Context, "Inpatient", "Outpatient", "OpticalServices", "MaternityServices")">
                                 <i class="fas fa-hospital-user nav-icon"></i>
                                 <p>
                                     Medical Claim
@@ -440,6 +440,13 @@
                                        class="nav-link @UrlActive.IsActive(@Context, "Inpatient")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Inpatient Care</p>
+                                    </a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a href="@Url.Action("Index", "MaternityServices")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "MaternityServices")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Maternity Expenses</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
