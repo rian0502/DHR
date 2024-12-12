@@ -31,9 +31,9 @@
 <div class="wrapper">
 
     <!-- Preloader -->
-    @* <div class="preloader flex-column justify-content-center align-items-center"> *@
-    @*     <img class="animation__shake" src="~/templates/img/siak_logo.png" alt="siak_logo" height="60" width="60"> *@
-    @* </div> *@
+    <div class="preloader flex-column justify-content-center align-items-center">
+        <img class="animation__shake" src="~/templates/img/siak_logo.png" alt="siak_logo" height="60" width="60">
+    </div>
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -151,319 +151,319 @@
                     </li>
                     @if (User.IsInRole("Admin"))
                     {
-                    <li class="nav-header">Master Data</li>
-                    <li class="nav-item">
-                        <a href="#"
-                           class="nav-link @UrlActive.IsActive(@Context, "Employee", "Education", "JobTitle", "WorkArea", "Unit", "SubUnit", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
-                            <i class="nav-icon fas fa-server"></i>
-                            <p>
-                                Master Data
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Employee")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Employee")">
-                                    <i class="fas fa-users nav-icon"></i>
-                                    <p>Employees</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Education")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Education")">
-                                    <i class="fas fa-user-graduate nav-icon"></i>
-                                    <p>Education</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "JobTitle")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "JobTitle")">
-                                    <i class="fas fa-user-tag nav-icon"></i>
-                                    <p>Job Titles</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
-                                    <i class="fas fa-street-view nav-icon"></i>
-                                    <p>
-                                        Work Areas
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "WorkArea")"
-                                           class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Location</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "Unit")"
-                                           class="nav-link @UrlActive.IsActive(@Context, "Unit")">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Units</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "SubUnit")"
-                                           class="nav-link @UrlActive.IsActive(@Context, "SubUnit")">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Sub-Unit</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Company")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Company")">
-                                    <i class="far fa-building nav-icon"></i>
-                                    <p>Companies</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "TaxExemptIncome")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "TaxExemptIncome")">
-                                    <i class="fas fa-hand-holding-usd nav-icon"></i>
-                                    <p>Tax Exempt Income</p>
-                                </a>
-                            </li>
+                        <li class="nav-header">Master Data</li>
+                        <li class="nav-item">
+                            <a href="#"
+                               class="nav-link @UrlActive.IsActive(@Context, "Employee", "Education", "JobTitle", "WorkArea", "Unit", "SubUnit", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
+                                <i class="nav-icon fas fa-server"></i>
+                                <p>
+                                    Master Data
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Employee")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Employee")">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>Employees</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Education")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Education")">
+                                        <i class="fas fa-user-graduate nav-icon"></i>
+                                        <p>Education</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "JobTitle")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "JobTitle")">
+                                        <i class="fas fa-user-tag nav-icon"></i>
+                                        <p>Job Titles</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#"
+                                       class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
+                                        <i class="fas fa-street-view nav-icon"></i>
+                                        <p>
+                                            Work Areas
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "WorkArea")"
+                                               class="nav-link @UrlActive.IsActive(@Context, "WorkArea")">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Location</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "Unit")"
+                                               class="nav-link @UrlActive.IsActive(@Context, "Unit")">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Units</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "SubUnit")"
+                                               class="nav-link @UrlActive.IsActive(@Context, "SubUnit")">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Sub-Unit</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Company")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Company")">
+                                        <i class="far fa-building nav-icon"></i>
+                                        <p>Companies</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "TaxExemptIncome")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "TaxExemptIncome")">
+                                        <i class="fas fa-hand-holding-usd nav-icon"></i>
+                                        <p>Tax Exempt Income</p>
+                                    </a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a href="#"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Department", "SubDepartment", "Division")">
-                                    <i class="fas fa-sitemap nav-icon"></i>
-                                    <p>
-                                        Company Structure
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "Department")"
-                                           class="nav-link @UrlActive.IsActive(@Context, "Department")">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Department</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "SubDepartment")"
-                                           class="nav-link @UrlActive.IsActive(@Context, "SubDepartment")">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Sub-Department</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "Division")"
-                                           class="nav-link @UrlActive.IsActive(@Context, "Division")">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Division</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                                <li class="nav-item">
+                                    <a href="#"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Department", "SubDepartment", "Division")">
+                                        <i class="fas fa-sitemap nav-icon"></i>
+                                        <p>
+                                            Company Structure
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "Department")"
+                                               class="nav-link @UrlActive.IsActive(@Context, "Department")">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Department</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "SubDepartment")"
+                                               class="nav-link @UrlActive.IsActive(@Context, "SubDepartment")">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Sub-Department</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "Division")"
+                                               class="nav-link @UrlActive.IsActive(@Context, "Division")">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Division</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
-                    <li class="nav-header">Configuration</li>
-                    <li class="nav-item">
-                        <a href="#"
-                           class="nav-link @UrlActive.IsActive(@Context, "Benefit", "Periods", "Status", "Parameter", "Allowance")">
-                            <i class="nav-icon fas fa-tools"></i>
-                            <p>
-                                Attendance
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Benefit")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Benefit")">
-                                    <i class="fas fa-gifts nav-icon"></i>
-                                    <p>Benefit</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Periods")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Periods")">
-                                    <i class="far fa-calendar-alt nav-icon"></i>
-                                    <p>Period</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Status")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Status")">
-                                    <i class="fas fa-tags nav-icon"></i>
-                                    <p>Status</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Parameter")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Parameter")">
-                                    <i class="far fa-list-alt nav-icon"></i>
-                                    <p>Parameter</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Allowance")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Allowance")">
-                                    <i class="fas fa-book nav-icon"></i>
-                                    <p>Allowance</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#"
-                           class="nav-link @UrlActive.IsActive(@Context, "FormApplicationRequest")">
-                            <i class="nav-icon fab fa-wpforms"></i>
-                            <p>
-                                Management Form
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "FormApplicationRequest")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "FormApplicationRequest")">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Form Application</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-header">Management Request & Claim</li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index", "ManagementPermissionRequest")"
-                           class="nav-link @UrlActive.IsActive(@Context, "ManagementPermissionRequest")">
-                            <i class="nav-icon fas fa-user-clock"></i>
-                            <p>
-                                Permission Request
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index", "ManagementLeaveRequest")"
-                           class="nav-link @UrlActive.IsActive(@Context, "ManagementLeaveRequest")">
-                            <i class="nav-icon fas fa-suitcase"></i>
-                            <p>
-                                Leave Request
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index", "ManagementMedicalClaim")"
-                           class="nav-link @UrlActive.IsActive(@Context, "ManagementClaim")">
-                            <i class="fas fa-clinic-medical nav-icon"></i>
-                            <p>
-                                Medical Claim
-                            </p>
-                        </a>
-                    </li>
+                        <li class="nav-header">Configuration</li>
+                        <li class="nav-item">
+                            <a href="#"
+                               class="nav-link @UrlActive.IsActive(@Context, "Benefit", "Periods", "Status", "Parameter", "Allowance")">
+                                <i class="nav-icon fas fa-tools"></i>
+                                <p>
+                                    Attendance
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Benefit")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Benefit")">
+                                        <i class="fas fa-gifts nav-icon"></i>
+                                        <p>Benefit</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Periods")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Periods")">
+                                        <i class="far fa-calendar-alt nav-icon"></i>
+                                        <p>Period</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Status")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Status")">
+                                        <i class="fas fa-tags nav-icon"></i>
+                                        <p>Status</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Parameter")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Parameter")">
+                                        <i class="far fa-list-alt nav-icon"></i>
+                                        <p>Parameter</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Allowance")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Allowance")">
+                                        <i class="fas fa-book nav-icon"></i>
+                                        <p>Allowance</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#"
+                               class="nav-link @UrlActive.IsActive(@Context, "FormApplicationRequest")">
+                                <i class="nav-icon fab fa-wpforms"></i>
+                                <p>
+                                    Management Form
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "FormApplicationRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "FormApplicationRequest")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Form Application</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-header">Management Request & Claim</li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "ManagementPermissionRequest")"
+                               class="nav-link @UrlActive.IsActive(@Context, "ManagementPermissionRequest")">
+                                <i class="nav-icon fas fa-user-clock"></i>
+                                <p>
+                                    Permission Request
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "ManagementLeaveRequest")"
+                               class="nav-link @UrlActive.IsActive(@Context, "ManagementLeaveRequest")">
+                                <i class="nav-icon fas fa-suitcase"></i>
+                                <p>
+                                    Leave Request
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "ManagementMedicalClaim")"
+                               class="nav-link @UrlActive.IsActive(@Context, "ManagementClaim")">
+                                <i class="fas fa-clinic-medical nav-icon"></i>
+                                <p>
+                                    Medical Claim
+                                </p>
+                            </a>
+                        </li>
                     }
                     @if (User.IsInRole("User"))
                     {
-                    <li class="nav-header">Employee</li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index", "Attendance")"
-                           class="nav-link @UrlActive.IsActive(@Context, "Attendance")">
-                            <i class="nav-icon far fa-calendar-check"></i>
-                            <p>
-                                Attendance
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#"
-                           class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest", "PermissionRequest", "WorkEntryRequest", "BusinessTravelRequest")">
-                            <i class="nav-icon fas fa-file-signature"></i>
-                            <p>
-                                Requests
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "LeaveRequest")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest")">
-                                    <i class="nav-icon fas fa-suitcase"></i>
-                                    <p>Leave Request</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "PermissionRequest")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "PermissionRequest")">
-                                    <i class="nav-icon fas fa-user-clock"></i>
-                                    <p>Permission Request</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "WorkEntryRequest")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "WorkEntryRequest")">
-                                    <i class="fas fa-file-contract nav-icon"></i>
-                                    <p>Work Entry Request</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "BusinessTravelRequest")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "BusinessTravelRequest")">
-                                    <i class="nav-icon bi bi-luggage"></i>
-                                    <p>Business Travel Request</p>
-                                </a>
-                            </li>
+                        <li class="nav-header">Employee</li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Attendance")"
+                               class="nav-link @UrlActive.IsActive(@Context, "Attendance")">
+                                <i class="nav-icon far fa-calendar-check"></i>
+                                <p>
+                                    Attendance
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#"
+                               class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest", "PermissionRequest", "WorkEntryRequest", "BusinessTravelRequest")">
+                                <i class="nav-icon fas fa-file-signature"></i>
+                                <p>
+                                    Requests
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "LeaveRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest")">
+                                        <i class="nav-icon fas fa-suitcase"></i>
+                                        <p>Leave Request</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "PermissionRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "PermissionRequest")">
+                                        <i class="nav-icon fas fa-user-clock"></i>
+                                        <p>Permission Request</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "WorkEntryRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "WorkEntryRequest")">
+                                        <i class="fas fa-file-contract nav-icon"></i>
+                                        <p>Work Entry Request</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "BusinessTravelRequest")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "BusinessTravelRequest")">
+                                        <i class="nav-icon bi bi-luggage"></i>
+                                        <p>Business Travel Request</p>
+                                    </a>
+                                </li>
 
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#"
-                           class="nav-link @UrlActive.IsActive(@Context, "Inpatient", "Outpatient", "OpticalServices")">
-                            <i class="fas fa-hospital-user nav-icon"></i>
-                            <p>
-                                Medical Claim
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Outpatient")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Outpatient")">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Outpatient Care</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "Inpatient")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "Inpatient")">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Inpatient Care</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index", "OpticalServices")"
-                                   class="nav-link @UrlActive.IsActive(@Context, "OpticalServices")">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Optical Services</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#"
+                               class="nav-link @UrlActive.IsActive(@Context, "Inpatient", "Outpatient", "OpticalServices")">
+                                <i class="fas fa-hospital-user nav-icon"></i>
+                                <p>
+                                    Medical Claim
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Outpatient")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Outpatient")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Outpatient Care</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Inpatient")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Inpatient")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Inpatient Care</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "OpticalServices")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "OpticalServices")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Optical Services</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
-                    <li class="nav-header">Application</li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index", "AppLog")"
-                           class="nav-link @UrlActive.IsActive(@Context, "AppLog")">
-                            <i class="nav-icon fas fa-terminal"></i>
-                            <p>
-                                Logs
-                            </p>
-                        </a>
-                    </li>
+                        <li class="nav-header">Application</li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "AppLog")"
+                               class="nav-link @UrlActive.IsActive(@Context, "AppLog")">
+                                <i class="nav-icon fas fa-terminal"></i>
+                                <p>
+                                    Logs
+                                </p>
+                            </a>
+                        </li>
                     }
                 </ul>
             </nav>
@@ -586,6 +586,14 @@
             "responsive": true,
         });
         $('#example3').DataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+            "responsive": true
+        });
+        $('.example3').DataTable({
             "paging": false,
             "lengthChange": false,
             "searching": false,
