@@ -8,7 +8,13 @@
     <div class="card card-outline card-info">
         <div class="card-header">
             <div class="login-logo">
-                <a href="@Url.Action("Dashboard", "Home")"><strong>DAHAR</strong></a>
+                <a href="@Url.Action("Dashboard", "Home")">
+                    <h2>
+                        <strong>D</strong> <span class="text-info"><i
+                                class="fas fa-bolt text-lg align-top mt-2"></i></span>
+                        <strong>HR</strong>
+                    </h2>
+                </a>
             </div>
         </div>
         <div class="card-body">
@@ -31,7 +37,7 @@
                             <input type="password"
                                    class="form-control @(ViewData.ModelState["Password"]?.Errors.Any() == true ? "is-invalid" : "")"
                                    asp-for="Password"
-                                   placeholder="Password" />
+                                   placeholder="Password"/>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>

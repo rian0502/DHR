@@ -5,8 +5,8 @@ namespace DAHAR.Models
     public class PeriodModel
     {
         [Key] public int PeriodId { get; set; }
-        public DateTime? StartPeriodDate { get; set; }
-        public DateTime? EndPeriodDate { get; set; }
+        public DateTime StartPeriodDate { get; set; }
+        public DateTime EndPeriodDate { get; set; }
         public bool IsActive { get; set; }
 
         //Log Attr

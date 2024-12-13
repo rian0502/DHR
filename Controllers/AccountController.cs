@@ -100,7 +100,7 @@ public class AccountController(
         }
 
         var remove = await userManager.RemovePasswordAsync(user);
-        var password = model!.Password;
+        var password = model.Password;
         if (password != null)
         {
             var add = await userManager.AddPasswordAsync(user, password);
@@ -110,6 +110,7 @@ public class AccountController(
                 return RedirectToAction("Login", "Account");
             }
         }
+
         return View(model);
     }
 
@@ -134,7 +135,7 @@ public class AccountController(
         var user = await userManager.GetUserAsync(User);
         if (user == null)
         {
-            return Ok(new { success = false, errors = new List<string> { "User tidak ditemukan" } });
+            return Ok(new { success = false, errors = new List<string> { "User Not Found" } });
         }
 
         var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);

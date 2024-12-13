@@ -8,7 +8,7 @@ namespace DAHAR.Helper
     {
         public DbSet<FormApplicationRequestModel> FormApplication { get; set; }
         public DbSet<AttendanceStatusModel> AttendanceStatus { get; set; }
-        public DbSet<PeriodModel> Periods { get; set; }
+        public DbSet<PeriodModel?> Periods { get; set; }
         public DbSet<BenefitModel> Benefits { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<CompanyModel> Companies { get; set; }

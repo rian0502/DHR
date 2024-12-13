@@ -1,7 +1,49 @@
-@model dynamic
-
+@model DAHAR.ViewModels.Period.EditPeriodViewModel
 @{
-    ViewData["Title"] = "Edit Period";
+    ViewData["Title"] = "Edit Periods";
 }
 
-<h2>title</h2>
+<div class="col-12">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.PeriodId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "Periods")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="StartPeriodDate">Start Period</label>
+                            <input type="date" asp-for="StartPeriodDate"
+                                   class="form-control @(ViewData.ModelState["StartPeriodDate"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="StartPeriodDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="EndPeriodDate">End Period</label>
+                            <input type="date" asp-for="EndPeriodDate"
+                                   class="form-control @(ViewData.ModelState["EndPeriodDate"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="EndPeriodDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" asp-for="IsActive">
+                            <label class="form-check-label" asp-for="IsActive">
+                                Status Active
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
