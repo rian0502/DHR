@@ -1,13 +1,13 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.Providers;
-using DAHAR.ViewModels.Department;
+﻿using DHR.Helper;
+using DHR.Models;
+using DHR.Providers;
+using DHR.ViewModels.Department;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class DepartmentController(

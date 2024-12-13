@@ -1,8 +1,8 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
+﻿using DHR.Helper;
+using DHR.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class EmployeeService(AppDbContext context)
 {

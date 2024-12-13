@@ -1,9 +1,9 @@
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.SubUnit;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.SubUnit;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class SubUnitService(AppDbContext context)
 {

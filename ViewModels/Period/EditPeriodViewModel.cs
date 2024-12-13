@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.Period;
+namespace DHR.ViewModels.Period;
 
 public class EditPeriodViewModel
 {

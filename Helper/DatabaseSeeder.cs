@@ -1,7 +1,7 @@
-﻿using DAHAR.Models;
+﻿using DHR.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace DAHAR.Helper
+namespace DHR.Helper
 {
     public class DatabaseSeeder
     {

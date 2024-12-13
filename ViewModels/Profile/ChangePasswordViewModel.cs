@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.Profile;
+namespace DHR.ViewModels.Profile;
 
 public class ChangePasswordViewModel
 {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using DAHAR.Validation;
+using DHR.Validation;
 
-namespace DAHAR.ViewModels.ManagementMedicalClaimViewModel;
+namespace DHR.ViewModels.ManagementMedicalClaimViewModel;
 
 public class ImportMedicalClaimViewModel
 {

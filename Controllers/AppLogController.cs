@@ -1,9 +1,9 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
+﻿using DHR.Helper;
+using DHR.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 public class AppLogController(MongoDbContext mongoDbContext) : Controller
 {

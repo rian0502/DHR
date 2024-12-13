@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-namespace DAHAR.Helper
+namespace DHR.Helper
 {
     public class UrlActive
     {

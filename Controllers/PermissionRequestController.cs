@@ -1,7 +1,7 @@
-using DAHAR.Helper;
+using DHR.Helper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 public class PermissionRequestController(AppDbContext context) : Controller
 {

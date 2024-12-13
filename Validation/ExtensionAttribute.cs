@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.Validation;
+namespace DHR.Validation;
 
 public class ExtensionAttribute : ValidationAttribute
 {

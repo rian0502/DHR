@@ -1,13 +1,13 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using Microsoft.AspNetCore.Mvc;
-using DAHAR.ViewModels.EmployeeDependent;
+﻿using Microsoft.AspNetCore.Mvc;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.EmployeeDependent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 [Authorize(Roles = "User")]
 public class EmployeeDependentController(

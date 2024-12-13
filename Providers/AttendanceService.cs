@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
-using DAHAR.Models;
+using DHR.Models;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class AttendanceService(string connectionString)
 {

@@ -1,9 +1,9 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.JobTitle;
+﻿using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.JobTitle;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers
+namespace DHR.Providers
 {
     public class JobTitleService(AppDbContext context)
     {

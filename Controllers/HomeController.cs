@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using DAHAR.Models;
+using DHR.Models;
 
-namespace DAHAR.Controllers
+namespace DHR.Controllers
 {
     [Authorize]
     public class HomeController : Controller

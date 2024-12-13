@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class AllowanceController : Controller

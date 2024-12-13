@@ -1,7 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.SubDepartment;
+namespace DHR.ViewModels.SubDepartment;
 
 public class CreateSubDepartmentViewModel
 {

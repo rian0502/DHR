@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels;
-using DAHAR.ViewModels.Profile;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels;
+using DHR.ViewModels.Profile;
 using Newtonsoft.Json;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 public class AccountController(
     SignInManager<Users> signInManager,

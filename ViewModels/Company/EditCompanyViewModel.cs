@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.Company;
+namespace DHR.ViewModels.Company;
 
 public class EditCompanyViewModel
 {

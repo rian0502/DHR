@@ -1,14 +1,14 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.Providers;
-using DAHAR.ViewModels.Period;
+﻿using DHR.Helper;
+using DHR.Models;
+using DHR.Providers;
+using DHR.ViewModels.Period;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class PeriodsController(

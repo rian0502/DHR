@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class ParameterController : Controller

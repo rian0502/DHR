@@ -1,4 +1,4 @@
-namespace DAHAR.Models
+namespace DHR.Models
 {
     public class ErrorViewModel
     {

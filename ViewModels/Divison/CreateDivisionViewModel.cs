@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.Divison;
+namespace DHR.ViewModels.Divison;
 
 public class CreateDivisionViewModel
 {

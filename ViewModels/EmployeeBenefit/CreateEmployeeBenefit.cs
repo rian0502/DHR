@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.EmployeeBenefit;
+namespace DHR.ViewModels.EmployeeBenefit;
 
 public class CreateEmployeeBenefit
 {

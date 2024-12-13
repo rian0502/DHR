@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.TaxExemptIncome;
+namespace DHR.ViewModels.TaxExemptIncome;
 
 public class EditTaxExemptIncomeViewModel
 {

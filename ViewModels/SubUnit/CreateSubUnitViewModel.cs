@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.SubUnit;
+namespace DHR.ViewModels.SubUnit;
 
 public class CreateSubUnitViewModel
 {

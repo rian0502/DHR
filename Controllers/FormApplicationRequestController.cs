@@ -1,12 +1,12 @@
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.FormApplicationRequest;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.FormApplicationRequest;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 public class FormApplicationRequestController(
     AppDbContext context,

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.Providers;
+using DHR.Helper;
+using DHR.Models;
+using DHR.Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 

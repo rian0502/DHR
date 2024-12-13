@@ -1,12 +1,12 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.EmployeeBenefit;
+﻿using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.EmployeeBenefit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 public class EmployeeBenefitController(
     AppDbContext context,

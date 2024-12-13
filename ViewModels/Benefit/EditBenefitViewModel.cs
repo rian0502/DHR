@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.Benefit;
+namespace DHR.ViewModels.Benefit;
 
 public class EditBenefitViewModel
 {

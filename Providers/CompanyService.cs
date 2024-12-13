@@ -1,10 +1,10 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels;
-using DAHAR.ViewModels.Company;
+﻿using DHR.Helper;
+using DHR.ViewModels;
+using DHR.Models;
+using DHR.ViewModels.Company;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers
+namespace DHR.Providers
 {
     public class CompanyService(AppDbContext context)
     {

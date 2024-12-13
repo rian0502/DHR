@@ -1,8 +1,8 @@
-﻿using DAHAR.ViewModels.ManagementMedicalClaimViewModel;
+﻿using DHR.ViewModels.ManagementMedicalClaimViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAHAR.Controllers
+namespace DHR.Controllers
 {
     public class ManagementMedicalClaimController : Controller
     {

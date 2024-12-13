@@ -1,7 +1,7 @@
-﻿using DAHAR.Models;
+﻿using DHR.Models;
 using MongoDB.Driver;
 
-namespace DAHAR.Helper
+namespace DHR.Helper
 {
     public class MongoDbContext
     {

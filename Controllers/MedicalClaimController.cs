@@ -1,8 +1,8 @@
-﻿using DAHAR.Helper;
+﻿using DHR.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAHAR.Controllers
+namespace DHR.Controllers
 {
     public class MedicalClaimController(AppDbContext context) : Controller
     {

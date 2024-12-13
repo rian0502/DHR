@@ -1,9 +1,9 @@
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.Education;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.Education;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class EducationService(AppDbContext context)
 {

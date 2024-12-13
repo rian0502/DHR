@@ -1,13 +1,13 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.Providers;
-using DAHAR.ViewModels.Unit;
+﻿using DHR.Helper;
+using DHR.Models;
+using DHR.Providers;
+using DHR.ViewModels.Unit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class UnitController(UnitService unitService, UserManager<Users> userManager, MongoDbContext mongoDbContext)

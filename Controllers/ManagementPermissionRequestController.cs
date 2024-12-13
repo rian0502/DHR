@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAHAR.Controllers
+namespace DHR.Controllers
 {
     public class ManagementPermissionRequestController : Controller
     {

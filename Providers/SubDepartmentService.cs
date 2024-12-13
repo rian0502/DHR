@@ -1,9 +1,9 @@
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.SubDepartment;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.SubDepartment;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class SubDepartmentService(AppDbContext context)
 {

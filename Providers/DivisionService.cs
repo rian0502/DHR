@@ -1,9 +1,9 @@
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.Divison;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.Divison;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class DivisionService(AppDbContext context)
 {

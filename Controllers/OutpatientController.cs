@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAHAR.Controllers
+namespace DHR.Controllers
 {
     [Authorize(Roles = "User")]
     public class OutpatientController : Controller

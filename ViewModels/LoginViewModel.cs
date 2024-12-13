@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels
+namespace DHR.ViewModels
 {
     public class LoginViewModel
     {

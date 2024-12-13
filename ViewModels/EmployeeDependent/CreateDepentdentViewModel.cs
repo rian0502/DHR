@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.ViewModels.EmployeeDependent;
+namespace DHR.ViewModels.EmployeeDependent;
 
 public class CreateDepentdentViewModel
 {

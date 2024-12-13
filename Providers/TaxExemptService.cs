@@ -1,9 +1,9 @@
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.TaxExemptIncome;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.TaxExemptIncome;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class TaxExemptService(AppDbContext context)
 {

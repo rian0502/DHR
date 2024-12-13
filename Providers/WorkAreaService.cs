@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.ViewModels.WorkArea;
+using DHR.Helper;
+using DHR.Models;
+using DHR.ViewModels.WorkArea;
 
-namespace DAHAR.Providers;
+namespace DHR.Providers;
 
 public class WorkAreaService(AppDbContext context)
 {

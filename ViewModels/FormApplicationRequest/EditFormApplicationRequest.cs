@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using DAHAR.Validation;
+using DHR.Validation;
 
-namespace DAHAR.ViewModels.FormApplicationRequest;
+namespace DHR.ViewModels.FormApplicationRequest;
 
 public class EditFormApplicationRequest
 {

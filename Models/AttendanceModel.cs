@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace DAHAR.Models
+namespace DHR.Models
 {
     public class AttendanceModel
     {

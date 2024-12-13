@@ -1,13 +1,13 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
-using DAHAR.Providers;
+﻿using DHR.Helper;
+using DHR.Models;
+using DHR.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Controllers
+namespace DHR.Controllers
 {
     [Authorize(Roles = "User")]
     public class AttendanceController(

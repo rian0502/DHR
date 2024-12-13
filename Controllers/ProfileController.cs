@@ -1,11 +1,11 @@
-﻿using DAHAR.Helper;
-using DAHAR.Models;
+﻿using DHR.Helper;
+using DHR.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAHAR.Controllers;
+namespace DHR.Controllers;
 
 [Authorize(Roles = "User")]
 public class ProfileController(UserManager<Users> userManager, AppDbContext context) : Controller

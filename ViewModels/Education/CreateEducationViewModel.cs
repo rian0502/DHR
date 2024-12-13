@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace DAHAR.ViewModels.Education;
+namespace DHR.ViewModels.Education;
 
 public class CreateEducationViewModel
 {
