@@ -9,10 +9,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
+// Daftarkan DbContext dengan koneksi ke SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Daftarkan MongoDB Context
+builder.Services.AddScoped<MongoDbContext>();
+
+// Daftarkan string koneksi sekali
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddSingleton(connectionString);
+
+// Daftarkan service yang memerlukan koneksi database
+builder.Services.AddScoped<AttendanceService>();
+builder.Services.AddScoped<YearPeriodService>();
+builder.Services.AddScoped<DashboardService>();
+
+// Daftarkan service lainnya
 builder.Services.AddScoped<UnitService>();
 builder.Services.AddScoped<PeriodService>();
 builder.Services.AddScoped<SubUnitService>();
@@ -25,14 +38,8 @@ builder.Services.AddScoped<EducationService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<TaxExemptService>();
 builder.Services.AddScoped<SubDepartmentService>();
-builder.Services.AddScoped<MongoDbContext>();
 
-builder.Services.AddScoped<AttendanceService>(_ =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    return new AttendanceService(connectionString);
-});
-
+// Konfigurasi Identity
 builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 4;
@@ -42,15 +49,16 @@ builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
-}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
 
-
+// Konfigurasi Antiforgery
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";
     options.SuppressXFrameOptionsHeader = false;
 });
-
 
 var app = builder.Build();
 
@@ -72,17 +80,18 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    try
-//    {
-//        await DatabaseSeeder.SeedData(services);
-//    }
-//    catch (Exception ex)
-//    {
-//        Console.WriteLine($"Error seeding data: {ex.Message}");
-//    }
-//}
+// Uncomment kode di bawah ini untuk seeding data
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
+//     try
+//     {
+//         await DatabaseSeeder.SeedData(services);
+//     }
+//     catch (Exception ex)
+//     {
+//         Console.WriteLine($"Error seeding data: {ex.Message}");
+//     }
+// }
 
 app.Run();

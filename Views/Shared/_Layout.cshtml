@@ -273,7 +273,7 @@
                         <li class="nav-header">Configuration</li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "Benefit", "Periods", "Status", "Parameter", "Allowance")">
+                               class="nav-link @UrlActive.IsActive(@Context, "Benefit", "Periods", "Status", "Parameter")">
                                 <i class="nav-icon fas fa-tools"></i>
                                 <p>
                                     Attendance
@@ -307,13 +307,6 @@
                                        class="nav-link @UrlActive.IsActive(@Context, "Parameter")">
                                         <i class="far fa-list-alt nav-icon"></i>
                                         <p>Parameter</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "Allowance")"
-                                       class="nav-link @UrlActive.IsActive(@Context, "Allowance")">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Allowance</p>
                                     </a>
                                 </li>
                             </ul>
@@ -568,6 +561,7 @@
 <script src="~/templates/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="~/templates/plugins/select2/js/select2.full.min.js"></script>
 <script src="~/templates/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script src="~/templates/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="~/attendance/attendance-ajax.js"></script>
 
@@ -575,6 +569,7 @@
 <script>
     $(function () {
         $('.select2').select2();
+        bsCustomFileInput.init();
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         });

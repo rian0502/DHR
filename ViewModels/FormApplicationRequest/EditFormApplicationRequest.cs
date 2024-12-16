@@ -17,5 +17,6 @@ public class EditFormApplicationRequest
     
     
     [Extension(".pdf")]
+    [MaxSize(1048576)]
     public IFormFile? File { get; set; }
 }

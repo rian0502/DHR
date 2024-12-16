@@ -110,7 +110,6 @@ public class AccountController(
                 return RedirectToAction("Login", "Account");
             }
         }
-
         return View(model);
     }
 

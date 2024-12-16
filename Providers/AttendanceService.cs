@@ -8,7 +8,7 @@ public class AttendanceService(string connectionString)
     public async Task<List<AttendanceModel>> GetAttendance(int nip, int periodId)
     {
         var attendances = new List<AttendanceModel>();
-
+  
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync();
         await using var command = new SqlCommand("EXEC [dbo].[GetAttendance] @NIP, @PeriodId", connection);

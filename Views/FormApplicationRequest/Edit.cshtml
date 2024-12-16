@@ -18,7 +18,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="FormCode">Code</label>
-                            <input type="text"
+                            <input type="text" readonly="readonly"
                                    class="form-control @(ViewData.ModelState["FormCode"]?.Errors.Any() == true ? "is-invalid" : "")"
                                    asp-for="FormCode">
                             <span asp-validation-for="FormCode" class="text-danger"></span>
@@ -37,31 +37,28 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-11">
-                                <div class="form-group">
-                                    <label asp-for="File">Upload Application Form</label>
-                                    <input type="file"
-                                           class="form-control @(ViewData.ModelState["File"]?.Errors.Any() == true ? "is-invalid" : "")"
-                                           asp-for="File" accept=".pdf">
-                                    <span asp-validation-for="File" class="text-danger"></span>
+                        <div class="form-group">
+                            <label asp-for="File">Upload Application Form</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input accept="application/pdf" type="file" class="custom-file-input"
+                                           asp-for="File">
+                                    <label class="custom-file-label" asp-for="File">Choose file</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-info">@if (!string.IsNullOrEmpty(Model.FormPath))
+                                        {
+                                            <a href="@Url.Content("~/uploads/TemplateForm/" + @Model.FormPath)"
+                                               target="_blank"><i class="far fa-eye"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#"
+                                               class="disabled"><i class="far fa-eye"></i></a>
+                                        }</span>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label>File</label>
-                                    @if (!string.IsNullOrEmpty(Model.FormPath))
-                                    {
-                                        <a href="@Url.Content("~/uploads/TemplateForm/" + @Model.FormPath)"
-                                           class="btn btn-secondary" target="_blank"><i class="far fa-eye"></i></a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#"
-                                           class="btn btn-secondary disabled"><i class="far fa-eye"></i></a>
-                                    }
-                                </div>
-                            </div>
+                            <span asp-validation-for="File" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

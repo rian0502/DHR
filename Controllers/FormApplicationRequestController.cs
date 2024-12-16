@@ -23,14 +23,19 @@ public class FormApplicationRequestController(
     public async Task<IActionResult> Edit(int id)
     {
         var form = await context.FormApplication.FindAsync(id);
-        return View(new EditFormApplicationRequest
+        if (form != null)
         {
-            IdForm = form!.FormId,
-            FormCode = form.FormCode ?? "",
-            FormName = form.FormName ?? "",
-            Description = form.Description ?? "",
-            FormPath = form.PathForm ?? ""
-        });
+            return View(new EditFormApplicationRequest
+            {
+                IdForm = form.FormId,
+                FormCode = form.FormCode ?? "",
+                FormName = form.FormName ?? "",
+                Description = form.Description ?? "",
+                FormPath = form.PathForm ?? ""
+            });
+        }
+        TempData["Error"] = "Form Application Not Found";
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
@@ -42,6 +47,7 @@ public class FormApplicationRequestController(
             return View(model);
         }
 
+        return Ok(model);
         var user = await userManager.GetUserAsync(User);
         var currentTime = DateTime.UtcNow;
         if (user == null)

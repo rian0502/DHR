@@ -120,7 +120,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>17.425.000</h3>
+                        <h3 id="totalAllowance">0</h3>
                         <p>Meal Allowance</p>
                     </div>
                     <div class="icon">
@@ -174,116 +174,116 @@
     }
 </div>
 
-@section Scripts{
-    <script>
-        const ctx1 = document.getElementById('attendancePeriod').getContext('2d');
-
-        const attendanceChart = new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Desember - Januari', 'Januari - Februari', 'Februari - Maret',
-                    'Maret - April', 'April - Mei', 'Mei - Juni', 'Juni - Juli',
-                    'Juli - Agustus', 'Agustus - September', 'September - Oktober',
-                    'Oktober - November', 'November - Desember'
-                ],
-                datasets: [{
-                    label: 'Jumlah Kehadiran',
-                    data: [18, 20, 20, 14, 19, 21, 15, 23, 19, 20, 22, 16],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+@section Scripts {
+<script>
+    // Fetch Attendance Data and Create Chart
+    function fetchAttendanceData() {
+        $.ajax({
+            url: '@Url.Action("AttendanceData", "DashboardApi")',
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Loading...',
+                    html: '<strong>Loading data, please wait!</strong>',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
             },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {beginAtZero: true}
-                }
+            complete: function () {
+                Swal.close();
+            },
+            success: function (attendanceData) {
+                const labels = attendanceData.map(item => item.period);
+                const data = attendanceData.map(item => item.entered);
+
+                const ctx1 = document.getElementById('attendancePeriod').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah Kehadiran',
+                            data: data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching attendance data:', error);
             }
         });
-    </script>
-    <script>
-        const ctx2 = document.getElementById('allowancePeriod').getContext('2d');
+    }
 
-        const allowanceChart = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Desember - Januari', 'Januari - Februari', 'Februari - Maret',
-                    'Maret - April', 'April - Mei', 'Mei - Juni', 'Juni - Juli',
-                    'Juli - Agustus', 'Agustus - September', 'September - Oktober',
-                    'Oktober - November', 'November - Desember'
-                ],
-                datasets: [{
-                    label: 'Jumlah Tunjangan',
-                    data: [
-                        1530000, 1275000, 1700000, 1190000, 1445000, 1615000,
-                        1785000, 1615000, 1360000, 1700000, 1530000, 1190000
-                    ],
-                    backgroundColor: [
-                        'rgba(231, 76, 60, 1)',
-                        'rgba(46, 204, 113, 1)',
-                        'rgba(52, 152, 219, 1)',
-                        'rgba(241, 196, 15, 1)',
-                        'rgba(155, 89, 182, 1)',
-                        'rgba(230, 126, 34, 1)',
-                        'rgba(26, 188, 156, 1)',
-                        'rgba(211, 84, 0, 1)',
-                        'rgba(142, 68, 173, 1)',
-                        'rgba(189, 195, 199, 1)',
-                        'rgba(22, 160, 133, 1)',
-                        'rgba(243, 156, 18, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(231, 76, 60, 1)',
-                        'rgba(46, 204, 113, 1)',
-                        'rgba(52, 152, 219, 1)',
-                        'rgba(241, 196, 15, 1)',
-                        'rgba(155, 89, 182, 1)',
-                        'rgba(230, 126, 34, 1)',
-                        'rgba(26, 188, 156, 1)',
-                        'rgba(211, 84, 0, 1)',
-                        'rgba(142, 68, 173, 1)',
-                        'rgba(189, 195, 199, 1)',
-                        'rgba(22, 160, 133, 1)',
-                        'rgba(243, 156, 18, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+    // Fetch Allowance Data and Create Chart
+    function fetchAllowanceData() {
+        $.ajax({
+            url: '@Url.Action("AllowanceData", "DashboardApi")',
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Loading...',
+                    html: '<strong>Loading data, please wait!</strong>',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
             },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {beginAtZero: true}
-                }
+            complete: function () {
+                Swal.close();
+            },
+            success: function (allowanceData) {
+                // total allowance
+                const totalAllowance = allowanceData.reduce((total, item) => total + item.totalMealAllowance, 0);
+                $('#totalAllowance').text(totalAllowance.toLocaleString());
+
+                const labels = allowanceData.map(item => item.period);
+                const data = allowanceData.map(item => item.totalMealAllowance);
+
+                const ctx2 = document.getElementById('allowancePeriod').getContext('2d');
+                new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah Tunjangan',
+                            data: data,
+                            backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                            borderColor: 'rgba(231, 76, 60, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching allowance data:', error);
             }
         });
-    </script>
+    }
+    $(document).ready(function () {
+        fetchAttendanceData();
+        fetchAllowanceData();
+    });
+</script>
 }
+
+

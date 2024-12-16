@@ -6,14 +6,10 @@ using DHR.Models;
 namespace DHR.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger = logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
         public IActionResult Dashboard()
         {
             return View();
