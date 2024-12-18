@@ -6,20 +6,23 @@
         <div class="card-header">
             <div class="card-tools">
                 <a href="@Url.Action("Create", "ManagementMedicalClaim")" class="btn btn-success">
-                    <i class="fas fa-download mr-2"></i>Template</a>                
+                    <i class="fas fa-download mr-2"></i>Template</a>
                 <a href="@Url.Action("Import", "ManagementMedicalClaim")" class="btn btn-primary">
                     <i class="fas fa-upload mr-2"></i>Data</a>
             </div>
         </div>
         <div class="card-body">
-            <table id="example2" class="table table-bordered table-hover">
+            <table id="medicalClaimTable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>No</th>
                     <th>NIP</th>
                     <th>Employee</th>
+                    <th>Period</th>
                     <th>Date</th>
-                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Category</th>
+                    <th>Diagnosis</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -30,3 +33,82 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#medicalClaimTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "ajax": {
+                    "url": "/ManagementMedicalClaim/GetMedicalClaims",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": null,
+                        "render": function (data, type, row, meta) {
+                            return meta.row + 1;
+                        },
+                        "name": "No",
+                        "autoWidth": true
+                    },
+                    {"data": "nip", "name": "NIP", "autoWidth": true, "orderable": false},
+                    {"data": "employeeName", "name": "Employee Name", "autoWidth": true, "orderable": false},
+                    {
+                        "data": "startPeriodDate",
+                        "name": "Period",
+                        "render": function (data, type, row) {
+                            const startDate = new Date(row.startPeriodDate);
+                            const endDate = new Date(row.endPeriodDate);
+                            const options = {year: 'numeric', month: 'short', day: 'numeric'};
+                            const formattedStart = startDate.toLocaleDateString('en-GB', options).toUpperCase();
+                            const formattedEnd = endDate.toLocaleDateString('en-GB', options).toUpperCase();
+                            return formattedStart + ' - ' + formattedEnd;
+                        },
+                        "autoWidth": true,
+                        "orderable": false
+                    },
+                    {
+                        "data": "claimDate",
+                        "name": "Claim Date",
+                        "render": function (data, type, row) {
+                            if (row.claimDate) {
+                                const claimDate = new Date(row.claimDate);
+                                const options = {year: 'numeric', month: 'long', day: 'numeric'};
+                                return claimDate.toLocaleDateString('en-GB', options);
+                            }
+                            return "";
+                        },
+                        "autoWidth": true,
+                        "orderable": false
+                    },
+                    {"data": "claimStatus", "name": "Claim Status", "autoWidth": true, "orderable": false},
+                    {"data": "claimCategory", "name": "Claim Category", "autoWidth": true, "orderable": false},
+                    {"data": "diagnosis", "name": "Diagnosis", "autoWidth": true, "orderable": false},
+                    {
+                        "data": "employeeMedicalClaimId",
+                        "className": "text-center",
+                        "orderable": false,
+                        "render": function (data) {
+                            return `<div class="dropdown">
+                                <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Details/${data}"><i class="fas fa-info-circle"></i> Detail</a>
+                                    <a class="dropdown-item bg-danger" href="/ManagementMedicalClaim/Delete/${data}"><i class="fas fa-trash"></i> Delete</a>
+                                </div>
+                            </div>`
+
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}

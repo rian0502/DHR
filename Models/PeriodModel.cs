@@ -9,6 +9,10 @@ namespace DHR.Models
         public DateTime EndPeriodDate { get; set; }
         public bool IsActive { get; set; }
 
+        //Relational Model
+        public ICollection<EmployeeMedicalClaim>? EmployeeMedicalClaims { get; set; } // Has many EmployeeMedicalClaim
+        
+        
         //Log Attr
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

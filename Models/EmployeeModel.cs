@@ -33,6 +33,8 @@ namespace DHR.Models
         public Users? Users { get; set; } // Belongs to Users
         public ICollection<EmployeeDependentModel>? EmployeeDependents { get; set; } // Has many EmployeeDependent
         public ICollection<EmployeeBenefit>? Benefits { get; set; } // Has many Benefit
+        
+        public ICollection<EmployeeMedicalClaim>? MedicalClaims { get; set; } // Has many MedicalClaim
 
         //Log Attributes
         public string? CreatedBy { get; set; }

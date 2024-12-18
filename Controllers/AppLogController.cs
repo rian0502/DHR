@@ -1,7 +1,7 @@
 ﻿using DHR.Helper;
 using DHR.Models;
-using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DHR.Controllers;
 

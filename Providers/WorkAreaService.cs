@@ -21,9 +21,9 @@ public class WorkAreaService(AppDbContext context)
     public async Task<LocationModel> FindById(int id)
     {
         var results = await context.Locations
-            .FromSqlInterpolated($"EXEC {StoreProcedure} @Action = 'FindById', @Id = {id}")
+            .FromSql($"EXEC {StoreProcedure} @Action = 'FindById', @Id = {id}")
             .ToListAsync();
-        return results.FirstOrDefault();
+        return results.FirstOrDefault() ?? new LocationModel();
     }
     //Create
     public async Task<int> Create(CreateWorkAreaViewModel model, string userId, DateTime time)

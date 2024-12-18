@@ -24,9 +24,12 @@ namespace DHR.Helper
         public DbSet<EmployeeModel> Employee { get; set; }
         public DbSet<EmployeeDependentModel> EmployeeDependents { get; set; }
         public DbSet<EmployeeBenefit> EmployeeBenefits { get; set; }
+        
+        public DbSet<EmployeeMedicalClaim> EmployeeMedicalClaims { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<PeriodModel>().HasMany(pm => pm.EmployeeMedicalClaims).WithOne(emc => emc.Period).HasForeignKey(emc => emc.PeriodId);
             builder.Entity<BenefitModel>().HasMany(eb => eb.EmployeeBenefits).WithOne(eb => eb.Benefit).HasForeignKey(eb => eb.BenefitId);
             builder.Entity<LocationModel>().HasMany(l => l.Companies).WithOne(c => c.Location).HasForeignKey(c => c.LocationId);
             builder.Entity<CompanyModel>().HasMany(d => d.Departments).WithOne(d => d.Company).HasForeignKey(d => d.CompanyId);
@@ -41,6 +44,8 @@ namespace DHR.Helper
             builder.Entity<EmployeeModel>().HasOne(e => e.TaxExemptIncome).WithMany(tei => tei.Employees).HasForeignKey(e => e.TaxExemptIncomeId);
             builder.Entity<EmployeeModel>().HasMany(e => e.EmployeeDependents).WithOne(ed => ed.Employee).HasForeignKey(ed => ed.EmployeeId);
             builder.Entity<EmployeeModel>().HasMany(e => e.Benefits).WithOne(eb => eb.Employee).HasForeignKey(eb => eb.EmployeeId);
+            builder.Entity<EmployeeModel>().HasMany(e => e.MedicalClaims).WithOne(mc => mc.Employee).HasForeignKey(mc => mc.EmployeeId);
+            
         }
     }
 }

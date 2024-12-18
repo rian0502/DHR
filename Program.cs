@@ -24,6 +24,7 @@ builder.Services.AddSingleton(connectionString);
 builder.Services.AddScoped<AttendanceService>();
 builder.Services.AddScoped<YearPeriodService>();
 builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<MedicalClaimService>();
 
 // Daftarkan service lainnya
 builder.Services.AddScoped<UnitService>();
