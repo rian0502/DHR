@@ -22,7 +22,6 @@
                     <th>Date</th>
                     <th>Status</th>
                     <th>Category</th>
-                    <th>Diagnosis</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -56,39 +55,20 @@
                         "name": "No",
                         "autoWidth": true
                     },
-                    {"data": "nip", "name": "NIP", "autoWidth": true, "orderable": false},
-                    {"data": "employeeName", "name": "Employee Name", "autoWidth": true, "orderable": false},
+                    { "data": "nip", "name": "NIP", "autoWidth": true },
+                    { "data": "employeeName", "name": "Employee Name", "autoWidth": true },
                     {
-                        "data": "startPeriodDate",
+                        "data": "startEndPeriod",  // Ganti dengan kolom gabungan
                         "name": "Period",
-                        "render": function (data, type, row) {
-                            const startDate = new Date(row.startPeriodDate);
-                            const endDate = new Date(row.endPeriodDate);
-                            const options = {year: 'numeric', month: 'short', day: 'numeric'};
-                            const formattedStart = startDate.toLocaleDateString('en-GB', options).toUpperCase();
-                            const formattedEnd = endDate.toLocaleDateString('en-GB', options).toUpperCase();
-                            return formattedStart + ' - ' + formattedEnd;
-                        },
-                        "autoWidth": true,
-                        "orderable": false
+                        "autoWidth": true
                     },
                     {
                         "data": "claimDate",
                         "name": "Claim Date",
-                        "render": function (data, type, row) {
-                            if (row.claimDate) {
-                                const claimDate = new Date(row.claimDate);
-                                const options = {year: 'numeric', month: 'long', day: 'numeric'};
-                                return claimDate.toLocaleDateString('en-GB', options);
-                            }
-                            return "";
-                        },
-                        "autoWidth": true,
-                        "orderable": false
+                        "autoWidth": true
                     },
-                    {"data": "claimStatus", "name": "Claim Status", "autoWidth": true, "orderable": false},
-                    {"data": "claimCategory", "name": "Claim Category", "autoWidth": true, "orderable": false},
-                    {"data": "diagnosis", "name": "Diagnosis", "autoWidth": true, "orderable": false},
+                    { "data": "claimStatus", "name": "Claim Status", "autoWidth": true },
+                    { "data": "claimCategory", "name": "Claim Category", "autoWidth": true },
                     {
                         "data": "employeeMedicalClaimId",
                         "className": "text-center",
@@ -104,7 +84,6 @@
                                     <a class="dropdown-item bg-danger" href="/ManagementMedicalClaim/Delete/${data}"><i class="fas fa-trash"></i> Delete</a>
                                 </div>
                             </div>`
-
                         }
                     }
                 ]

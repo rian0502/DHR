@@ -1,5 +1,7 @@
+@model IEnumerable<EmployeeMedicalClaim>
 @{
     ViewData["Title"] = "Rawat Jalan";
+    var iteration = 1;
 }
 
 <div class="col-12">
@@ -16,50 +18,26 @@
         <div class="card-body">
             <table id="example2" class="table table-bordered table-hover">
                 <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                    </tr>
+                <tr>
+                    <th>No</th>
+                    <th>Date</th>
+                    <th>Diagnosis</th>
+                    <th>Period</th>
+                    <th>Payment Period</th>
+                </tr>
                 </thead>
                 <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <td>1</td>
-                        <td>2024-06-01</td>
-                        <td>Approved</td>
-                        <td>IDR 500,000</td>
-                        <td>Konsultasi dokter umum</td>
+                        <td>@iteration</td>
+                        <td>@(item.ClaimDate?.ToString("dd MMMM yyyy") ?? "N/A")</td>
+                        <td>@item.Diagnosis</td>
+                        <td>@item.Period?.StartPeriodDate.ToString("MM/dd/yyyy") - @item.Period?.EndPeriodDate.ToString("MM/dd/yyyy")</td>
+                        <td>@(item.PaymentPeriod?.ToString("MMMM yyyy") ?? "N/A")</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>2024-06-05</td>
-                        <td>Pending</td>
-                        <td>IDR 1,200,000</td>
-                        <td>Rawat inap 2 hari</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>2024-06-10</td>
-                        <td>Rejected</td>
-                        <td>IDR 300,000</td>
-                        <td>Pembelian obat non-resep</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>2024-06-15</td>
-                        <td>Approved</td>
-                        <td>IDR 800,000</td>
-                        <td>Pemeriksaan laboratorium</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>2024-06-20</td>
-                        <td>Pending</td>
-                        <td>IDR 700,000</td>
-                        <td>Fisioterapi</td>
-                    </tr>
+                    iteration++;
+                }
                 </tbody>
             </table>
 

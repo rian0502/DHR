@@ -2,7 +2,6 @@
 using DHR.Providers;
 using DHR.ViewModels.ManagementMedicalClaimViewModel;
 using ExcelDataReader;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,25 +30,25 @@ namespace DHR.Controllers
             sortColumnDirection = (sortColumnDirection == "desc") ? "desc" : "asc";
 
             // Kolom yang digunakan untuk sorting (sesuaikan urutannya dengan urutan di DataTable)
-            string[] columnNames = {
-                "EmployeeMedicalClaimId",   // 0
-                "Period.StartPeriodDate",   // 1
-                "Period.EndPeriodDate",     // 2
-                "Employee.Nip",             // 3
-                "Employee.Users.FullName",  // 4
-                "ClaimDate",                // 5
-                "ClaimStatus",              // 6
-                "ClaimCategory",            // 7
-                "Diagnosis"                 // 8
+            string[] columnNames =
+            {
+                "EmployeeMedicalClaimId",
+                "Employee.Nip",
+                "Employee.Users.FullName",
+                "StartEndPeriod",
+                "ClaimDate",
+                "ClaimStatus",
+                "ClaimCategory",
+                "Period.StartPeriodDate",
+                "Period.EndPeriodDate"
             };
 
             var query = context.EmployeeMedicalClaims
                 .Include(emc => emc.Period)
                 .Include(emc => emc.Employee)
-                .ThenInclude(e => e.Users) // Include Users yang terkait dengan Employee
+                .ThenInclude(e => e.Users)
                 .AsQueryable();
 
-            // Filtering berdasarkan search term
             if (!string.IsNullOrEmpty(searchValue))
             {
                 query = query.Where(emc =>
@@ -64,34 +63,44 @@ namespace DHR.Controllers
                 );
             }
 
-            // Total records sebelum filtering
             var totalRecords = await query.CountAsync();
 
-            // Sorting
             if (sortColumnIndex >= 0 && sortColumnIndex < columnNames.Length)
             {
                 string sortColumn = columnNames[sortColumnIndex];
-                
+                Console.WriteLine($"Sorting Column: {sortColumn}");
                 if (sortColumn == "EmployeeMedicalClaimId")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.EmployeeMedicalClaimId) : query.OrderByDescending(emc => emc.EmployeeMedicalClaimId);
-                else if (sortColumn == "Period.StartPeriodDate")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.Period.StartPeriodDate) : query.OrderByDescending(emc => emc.Period.StartPeriodDate);
-                else if (sortColumn == "Period.EndPeriodDate")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.Period.EndPeriodDate) : query.OrderByDescending(emc => emc.Period.EndPeriodDate);
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(emc => emc.EmployeeMedicalClaimId)
+                        : query.OrderByDescending(emc => emc.EmployeeMedicalClaimId);
                 else if (sortColumn == "Employee.Nip")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.Employee.Nip) : query.OrderByDescending(emc => emc.Employee.Nip);
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(emc => emc.Employee.Nip)
+                        : query.OrderByDescending(emc => emc.Employee.Nip);
                 else if (sortColumn == "Employee.Users.FullName")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.Employee.Users.FullName) : query.OrderByDescending(emc => emc.Employee.Users.FullName);
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(emc => emc.Employee.Users.FullName)
+                        : query.OrderByDescending(emc => emc.Employee.Users.FullName);
                 else if (sortColumn == "ClaimDate")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.ClaimDate) : query.OrderByDescending(emc => emc.ClaimDate);
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(emc => emc.ClaimDate)
+                        : query.OrderByDescending(emc => emc.ClaimDate);
                 else if (sortColumn == "ClaimStatus")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.ClaimStatus) : query.OrderByDescending(emc => emc.ClaimStatus);
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(emc => emc.ClaimStatus)
+                        : query.OrderByDescending(emc => emc.ClaimStatus);
                 else if (sortColumn == "ClaimCategory")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.ClaimCategory) : query.OrderByDescending(emc => emc.ClaimCategory);
-                else if (sortColumn == "Diagnosis")
-                    query = sortColumnDirection == "asc" ? query.OrderBy(emc => emc.Diagnosis) : query.OrderByDescending(emc => emc.Diagnosis);
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(emc => emc.ClaimCategory)
+                        : query.OrderByDescending(emc => emc.ClaimCategory);
+                else if (sortColumn == "StartEndPeriod")
+                {
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(emc => emc.Period.StartPeriodDate).ThenBy(emc => emc.Period.EndPeriodDate)
+                        : query.OrderByDescending(emc => emc.Period.StartPeriodDate)
+                            .ThenByDescending(emc => emc.Period.EndPeriodDate);
+                }
             }
-
 
             // Pagination
             var pagedData = await query
@@ -100,17 +109,15 @@ namespace DHR.Controllers
                 .Select(emc => new
                 {
                     emc.EmployeeMedicalClaimId,
-                    StartPeriodDate = emc.Period.StartPeriodDate.ToString("yyyy-MM-dd"),
-                    EndPeriodDate = emc.Period.EndPeriodDate.ToString("yyyy-MM-dd"),
+                    StartEndPeriod = emc.Period.StartPeriodDate.ToString("dd/MMM/yyyy") + " - " +
+                                     emc.Period.EndPeriodDate.ToString("dd/MMM/yyyy"),
                     Nip = emc.Employee.Nip,
                     EmployeeName = emc.Employee.Users.FullName,
-                    ClaimDate = emc.ClaimDate.HasValue ? emc.ClaimDate.Value.ToString("yyyy-MM-dd") : "",
+                    ClaimDate = emc.ClaimDate.HasValue ? emc.ClaimDate.Value.ToString("dd/MMM/yyyy") : "",
                     ClaimStatus = emc.ClaimStatus,
-                    ClaimCategory = emc.ClaimCategory,
-                    Diagnosis = emc.Diagnosis
+                    ClaimCategory = emc.ClaimCategory
                 })
                 .ToListAsync();
-
             var response = new
             {
                 draw = draw,
@@ -118,7 +125,6 @@ namespace DHR.Controllers
                 recordsFiltered = totalRecords,
                 data = pagedData
             };
-
             return Json(response);
         }
 

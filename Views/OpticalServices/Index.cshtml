@@ -1,5 +1,7 @@
+@model IEnumerable<EmployeeMedicalClaim>
 @{
     ViewData["Title"] = "Pengobatan Kacamata";
+    var iteration = 1;
 }
 
 <div class="col-12">
@@ -12,26 +14,29 @@
                 </a>
             </div>
         </div>
-
         <div class="card-body">
             <table id="example2" class="table table-bordered table-hover">
                 <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                    </tr>
+                <tr>
+                    <th>No</th>
+                    <th>Date</th>
+                    <th>Diagnosis</th>
+                    <th>Period</th>
+                    <th>Payment Period</th>
+                </tr>
                 </thead>
                 <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <td>1</td>
-                        <td>2024-07-01</td>
-                        <td>Approved</td>
-                        <td>500,000</td>
-                        <td>Kacamata Minus 3</td>
+                        <td>@iteration</td>
+                        <td>@(item.ClaimDate?.ToString("dd MMMM yyyy") ?? "N/A")</td>
+                        <td>@item.Diagnosis</td>
+                        <td>@item.Period?.StartPeriodDate.ToString("MM/dd/yyyy") - @item.Period?.EndPeriodDate.ToString("MM/dd/yyyy")</td>
+                        <td>@(item.PaymentPeriod?.ToString("MMMM yyyy") ?? "N/A")</td>
                     </tr>
+                    iteration++;
+                }
                 </tbody>
             </table>
 
