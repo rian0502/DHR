@@ -9,10 +9,10 @@ namespace DHR.Models
         
         public int Nip { get; set; }
         
-        public required string Nik { get; set; }
-        public required string Npwp { get; set; }
-        public required string Gender { get; set; }
-        public required string Address { get; set; }
+        public string Nik { get; set; }
+        public string Npwp { get; set; }
+        public string Gender { get; set; }
+        public string Address { get; set; }
         public DateTime? JoinDate { get; set; }
         public DateTime? ResignDate { get; set; }
         public int? DivisionId { get; set; }
@@ -21,9 +21,12 @@ namespace DHR.Models
         public int? EducationId { get; set; }
         public int? TaxExemptIncomeId { get; set; }
         public int? SubUnitId { get; set; }
+        
+        public int? CompanyId { get; set; }
         public string? UserId { get; set; }
         
         //Relational Model
+        public CompanyModel? Company { get; set; } // Belongs to Company
         public DivisionModel? Division { get; set; } // Belongs to Division
         public JobTitleModel? JobTitle { get; set; } // Belongs to JobTitle
         public ReligionModel? Religion { get; set; } // Belongs to Religion
@@ -33,8 +36,9 @@ namespace DHR.Models
         public Users? Users { get; set; } // Belongs to Users
         public ICollection<EmployeeDependentModel>? EmployeeDependents { get; set; } // Has many EmployeeDependent
         public ICollection<EmployeeBenefit>? Benefits { get; set; } // Has many Benefit
-        
         public ICollection<EmployeeMedicalClaim>? MedicalClaims { get; set; } // Has many MedicalClaim
+         
+        public ICollection<EmployeeLeaveRequestModel>? EmployeeLeaveRequestModels { get; set; } // Has many EmployeeLeaveRequestModel
 
         //Log Attributes
         public string? CreatedBy { get; set; }

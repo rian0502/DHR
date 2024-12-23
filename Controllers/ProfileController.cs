@@ -23,7 +23,7 @@ public class ProfileController(UserManager<Users> userManager, AppDbContext cont
             .Include(e => e.Division)
             .ThenInclude(d => d!.SubDepartment)
             .ThenInclude(de => de.Department)
-            .ThenInclude(c => c!.Company)
+            .Include(e => e.Company)
             .Include(e => e.TaxExemptIncome)
             .Include(e => e.EmployeeDependents)
             .Include(be => be.Benefits)

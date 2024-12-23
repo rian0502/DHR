@@ -1,6 +1,6 @@
 ﻿using DHR.Helper;
 using DHR.Providers;
-using DHR.ViewModels.ManagementMedicalClaimViewModel;
+using DHR.ViewModels.ManagementImportViewModel;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +16,106 @@ namespace DHR.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        // GET: ManagementClaimController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: ManagementClaimController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ManagementClaimController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: ManagementClaimController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ManagementClaimController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: ManagementClaimController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        // GET: ManagementClaimController/Import
+        public IActionResult Import()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Import(ImportMedicalClaimViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                var claims = await ReadMedicalClaimsFromExcelAsync(model.ExcelFile);
+
+                if (claims.Count != 0)
+                {
+                    await medicalClaimService.InsertBatchMedicalClaimsAsync(claims);
+                    TempData["Success"] = "Data has been imported successfully";
+                }
+                else
+                {
+                    TempData["Errors"] = "No valid data found to import";
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["Errors"] = $"Error during import: {ex.Message}";
+                return View(model);
+            }
         }
 
         [HttpPost]
@@ -126,107 +226,6 @@ namespace DHR.Controllers
                 data = pagedData
             };
             return Json(response);
-        }
-
-
-        // GET: ManagementClaimController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ManagementClaimController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ManagementClaimController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ManagementClaimController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ManagementClaimController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ManagementClaimController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public IActionResult Import()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Import(ImportMedicalClaimViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            try
-            {
-                var claims = await ReadMedicalClaimsFromExcelAsync(model.ExcelFile);
-
-                if (claims.Count != 0)
-                {
-                    await medicalClaimService.InsertBatchMedicalClaimsAsync(claims);
-                    TempData["Success"] = "Data has been imported successfully";
-                }
-                else
-                {
-                    TempData["Errors"] = "No valid data found to import";
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                TempData["Errors"] = $"Error during import: {ex.Message}";
-                return View(model);
-            }
         }
 
         private async Task<List<object>> ReadMedicalClaimsFromExcelAsync(IFormFile excelFile)

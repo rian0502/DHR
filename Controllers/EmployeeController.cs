@@ -1,7 +1,10 @@
-﻿using DHR.Helper;
+﻿using System.Runtime.InteropServices.JavaScript;
+using DHR.Helper;
 using DHR.Models;
 using DHR.Providers;
 using DHR.ViewModels.Employee;
+using DHR.ViewModels.ManagementImportViewModel;
+using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +73,7 @@ public class EmployeeController(
         {
             return RedirectToAction("Logout", "Account");
         }
+
         var timestamp = DateTime.UtcNow;
         await using var transaction = await context.Database.BeginTransactionAsync();
         try
@@ -85,7 +89,7 @@ public class EmployeeController(
                 EmailConfirmed = true
             }, model.Nip);
             //asign role
-            
+
             if (!createUser.Succeeded)
             {
                 var errors = string.Join(", ", createUser.Errors.Select(x => x.Description));
@@ -101,6 +105,7 @@ public class EmployeeController(
                 await transaction.RollbackAsync();
                 return RedirectToAction(nameof(Create));
             }
+
             await userManager.AddToRoleAsync(newUser, "User");
             await context.Employee.AddAsync(new EmployeeModel
             {
@@ -153,5 +158,110 @@ public class EmployeeController(
     {
         var username = email.Split('@')[0];
         return username;
+    }
+
+    public IActionResult Import()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Import(ImportEmployeeViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var user = await ReadEmployeeFromExcelAsync(model.ExcelFile);
+        return Ok(user);
+    }
+    private async Task<List<object>> ReadEmployeeFromExcelAsync(IFormFile excelFile)
+    {
+        var employees = new List<object>();
+        await using var stream = excelFile.OpenReadStream();
+        using var reader = ExcelReaderFactory.CreateReader(stream);
+        bool isFirstSheet = true;
+
+        do
+        {
+            if (isFirstSheet)
+            {
+                reader.Read(); // Lewati baris header.
+
+                while (reader.Read())
+                {
+                    if (reader.IsDBNull(0) || reader.IsDBNull(1)) continue;
+
+                    // Cek apakah user sudah ada berdasarkan email.
+                    var existingUser = await userManager.FindByEmailAsync(reader.GetValue(3).ToString());
+                    if (existingUser == null)
+                    {
+                        // Buat user baru.
+                        var newUser = new Users
+                        {
+                            UserName = reader.GetValue(2).ToString(),
+                            Email = reader.GetValue(3).ToString(),
+                            FullName = reader.GetValue(1).ToString(),
+                            EmailConfirmed = true,
+                            PhoneNumberConfirmed = true,
+                            PhoneNumber = "081234567890"
+                        };
+
+                        var createUserResult = await userManager.CreateAsync(newUser, reader.GetValue(0).ToString());
+
+                        if (createUserResult.Succeeded)
+                        {
+                            //asing role
+                            await userManager.AddToRoleAsync(newUser, "User");
+                            
+                            // Setelah user berhasil dibuat, dapatkan Id-nya.
+                            var userId = newUser.Id;
+
+                            // Tambahkan karyawan dengan mengaitkan userId.
+                            var employee = new EmployeeModel
+                            {
+                                UserId = userId, // Asumsikan EmployeeModel memiliki properti UserId.
+                                Nip = int.Parse(reader.GetValue(0).ToString()),
+                                Nik = "1234567887654321",
+                                Npwp = "1234567887654321",
+                                SubUnitId = int.Parse(reader.GetValue(4).ToString()),
+                                DivisionId = int.Parse(reader.GetValue(5).ToString()),
+                                CompanyId = int.Parse(reader.GetValue(6).ToString()),
+                                JobTitleId = int.Parse(reader.GetValue(7).ToString()),
+                                EducationId = 7,
+                                JoinDate = new DateTime(2020, 1, 1),
+                                TaxExemptIncomeId = 3,
+                                Address = "Jakarta",
+                                Gender = "M"
+                            };
+
+                            await context.Employee.AddAsync(employee);
+                            await context.SaveChangesAsync(); // Simpan perubahan ke database.
+                            var employeeResult = new
+                            {
+                                Nip = reader.GetValue(0),
+                                Nama = reader.GetValue(1),
+                                Username = reader.GetValue(2),
+                                Email = reader.GetValue(3),
+                                SubUnit = reader.GetValue(4),
+                                Division = reader.GetValue(5),
+                                Company = reader.GetValue(6),
+                                JobTitle = reader.GetValue(7)
+                            };
+
+                            employees.Add(employeeResult);
+                        }
+                    }
+
+                    // Tambahkan ke daftar hasil.
+                }
+
+                isFirstSheet = false;
+            }
+        } while (reader.NextResult());
+
+        return employees;
     }
 }

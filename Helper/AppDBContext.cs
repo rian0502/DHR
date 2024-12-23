@@ -25,6 +25,8 @@ namespace DHR.Helper
         public DbSet<EmployeeDependentModel> EmployeeDependents { get; set; }
         public DbSet<EmployeeBenefit> EmployeeBenefits { get; set; }
         
+        public DbSet<EmployeeLeaveRequestModel> EmployeeLeaveRequest { get; set; }
+        
         public DbSet<EmployeeMedicalClaim> EmployeeMedicalClaims { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,7 +34,7 @@ namespace DHR.Helper
             builder.Entity<PeriodModel>().HasMany(pm => pm.EmployeeMedicalClaims).WithOne(emc => emc.Period).HasForeignKey(emc => emc.PeriodId);
             builder.Entity<BenefitModel>().HasMany(eb => eb.EmployeeBenefits).WithOne(eb => eb.Benefit).HasForeignKey(eb => eb.BenefitId);
             builder.Entity<LocationModel>().HasMany(l => l.Companies).WithOne(c => c.Location).HasForeignKey(c => c.LocationId);
-            builder.Entity<CompanyModel>().HasMany(d => d.Departments).WithOne(d => d.Company).HasForeignKey(d => d.CompanyId);
+            builder.Entity<CompanyModel>().HasMany(c => c.Employees).WithOne(e => e.Company).HasForeignKey(e => e.CompanyId);
             builder.Entity<DepartmentModel>().HasMany(sd => sd.SubDepartments).WithOne(sd => sd.Department).HasForeignKey(sd => sd.DepartmentId);
             builder.Entity<UnitModel>().HasMany(d => d.SubUnits).WithOne(d => d.Unit).HasForeignKey(d => d.UnitId);
             builder.Entity<EmployeeModel>().HasOne(e => e.SubUnit).WithMany(su => su.Employees).HasForeignKey(e => e.SubUnitId);
@@ -45,6 +47,7 @@ namespace DHR.Helper
             builder.Entity<EmployeeModel>().HasMany(e => e.EmployeeDependents).WithOne(ed => ed.Employee).HasForeignKey(ed => ed.EmployeeId);
             builder.Entity<EmployeeModel>().HasMany(e => e.Benefits).WithOne(eb => eb.Employee).HasForeignKey(eb => eb.EmployeeId);
             builder.Entity<EmployeeModel>().HasMany(e => e.MedicalClaims).WithOne(mc => mc.Employee).HasForeignKey(mc => mc.EmployeeId);
+            builder.Entity<EmployeeModel>().HasMany(e => e.EmployeeLeaveRequestModels).WithOne(elr => elr.Employee).HasForeignKey(elr => elr.EmployeeId);
             
         }
     }

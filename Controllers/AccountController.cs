@@ -32,23 +32,32 @@ public class AccountController(
             return View(model);
         }
 
-        var result = signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false)
-            .Result;
+        var user = await userManager.FindByNameAsync(model.Username);
+
+        if (user == null)
+        {
+            TempData["Errors"] = "Invalid Login Attempt";
+            return View(model);
+        }
+
+        if (user.LockoutEnd.HasValue && user.LockoutEnd.Value > DateTimeOffset.UtcNow)
+        {
+            TempData["Errors"] = "Your account is locked. Please contact the Vendor !!.";
+            return View(model);
+        }
+
+        var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
         if (result.Succeeded)
         {
-            var user = await userManager.FindByNameAsync(model.Username);
-            if (user != null)
-            {
-                await appDbContext.Employee.FirstOrDefaultAsync(e => e.UserId == user.Id);
-            }
-
+            await appDbContext.Employee.FirstOrDefaultAsync(e => e.UserId == user.Id);
             return RedirectToAction("Dashboard", "Home");
         }
 
         TempData["Errors"] = "Invalid Login Attempt";
         return View(model);
     }
+
 
     [Authorize]
     [HttpGet]
@@ -110,6 +119,7 @@ public class AccountController(
                 return RedirectToAction("Login", "Account");
             }
         }
+
         return View(model);
     }
 

@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using DHR.Validation;
 
-namespace DHR.ViewModels.ManagementMedicalClaimViewModel;
+namespace DHR.ViewModels.ManagementImportViewModel;
 
-public class ImportMedicalClaimViewModel
+public class ImportLeaveRequestViewModel
 {
     [Required(ErrorMessage = "Please select a file.")]
     [Extension(".xlsx, .xls")]

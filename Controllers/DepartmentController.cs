@@ -94,8 +94,7 @@ public class DepartmentController(
         {
             DepartmentId = department.DepartmentId,
             DepartmentCode = department.DepartmentCode ?? "",
-            DepartmentName = department.DepartmentName ?? "",
-            CompanyId = department.CompanyId ?? 0
+            DepartmentName = department.DepartmentName ?? ""
         });
     }
     [HttpPost]
@@ -135,7 +134,6 @@ public class DepartmentController(
                             oldData.DepartmentId,
                             oldData.DepartmentCode,
                             oldData.DepartmentName,
-                            oldData.CompanyId,
                             oldData.CreatedAt,
                             oldData.CreatedBy,
                             oldData.UpdatedAt,

@@ -1,32 +1,30 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using DHR.Helper;
 using DHR.Models;
 using DHR.Providers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Daftarkan DbContext dengan koneksi ke SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Daftarkan MongoDB Context
 builder.Services.AddScoped<MongoDbContext>();
 
-// Daftarkan string koneksi sekali
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddSingleton(connectionString);
 
-// Daftarkan service yang memerlukan koneksi database
+/*
+ * Register Services
+ */
 builder.Services.AddScoped<AttendanceService>();
 builder.Services.AddScoped<YearPeriodService>();
 builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<MedicalClaimService>();
+builder.Services.AddScoped<LeaveRequestService>();
 
-// Daftarkan service lainnya
 builder.Services.AddScoped<UnitService>();
 builder.Services.AddScoped<PeriodService>();
 builder.Services.AddScoped<SubUnitService>();
@@ -50,6 +48,7 @@ builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
+    options.Lockout.MaxFailedAccessAttempts = 5;
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
@@ -80,19 +79,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Dashboard}/{id?}");
-
-// Uncomment kode di bawah ini untuk seeding data
-// using (var scope = app.Services.CreateScope())
-// {
-//     var services = scope.ServiceProvider;
-//     try
-//     {
-//         await DatabaseSeeder.SeedData(services);
-//     }
-//     catch (Exception ex)
-//     {
-//         Console.WriteLine($"Error seeding data: {ex.Message}");
-//     }
-// }
 
 app.Run();

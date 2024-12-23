@@ -1,7 +1,7 @@
-@model DHR.ViewModels.ManagementImportViewModel.ImportMedicalClaimViewModel
+@model DHR.ViewModels.ManagementImportViewModel.ImportEmployeeViewModel
 
 @{
-    ViewData["Title"] = "Import Medical Claim";
+    ViewData["Title"] = "Import Employee";
 }
 
 <div class="col-12">
@@ -9,7 +9,7 @@
         @Html.AntiForgeryToken()
         <div class="card">
             <div class="card-header">
-                <a href="@Url.Action("Index", "ManagementMedicalClaim")" class="btn btn-danger">Back</a>
+                <a href="@Url.Action("Index", "Employee")" class="btn btn-danger">Back</a>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -36,7 +36,7 @@
                     <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
                         <div class="card-header">
                             <h4 class="card-title w-100">
-                                Medical Claim Data Upload Tutorial
+                                Employee Data Upload Tutorial
                             </h4>
                         </div>
                     </a>

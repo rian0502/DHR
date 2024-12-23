@@ -16,7 +16,6 @@
                     <th>No</th>
                     <th>Code</th>
                     <th>Name</th>
-                    <th>Company</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -27,7 +26,6 @@
                         <td>@iteration</td>
                         <td>@item.DepartmentCode</td>
                         <td>@item.DepartmentName</td>
-                        <td>@(item.Company?.CompanyName ?? "-")</td>
                         <td>
                             <a href="@Url.Action("Edit", "Department", new { id = item.DepartmentId })"
                                class="btn btn-warning"><i class="fas fa-edit"></i></a>

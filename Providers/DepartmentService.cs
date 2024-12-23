@@ -14,7 +14,6 @@ public class DepartmentService(AppDbContext context)
     public async Task<IEnumerable<DepartmentModel>> FindAll()
     {
         var results = await context.Departments
-            .Include(d => d.Company)
             .ToListAsync();
         return results;
     }
@@ -24,7 +23,6 @@ public class DepartmentService(AppDbContext context)
     {
         var results = await context.Departments
             .Where(x => x.DepartmentId == id)
-            .Include(d => d.Company)
             .FirstOrDefaultAsync();
         return results ?? new DepartmentModel();
     }
@@ -32,8 +30,7 @@ public class DepartmentService(AppDbContext context)
     public async Task<int> Insert(CreateDepartmentViewModel model, string userId, DateTime time)
     {
         var check = await context.Departments.
-            FirstOrDefaultAsync(x => x.DepartmentCode == model.DepartmentCode 
-                                     && x.CompanyId == model.CompanyId
+            FirstOrDefaultAsync(x => x.DepartmentCode == model.DepartmentCode
                                      && x.DepartmentName == model.DepartmentName);
         if (check != null)
         {
@@ -45,7 +42,6 @@ public class DepartmentService(AppDbContext context)
                     @Action = 'Insert',
                     @DepartmentCode = {model.DepartmentCode},
                     @DepartmentName = {model.DepartmentName},
-                    @CompanyID = {model.CompanyId},
                     @CreatedBy = {userId},
                     @CreatedAt = {time},
                     @UpdatedAt = {time},
@@ -64,7 +60,6 @@ public class DepartmentService(AppDbContext context)
                     @DepartmentID = {model.DepartmentId},
                     @DepartmentCode = {model.DepartmentCode},
                     @DepartmentName = {model.DepartmentName},
-                    @CompanyID = {model.CompanyId},
                     @UpdatedAt = {time},
                     @UpdatedBy = {userId}
            ");

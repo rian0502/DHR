@@ -12,7 +12,7 @@ namespace DHR.Models
 
         //Relational Model
         public LocationModel? Location { get; set; } //Belongs to Location
-        public ICollection<DepartmentModel>? Departments { get; set; } //Has many Departments
+        public ICollection<EmployeeModel>? Employees { get; set; } //Has many Employee
 
         //Log Attributes
         public string? CreatedBy { get; set; }

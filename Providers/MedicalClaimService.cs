@@ -1,5 +1,4 @@
 using System.Data;
-using DHR.Models;
 using Microsoft.Data.SqlClient;
 
 namespace DHR.Providers;
@@ -49,8 +48,8 @@ public class MedicalClaimService
 
                 result += await command.ExecuteNonQueryAsync();
             }
-
             await transaction.CommitAsync();
+            return result;
         }
         catch (SqlException ex)
         {
@@ -62,8 +61,6 @@ public class MedicalClaimService
             await transaction.RollbackAsync();
             throw new Exception($"An error occurred: {ex.Message}", ex);
         }
-
-        return result;
     }
 
     private static object GetPropertyValue(object obj, string propertyName)

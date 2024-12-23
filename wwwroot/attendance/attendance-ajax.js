@@ -92,7 +92,7 @@
                 const tableRows = [];
 
                 response.attendance.forEach(function (attendance, index) {
-                    const isMealEligible = attendance.mealAllowance === 1 && attendance.code !== '-';
+                    const isMealEligible = attendance.mealAllowance === 1 && attendance.code !== '-' || attendance.code === 'P';
                     if (attendance.late > 0) {
                         lateCount++;
                     }
