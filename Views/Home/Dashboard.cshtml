@@ -13,9 +13,9 @@
                     <div class="info-box-content">
                         <span class="info-box-text">Company</span>
                         <span class="info-box-number">
-                  10
-                  <small>%</small>
-                </span>
+                            10
+                            <small>%</small>
+                        </span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -67,7 +67,7 @@
             <!-- /.col -->
         </div>
     }
-    
+
     @if (User.IsInRole("User"))
     {
         <div class="row">
@@ -174,116 +174,180 @@
     }
 </div>
 
+
 @section Scripts {
-<script>
-    // Fetch Attendance Data and Create Chart
-    function fetchAttendanceData() {
-        $.ajax({
-            url: '@Url.Action("AttendanceData", "DashboardApi")',
-            type: 'GET',
-            dataType: 'json',
-            beforeSend: function () {
-                Swal.fire({
-                    title: 'Loading...',
-                    html: '<strong>Loading data, please wait!</strong>',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-            },
-            complete: function () {
-                Swal.close();
-            },
-            success: function (attendanceData) {
-                const labels = attendanceData.map(item => item.period);
-                const data = attendanceData.map(item => item.entered);
+    <script>
 
-                const ctx1 = document.getElementById('attendancePeriod').getContext('2d');
-                new Chart(ctx1, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Jumlah Kehadiran',
-                            data: data,
-                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: { beginAtZero: true }
+        // Fetch Attendance Data and Create Chart
+        function fetchAttendanceData() {
+            $.ajax({
+                url: '@Url.Action("AttendanceData", "DashboardApi")',
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    Swal.fire({
+                        title: 'Loading...',
+                        html: '<strong>Loading data, please wait!</strong>',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
                         }
-                    }
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching attendance data:', error);
-            }
-        });
-    }
+                    });
+                },
+                complete: function () {
+                    Swal.close();
+                },
+                success: function (attendanceData) {
+                    const labels = attendanceData.map(item => item.period);
+                    const data = attendanceData.map(item => item.entered);
 
-    // Fetch Allowance Data and Create Chart
-    function fetchAllowanceData() {
-        $.ajax({
-            url: '@Url.Action("AllowanceData", "DashboardApi")',
-            type: 'GET',
-            dataType: 'json',
-            beforeSend: function () {
-                Swal.fire({
-                    title: 'Loading...',
-                    html: '<strong>Loading data, please wait!</strong>',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-            },
-            complete: function () {
-                Swal.close();
-            },
-            success: function (allowanceData) {
-                // total allowance
-                const totalAllowance = allowanceData.reduce((total, item) => total + item.totalMealAllowance, 0);
-                $('#totalAllowance').text(totalAllowance.toLocaleString());
-
-                const labels = allowanceData.map(item => item.period);
-                const data = allowanceData.map(item => item.totalMealAllowance);
-
-                const ctx2 = document.getElementById('allowancePeriod').getContext('2d');
-                new Chart(ctx2, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Jumlah Tunjangan',
-                            data: data,
-                            backgroundColor: 'rgba(231, 76, 60, 0.7)',
-                            borderColor: 'rgba(231, 76, 60, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: { beginAtZero: true }
+                    const ctx1 = document.getElementById('attendancePeriod').getContext('2d');
+                    new Chart(ctx1, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Jumlah Kehadiran',
+                                data: data,
+                                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {beginAtZero: true}
+                            }
                         }
-                    }
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching allowance data:', error);
-            }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching attendance data:', error);
+                }
+            });
+        }
+
+        // Fetch Allowance Data and Create Chart
+        function fetchAllowanceData() {
+            $.ajax({
+                url: '@Url.Action("AllowanceData", "DashboardApi")',
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    Swal.fire({
+                        title: 'Loading...',
+                        html: '<strong>Loading data, please wait!</strong>',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function () {
+                    Swal.close();
+                },
+                success: function (allowanceData) {
+                    // total allowance
+                    const totalAllowance = allowanceData.reduce((total, item) => total + item.totalMealAllowance, 0);
+                    $('#totalAllowance').text(totalAllowance.toLocaleString());
+
+                    const labels = allowanceData.map(item => item.period);
+                    const data = allowanceData.map(item => item.totalMealAllowance);
+
+                    const ctx2 = document.getElementById('allowancePeriod').getContext('2d');
+                    new Chart(ctx2, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Jumlah Tunjangan',
+                                data: data,
+                                backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                                borderColor: 'rgba(231, 76, 60, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {beginAtZero: true}
+                            }
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching allowance data:', error);
+                }
+            });
+        }
+
+        function fetchLeaveRequestData() {
+            $.ajax({
+                url: '@Url.Action("LeaveRequestData", "DashboardApi")',
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    Swal.fire({
+                        title: 'Loading...',
+                        html: '<strong>Loading data, please wait!</strong>',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function () {
+                    Swal.close();
+                },
+                success: function (leaveRequestData) {
+                    const remainingLeave = leaveRequestData.reduce((total, item) => total + item.timeOff, 0);
+                    $('#count-remaining-leave').text(remainingLeave);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching leave request data:', error);
+                }
+            });
+        }
+
+        function fetchMedicalClaim() {
+            $.ajax({
+                url: '@Url.Action("MedicalClaimData", "DashboardApi")',
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    Swal.fire({
+                        title: 'Loading...',
+                        html: '<strong>Loading data, please wait!</strong>',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                complete: function () {
+                    Swal.close();
+                },
+                success: function (medicalClaimData) {
+                    const totalMedicalClaim = medicalClaimData.reduce((total, item) => total + item.claim, 0);
+                    console.log(totalMedicalClaim);
+                    $('#count-medical-claim').text(totalMedicalClaim);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching medical claim data:', error);
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+            fetchAttendanceData();
+            fetchAllowanceData();
+            fetchMedicalClaim();
+            fetchLeaveRequestData();
         });
-    }
-    $(document).ready(function () {
-        fetchAttendanceData();
-        fetchAllowanceData();
-    });
-</script>
+    </script>
 }
+
 
 

@@ -59,4 +59,40 @@ public class DashboardApiController(
         var attendance = await dashboardService.GetAttendance("2023-12-13", "2024-12-11", employee.Nip);
         return Ok(attendance);
     }
+    
+    public async Task<IActionResult> LeaveRequestData()
+    {
+        var user = await userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return BadRequest(new { Status = false, Message = "User not found" });
+        }
+
+        var employee = await context.Employee
+            .FirstOrDefaultAsync(e => e.UserId == user.Id);
+        if (employee == null)
+        {
+            return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
+        }
+        var attendance = await dashboardService.GetLeaveRequest("2023-12-13", "2024-12-11", employee.Nip);
+        return Ok(attendance);
+    }
+    
+    public async Task<IActionResult> MedicalClaimData()
+    {
+        var user = await userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return BadRequest(new { Status = false, Message = "User not found" });
+        }
+
+        var employee = await context.Employee
+            .FirstOrDefaultAsync(e => e.UserId == user.Id);
+        if (employee == null)
+        {
+            return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
+        }
+        var attendance = await dashboardService.GetMedicalClaim("2023-12-13", "2024-12-11", employee.Nip);
+        return Ok(attendance);
+    }
 }
