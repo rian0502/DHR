@@ -1,9 +1,9 @@
 ﻿using DHR.Helper;
 using DHR.Providers;
-using DHR.ViewModels.ManagementImportViewModel;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DHR.ViewModels.ManagementImportViewModel;
 
 namespace DHR.Controllers
 {
@@ -168,7 +168,6 @@ namespace DHR.Controllers
             if (sortColumnIndex >= 0 && sortColumnIndex < columnNames.Length)
             {
                 string sortColumn = columnNames[sortColumnIndex];
-                Console.WriteLine($"Sorting Column: {sortColumn}");
                 if (sortColumn == "EmployeeMedicalClaimId")
                     query = sortColumnDirection == "asc"
                         ? query.OrderBy(emc => emc.EmployeeMedicalClaimId)

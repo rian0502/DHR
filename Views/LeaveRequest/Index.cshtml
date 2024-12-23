@@ -1,5 +1,8 @@
-﻿@{
+﻿@model IEnumerable<EmployeeLeaveRequestModel>
+
+@{
     ViewData["Title"] = "Permintaan Cuti";
+    var iteration = 1;
 }
 
 <div class="col-12">
@@ -19,40 +22,23 @@
                     <tr>
                         <th>No</th>
                         <th>Date</th>
-                        <th>Duration</th>
+                        <th>Days</th>
                         <th>Reason</th>
-                        <th>Status</th>
+                        <th>Type</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>2024-06-01</td>
-                        <td>2 Days</td>
-                        <td>Cuti tahunan</td>
-                        <td>Approved</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>2024-06-05</td>
-                        <td>0.5 Day</td>
-                        <td>Sakit</td>
-                        <td>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>2024-06-10</td>
-                        <td>2 Days</td>
-                        <td>Urusan keluarga</td>
-                        <td>Rejected</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>2024-06-20</td>
-                        <td>2 Days</td>
-                        <td>Pernikahan</td>
-                        <td>Pending</td>
-                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@item.LeaveDate.ToString("dd MMM yyyy")</td>
+                            <td>@item.LeaveDays</td>
+                            <td>@item.LeaveReason</td>
+                            <td>@item.LeaveType</td>
+                        </tr>
+                        iteration++;
+                    }
                 </tbody>
             </table>
         </div>

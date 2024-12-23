@@ -1,12 +1,17 @@
-﻿using DHR.Providers;
+﻿using DHR.Helper;
+using DHR.Providers;
 using DHR.ViewModels.ManagementImportViewModel;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DHR.Controllers
 {
-    public class ManagementLeaveRequestController(LeaveRequestService leaveRequestService) : Controller
+    public class ManagementLeaveRequestController(
+        AppDbContext context,
+        MongoDbContext mongoDbContext,
+        LeaveRequestService leaveRequestService) : Controller
     {
         // GET: ManagementLeaveRequest
         public ActionResult Index()
@@ -82,13 +87,13 @@ namespace DHR.Controllers
                 return View();
             }
         }
-        
+
         // GET: ManagementLeaveRequestController/Import
         public IActionResult Import()
         {
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Import(ImportLeaveRequestViewModel model)
@@ -119,7 +124,104 @@ namespace DHR.Controllers
                 return View(model);
             }
         }
-        
+
+        [HttpPost]
+        public async Task<IActionResult> GetLeaveRequests()
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Request.Form["start"].FirstOrDefault();
+            var length = Request.Form["length"].FirstOrDefault();
+            var searchValue = Request.Form["search[value]"].FirstOrDefault();
+            var sortColumnIndex = Convert.ToInt32(HttpContext.Request.Form["order[0][column]"].FirstOrDefault());
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            sortColumnDirection = (sortColumnDirection == "desc") ? "desc" : "asc";
+
+            string[] columnNames =
+            {
+                "EmployeeLeaveRequestId",
+                "Employee.Nip",
+                "Employee.Users.FullName",
+                "LeaveDate",
+                "LeaveDays",
+                "LeaveType"
+            };
+
+            var query = context.EmployeeLeaveRequest
+                .Include(e => e.Employee)
+                .ThenInclude(e => e.Users)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(e => e.Employee.Users != null && searchValue != null &&
+                                         e.LeaveType != null &&
+                                         (e.Employee.Users.FullName.Contains(searchValue) ||
+                                          e.Employee.Nip.ToString().Contains(searchValue) ||
+                                          e.LeaveDate.ToString().Contains(searchValue) ||
+                                          e.LeaveDays.ToString().Contains(searchValue) ||
+                                          e.LeaveType.Contains(searchValue)));
+            }
+
+            var totalRecords = await query.CountAsync();
+
+            if (sortColumnIndex >= 0 & sortColumnIndex < columnNames.Length)
+            {
+                string sortColumn = columnNames[sortColumnIndex];
+                if (sortColumn == "Employee.Nip")
+                {
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(e => e.Employee.Nip)
+                        : query.OrderByDescending(e => e.Employee.Nip);
+                }
+                else if (sortColumn == "Employee.Users.FullName")
+                {
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(e => e.Employee.Users.FullName)
+                        : query.OrderByDescending(e => e.Employee.Users.FullName);
+                }
+                else if (sortColumn == "LeaveDate")
+                {
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(e => e.LeaveDate)
+                        : query.OrderByDescending(e => e.LeaveDate);
+                }
+                else if (sortColumn == "LeaveDays")
+                {
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(e => e.LeaveDays)
+                        : query.OrderByDescending(e => e.LeaveDays);
+                }
+                else if (sortColumn == "LeaveType")
+                {
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(e => e.LeaveType)
+                        : query.OrderByDescending(e => e.LeaveType);
+                }
+            }
+            // Pagination
+            var pagedData = await
+                query.Skip(Convert.ToInt32(start))
+                .Take(Convert.ToInt32(length)).Select(emc => new
+            {
+                LeaveRequestId = emc.EmployeeLeaveRequestId,
+                EmployeNip = emc.Employee.Nip,
+                EmployeeName = emc.Employee.Users.FullName,
+                LeaveDate = emc.LeaveDate,
+                LeaveDays = emc.LeaveDays,
+                LeaveType = emc.LeaveType
+                
+            }).ToListAsync();
+            var response = new
+            {
+                draw = draw,
+                recordsTotal = totalRecords,
+                recordsFiltered = totalRecords,
+                data = pagedData
+            };
+            
+            return Json(response);
+        }
+
         private async Task<List<object>> ReadLeaveRequestFromExcelAsync(IFormFile excelFile)
         {
             var claims = new List<object>();
@@ -141,7 +243,9 @@ namespace DHR.Controllers
                         {
                             Nip = int.TryParse(reader.GetValue(1)?.ToString(), out var nip) ? nip : 0,
                             LeaveDate = ParseDate(reader.GetValue(3).ToString()),
-                            LeaveDays = double.TryParse(reader.GetValue(4)?.ToString().Replace(",", "."), out var days) ? days : 0,
+                            LeaveDays = double.TryParse(reader.GetValue(4)?.ToString().Replace(",", "."), out var days)
+                                ? days
+                                : 0,
                             LeaveType = reader.GetValue(5).ToString(),
                             LeaveReason = reader.GetValue(6).ToString(),
                             CreatedBy = "admin",

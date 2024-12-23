@@ -30,7 +30,7 @@
                         <td>@item.SubDepartmentName</td>
                         <td>@(item.Department?.DepartmentName ?? "-")</td>
                         <td>
-                            <a href="@Url.Action("Edit", "SubDepartment", new { id = item.DepartmentId })"
+                            <a href="@Url.Action("Edit", "SubDepartment", new { id = item.SubDepartmentId })"
                                class="btn btn-warning"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>

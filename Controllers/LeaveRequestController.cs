@@ -1,13 +1,26 @@
 ﻿using DHR.Helper;
+using DHR.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DHR.Controllers
 {
-    public class LeaveRequestController(AppDbContext context) : Controller
+    [Authorize(Roles = "User")]
+    public class LeaveRequestController(AppDbContext context, UserManager<Users> userManager) : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await userManager.GetUserAsync(User);
+            var employee = await context.Employee
+                .Include(l => l.EmployeeLeaveRequestModels)
+                .FirstOrDefaultAsync(e => user != null && e.UserId == user.Id);
+            if (employee == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+            return View(employee.EmployeeLeaveRequestModels);
         }
         [HttpGet]
         public async Task<IActionResult> DownloadForm()

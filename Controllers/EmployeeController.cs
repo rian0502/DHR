@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using DHR.Helper;
+﻿using DHR.Helper;
 using DHR.Models;
 using DHR.Providers;
 using DHR.ViewModels.Employee;
