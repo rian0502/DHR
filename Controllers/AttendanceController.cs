@@ -1,11 +1,11 @@
 ﻿using DHR.Helper;
 using DHR.Models;
 using DHR.Providers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DHR.Controllers
 {
@@ -22,7 +22,7 @@ namespace DHR.Controllers
             var periods = await periodService.AttendancePeriod();
             var periodModels = periods.ToList();
             var activePeriod = periodModels.FirstOrDefault(p => p.IsActive);
-            
+
             ViewBag.Periods = new SelectList(
                 periodModels.Select(period => new
                 {
@@ -47,15 +47,14 @@ namespace DHR.Controllers
                 return BadRequest(new { Status = false, Message = "User not found" });
             }
 
-            var employee = await context.Employee
-                .FirstOrDefaultAsync(e => e.UserId == user.Id);
+            var employee = await context.Employee.Select(e => new { e.Nip, e.UserId })
+                .Where(e => e.UserId == user.Id).FirstOrDefaultAsync();
             if (employee == null)
             {
                 return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
             }
 
-            var attendance =  await attendanceService.GetAttendance(employee.Nip, periodId);
-            Console.WriteLine($"Debug= Period{periodId} - Employee{employee.Nip}");
+            var attendance = await attendanceService.GetAttendance(employee.Nip, periodId);
             return Ok(new
             {
                 Status = true,
