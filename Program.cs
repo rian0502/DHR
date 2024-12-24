@@ -49,6 +49,7 @@ builder.Services.AddIdentity<Users, IdentityRole>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
     options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(365);   
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();

@@ -1,4 +1,3 @@
-using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace DHR.Providers;

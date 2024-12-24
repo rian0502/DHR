@@ -42,11 +42,11 @@ public class AccountController(
 
         if (user.LockoutEnd.HasValue && user.LockoutEnd.Value > DateTimeOffset.UtcNow)
         {
-            TempData["Errors"] = "Your account is locked. Please contact the Vendor !!.";
+            TempData["Errors"] = "Your account is locked. Please contact the Vendor!.";
             return View(model);
         }
 
-        var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+        var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, true);
 
         if (result.Succeeded)
         {
