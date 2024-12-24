@@ -43,10 +43,11 @@ public class EmployeeController(
     {
         ViewBag.Divisions = await divisionService.FindAll();
         ViewBag.JobTitle = await jobTitleService.FindAll();
-        ViewBag.Taxes = await context.TaxExemptIncomes.ToListAsync();
-        ViewBag.SubUnits = await context.SubUnits.Include(x => x.Unit).ToListAsync();
-        ViewBag.Religions = await context.Religions.ToListAsync();
-        ViewBag.Educations = await context.Educations.ToListAsync();
+        ViewBag.Companies = await EntityFrameworkQueryableExtensions.ToListAsync(context.Companies);
+        ViewBag.Taxes = await EntityFrameworkQueryableExtensions.ToListAsync(context.TaxExemptIncomes);
+        ViewBag.SubUnits = await EntityFrameworkQueryableExtensions.ToListAsync(context.SubUnits.Include(x => x.Unit));
+        ViewBag.Religions = await EntityFrameworkQueryableExtensions.ToListAsync(context.Religions);
+        ViewBag.Educations = await EntityFrameworkQueryableExtensions.ToListAsync(context.Educations);
 
         return View();
     }
@@ -60,10 +61,11 @@ public class EmployeeController(
         {
             ViewBag.Divisions = await divisionService.FindAll();
             ViewBag.JobTitle = await jobTitleService.FindAll();
-            ViewBag.Taxes = await context.TaxExemptIncomes.ToListAsync();
-            ViewBag.SubUnits = await context.SubUnits.Include(x => x.Unit).ToListAsync();
-            ViewBag.Religions = await context.Religions.ToListAsync();
-            ViewBag.Educations = await context.Educations.ToListAsync();
+            ViewBag.Taxes = await EntityFrameworkQueryableExtensions.ToListAsync(context.TaxExemptIncomes);
+            ViewBag.SubUnits =
+                await EntityFrameworkQueryableExtensions.ToListAsync(context.SubUnits.Include(x => x.Unit));
+            ViewBag.Religions = await EntityFrameworkQueryableExtensions.ToListAsync(context.Religions);
+            ViewBag.Educations = await EntityFrameworkQueryableExtensions.ToListAsync(context.Educations);
             return View(model);
         }
 
@@ -114,6 +116,7 @@ public class EmployeeController(
                 Gender = model.Gender,
                 Address = model.Address,
                 JoinDate = model.JoinDate,
+                CompanyId = model.CompanyId,
                 DivisionId = model.DivisionId,
                 JobTitleId = model.JobTitleId,
                 ReligionId = model.ReligionId,
@@ -153,6 +156,104 @@ public class EmployeeController(
     }
 
 
+    public async Task<IActionResult> Edit(int id)
+    {
+        ViewBag.Divisions = await divisionService.FindAll();
+        ViewBag.JobTitle = await jobTitleService.FindAll();
+        ViewBag.Companies = await context.Companies.ToListAsync();
+        ViewBag.Taxes = await context.TaxExemptIncomes.ToListAsync();
+        ViewBag.SubUnits = await context.SubUnits.Include(unit => unit.Unit).ToListAsync();
+        ViewBag.Religions = await context.Religions.ToListAsync();
+        ViewBag.Educations = await context.Educations.ToListAsync();
+        ViewBag.Roles = await context.Roles.Where(r => r.Name != "Admin").ToListAsync();
+        var employee = await context.Employee
+            .Include(usr => usr.Users)
+            .FirstOrDefaultAsync(emp => emp.EmployeeId == id);
+        if (employee?.Users != null)
+        {
+            var roles = await userManager.GetRolesAsync(employee.Users);
+            return View(new EditEmployeeViewModel
+            {
+                EmployeeId = employee.EmployeeId,
+                UserId = employee.UserId,
+                FullName = employee.Users.FullName,
+                PhoneNumber = employee.Users.PhoneNumber,
+                Email = employee.Users.Email,
+                Nip = employee.Nip.ToString(),
+                Nik = employee.Nik,
+                Npwp = employee.Npwp,
+                Address = employee.Address,
+                CompanyId = employee.CompanyId ?? 0,
+                DivisionId = employee.DivisionId ?? 0,
+                JobTitleId = employee.JobTitleId ?? 0,
+                SubUnitId = employee.SubUnitId ?? 0,
+                ReligionId = employee.ReligionId ?? 0,
+                EducationId = employee.EducationId ?? 0,
+                TaxExemptIncomeId = employee.TaxExemptIncomeId ?? 0,
+                Gender = employee.Gender,
+                JoinDate = employee.JoinDate ?? DateTime.Now,
+                RolesId = roles
+            });
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, EditEmployeeViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewBag.Divisions = await divisionService.FindAll();
+            ViewBag.JobTitle = await jobTitleService.FindAll();
+            ViewBag.Companies = await EntityFrameworkQueryableExtensions.ToListAsync(context.Companies);
+            ViewBag.Taxes = await EntityFrameworkQueryableExtensions.ToListAsync(context.TaxExemptIncomes);
+            ViewBag.SubUnits =
+                await EntityFrameworkQueryableExtensions.ToListAsync(context.SubUnits.Include(x => x.Unit));
+            ViewBag.Religions = await EntityFrameworkQueryableExtensions.ToListAsync(context.Religions);
+            ViewBag.Educations = await EntityFrameworkQueryableExtensions.ToListAsync(context.Educations);
+            ViewBag.Roles =
+                await EntityFrameworkQueryableExtensions.ToListAsync(context.Roles.Where(r => r.Name != "Admin"));
+            return View(model);
+        }
+        var Oldemployee = await context.Employee
+            .Include(usr => usr.Users)
+            .FirstOrDefaultAsync(emp => emp.EmployeeId == id);
+        
+        var updateUser = context.Users.FirstOrDefault(x => x.Id == model.UserId);
+        updateUser.FullName = model.FullName;
+        updateUser.Email = model.Email;
+        updateUser.PhoneNumber = model.PhoneNumber;
+        //save
+        await context.SaveChangesAsync();
+        
+        var roles = await userManager.GetRolesAsync(updateUser);
+        await userManager.RemoveFromRolesAsync(updateUser, roles);
+        await userManager.AddToRolesAsync(updateUser, model.RolesId);
+        
+        var updateEmployee = context.Employee.FirstOrDefault(x => x.EmployeeId == id);
+        updateEmployee.Nip = int.Parse(model.Nip);
+        updateEmployee.Nik = model.Nik;
+        updateEmployee.Npwp = model.Npwp;
+        updateEmployee.Address = model.Address;
+        
+        updateEmployee.DivisionId = model.DivisionId;
+        updateEmployee.JobTitleId = model.JobTitleId;
+        updateEmployee.ReligionId = model.ReligionId;
+        updateEmployee.EducationId = model.EducationId;
+        updateEmployee.TaxExemptIncomeId = model.TaxExemptIncomeId;
+        updateEmployee.SubUnitId = model.SubUnitId;
+        updateEmployee.CompanyId = model.CompanyId;
+        //update employee
+        await context.SaveChangesAsync();
+        
+        
+        
+        
+        TempData["Success"] = $"Employee: {updateUser.FullName} has been updated";
+        return RedirectToAction(nameof(Index));
+    }
+
     private string GenerateUsername(string email)
     {
         var username = email.Split('@')[0];
@@ -176,6 +277,7 @@ public class EmployeeController(
         var user = await ReadEmployeeFromExcelAsync(model.ExcelFile);
         return Ok(user);
     }
+
     private async Task<List<object>> ReadEmployeeFromExcelAsync(IFormFile excelFile)
     {
         var employees = new List<object>();
@@ -214,7 +316,7 @@ public class EmployeeController(
                         {
                             //asing role
                             await userManager.AddToRoleAsync(newUser, "User");
-                            
+
                             // Setelah user berhasil dibuat, dapatkan Id-nya.
                             var userId = newUser.Id;
 
@@ -253,8 +355,6 @@ public class EmployeeController(
                             employees.Add(employeeResult);
                         }
                     }
-
-                    // Tambahkan ke daftar hasil.
                 }
 
                 isFirstSheet = false;

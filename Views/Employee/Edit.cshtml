@@ -1,12 +1,14 @@
-@model DHR.ViewModels.Employee.CreateEmployeeViewModel
+@model DHR.ViewModels.Employee.EditEmployeeViewModel
 
 @{
-    ViewBag.Title = "Register Employee";
+    ViewBag.Title = "Edit Employee";
 }
 
 <div class="col-12">
-    <form asp-action="Create" method="post">
+    <form asp-action="Edit" method="post">
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EmployeeId)
+        @Html.HiddenFor(u => u.UserId)
         <div class="card">
             <div class="card-header">
                 <a href="@Url.Action("Index", "Employee")" class="btn btn-danger">Back</a>
@@ -76,7 +78,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="form-group">
                             <label asp-for="CompanyId">Company</label>
                             <select
@@ -89,6 +91,22 @@
                                 }
                             </select>
                             <span asp-validation-for="CompanyId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="RolesId">Roles</label>
+                            <select multiple="multiple"
+                                    class="form-control select2bs4 @(ViewData.ModelState["RolesId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                    style="width: 100%;" asp-for="RolesId" name="RolesId">
+                                @foreach (var role in ViewBag.Roles)
+                                {
+                                    <option value="@role.Name">
+                                        @role.Name
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="RolesId" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

@@ -34,15 +34,19 @@
                         <td>@item.JobTitle?.JobTitleName</td>
                         <td>@item.SubUnit?.SubUnitName</td>
                         <td>@item.Division?.DivisionName</td>
-                        <td>
-                            <a href="@Url.Action("Details", "Employee", new { id = item.EmployeeId })"
-                               class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="@Url.Action("Details", "EmployeeBenefit", new { id = item.EmployeeId })"
-                               class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Employee Benefit">
-                                <i class="fas fa-money-check-alt"></i>
-                            </a>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <a class="dropdown-item" href="@Url.Action("Details", "Employee", new { id = item.EmployeeId })">Detail</a>
+                                    <a class="dropdown-item" href="@Url.Action("Edit", "Employee", new { id = item.EmployeeId })">Edit</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("Details", "EmployeeBenefit", new { id = item.EmployeeId })">Benefit</a>
+                                    <a class="dropdown-item" href="#">Account</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     iteration++;

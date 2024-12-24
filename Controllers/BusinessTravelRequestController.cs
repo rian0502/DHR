@@ -27,7 +27,7 @@ namespace DHR.Controllers
             }
             var downloadName = $"{file.FormName}.pdf";
 
-            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
             return File(fileBytes, "application/pdf", downloadName);
         }
         // GET: BusinessTravelRequestController/Details/5

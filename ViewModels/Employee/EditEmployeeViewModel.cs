@@ -2,9 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DHR.ViewModels.Employee;
 
-public class CreateEmployeeViewModel
+public class EditEmployeeViewModel
 {
-
+    public int EmployeeId { get; set; }
+    public required string UserId { get; set; }
+    
+    [Required(ErrorMessage = "Role is required")]
+    public required ICollection<string> RolesId { get; set; }
+    
     [Required(ErrorMessage = "NIP is required")]
     [MaxLength(4, ErrorMessage = "NIP must be 4 characters")]
     public required string Nip { get; set; }
@@ -54,5 +59,4 @@ public class CreateEmployeeViewModel
     
     [Required(ErrorMessage="Company is required")]
     public required int CompanyId { get; set; }
-    
 }

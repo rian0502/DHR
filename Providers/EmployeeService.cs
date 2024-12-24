@@ -14,6 +14,7 @@ public class EmployeeService(AppDbContext context)
             .Include(x => x.JobTitle)
             .Include(x => x.SubUnit)
             .Include(x => x.Division)
+            .OrderBy(e => e.Nip)
             .ToListAsync();
         return results;
     }
