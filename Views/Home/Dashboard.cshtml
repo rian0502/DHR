@@ -70,6 +70,16 @@
 
     @if (User.IsInRole("User"))
     {
+        <div class="row d-flex justify-content-end mb-3">
+            <div class="col-md-3">
+                <select class="form-control select2bs4" style="width: 100%;" id="year-period-dropdown">
+
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button type="button" id="filter-year" class="btn btn-success"><i class="fas fa-filter"></i></button>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->
@@ -137,7 +147,7 @@
             <div class="col-md-6">
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Attendance Period: Des 2023 / Jan 2024 - Nov - Des 2024</h3>
+                        <h3 class="card-title">Attendance</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -155,7 +165,7 @@
             <div class="col-md-6">
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Allowance Period: Des 2023 / Jan 2024 - Nov - Des 2024</h3>
+                        <h3 class="card-title">Allowance</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -179,11 +189,12 @@
     <script>
 
         // Fetch Attendance Data and Create Chart
-        function fetchAttendanceData() {
+        function fetchAttendanceData(selectedYearPeriod) {
             $.ajax({
                 url: '@Url.Action("AttendanceData", "DashboardApi")',
                 type: 'GET',
                 dataType: 'json',
+                data: {yearPeriod: selectedYearPeriod},
                 beforeSend: function () {
                     Swal.fire({
                         title: 'Loading...',
@@ -200,6 +211,8 @@
                 success: function (attendanceData) {
                     const labels = attendanceData.map(item => item.period);
                     const data = attendanceData.map(item => item.entered);
+                    
+                    destroyChart('attendancePeriod');
 
                     const ctx1 = document.getElementById('attendancePeriod').getContext('2d');
                     new Chart(ctx1, {
@@ -229,11 +242,12 @@
         }
 
         // Fetch Allowance Data and Create Chart
-        function fetchAllowanceData() {
+        function fetchAllowanceData(selectedYearPeriod) {
             $.ajax({
                 url: '@Url.Action("AllowanceData", "DashboardApi")',
                 type: 'GET',
                 dataType: 'json',
+                data: {yearPeriod: selectedYearPeriod},
                 beforeSend: function () {
                     Swal.fire({
                         title: 'Loading...',
@@ -254,7 +268,7 @@
 
                     const labels = allowanceData.map(item => item.period);
                     const data = allowanceData.map(item => item.totalMealAllowance);
-
+                    destroyChart('allowancePeriod');
                     const ctx2 = document.getElementById('allowancePeriod').getContext('2d');
                     new Chart(ctx2, {
                         type: 'bar',
@@ -282,11 +296,12 @@
             });
         }
 
-        function fetchLeaveRequestData() {
+        function fetchLeaveRequestData(selectedYearPeriod) {
             $.ajax({
                 url: '@Url.Action("LeaveRequestData", "DashboardApi")',
                 type: 'GET',
                 dataType: 'json',
+                data: {yearPeriod: selectedYearPeriod},
                 beforeSend: function () {
                     Swal.fire({
                         title: 'Loading...',
@@ -310,11 +325,12 @@
             });
         }
 
-        function fetchMedicalClaim() {
+        function fetchMedicalClaim(selectedYearPeriod) {
             $.ajax({
                 url: '@Url.Action("MedicalClaimData", "DashboardApi")',
                 type: 'GET',
                 dataType: 'json',
+                data: {yearPeriod: selectedYearPeriod},
                 beforeSend: function () {
                     Swal.fire({
                         title: 'Loading...',
@@ -339,12 +355,68 @@
             });
         }
 
+        function fetchYearPeriods() {
+            $.ajax({
+                url: '@Url.Action("YearPeriods", "DashboardApi")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    const yearPeriodDropdown = $('#year-period-dropdown');
+                    yearPeriodDropdown.empty();
+
+                    if (response.periods && response.periods.length > 0) {
+                        response.periods.forEach(period => {
+                            const startDate = new Date(period.startPeriod).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: 'short',
+                                year: 'numeric'
+                            });
+                            const endDate = new Date(period.endPeriod).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: 'short',
+                                year: 'numeric'
+                            });
+
+                            const isSelected = period.isActive === 1 ? 'selected' : '';
+                            const option = `<option value="${period.year}" ${isSelected}>${startDate} - ${endDate}</option>`;
+                            yearPeriodDropdown.append(option);
+                        });
+                    } else {
+                        yearPeriodDropdown.append('<option>No periods available</option>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching year periods:', error);
+                }
+            });
+        }
+
+        function reloadAllData(selectedYearPeriod) {
+            fetchAttendanceData(selectedYearPeriod);
+            fetchAllowanceData(selectedYearPeriod);
+            fetchMedicalClaim(selectedYearPeriod);
+            fetchLeaveRequestData(selectedYearPeriod);
+        }
+
+        function destroyChart(chartId) {
+            const canvas = document.getElementById(chartId);
+            if (canvas) {
+                const chartInstance = Chart.getChart(chartId);
+                if (chartInstance) {
+                    chartInstance.destroy();
+                }
+            }
+        }
+
+        $("#filter-year").click(function () {
+            const selectedYearPeriod = $('#year-period-dropdown').val();
+            reloadAllData(selectedYearPeriod);
+        });
 
         $(document).ready(function () {
-            fetchAttendanceData();
-            fetchAllowanceData();
-            fetchMedicalClaim();
-            fetchLeaveRequestData();
+            fetchYearPeriods();
+            const currentYear = new Date().getFullYear();
+            reloadAllData(currentYear);
         });
     </script>
 }

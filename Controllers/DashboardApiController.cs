@@ -23,7 +23,7 @@ public class DashboardApiController(
         });
     }
 
-    public async Task<IActionResult> AllowanceData()
+    public async Task<IActionResult> AllowanceData(string yearPeriod)
     {
         var user = await userManager.GetUserAsync(User);
         if (user == null)
@@ -38,11 +38,11 @@ public class DashboardApiController(
             return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
         }
 
-        var allowance = await dashboardService.GetAllowance("2023-12-13", "2024-12-11", employee.Nip);
+        var allowance = await dashboardService.GetAllowance(yearPeriod, employee.Nip);
         return Ok(allowance);
     }
-
-    public async Task<IActionResult> AttendanceData()
+    
+    public async Task<IActionResult> AttendanceData(string yearPeriod)
     {
         var user = await userManager.GetUserAsync(User);
         if (user == null)
@@ -56,11 +56,11 @@ public class DashboardApiController(
         {
             return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
         }
-        var attendance = await dashboardService.GetAttendance("2023-12-13", "2024-12-11", employee.Nip);
+        var attendance = await dashboardService.GetAttendance(yearPeriod, employee.Nip);
         return Ok(attendance);
     }
     
-    public async Task<IActionResult> LeaveRequestData()
+    public async Task<IActionResult> LeaveRequestData(string yearPeriod)
     {
         var user = await userManager.GetUserAsync(User);
         if (user == null)
@@ -74,11 +74,11 @@ public class DashboardApiController(
         {
             return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
         }
-        var attendance = await dashboardService.GetLeaveRequest("2023-12-13", "2024-12-11", employee.Nip);
+        var attendance = await dashboardService.GetLeaveRequest(yearPeriod, employee.Nip);
         return Ok(attendance);
     }
     
-    public async Task<IActionResult> MedicalClaimData()
+    public async Task<IActionResult> MedicalClaimData(string yearPeriod)
     {
         var user = await userManager.GetUserAsync(User);
         if (user == null)
@@ -92,7 +92,7 @@ public class DashboardApiController(
         {
             return Unauthorized(new { Status = false, Message = "Unauthorized, Please Logout..." });
         }
-        var attendance = await dashboardService.GetMedicalClaim("2023-12-13", "2024-12-11", employee.Nip);
+        var attendance = await dashboardService.GetMedicalClaim(yearPeriod, employee.Nip);
         return Ok(attendance);
     }
 }
