@@ -450,7 +450,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <strong>Copyright &copy; 2024 <a href="/">IT APPLICATION</a>.</strong>
+            <strong>Copyright &copy; 2024 - <span id="currentYear"></span> <a href="/">IT APPLICATION</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 1.0.0
@@ -515,6 +515,7 @@
 
 @await RenderSectionAsync("Scripts", required: false)
 <script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
     $(function () {
         $('.select2').select2();
         bsCustomFileInput.init();

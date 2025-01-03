@@ -6,8 +6,8 @@ namespace DHR.Models
     {
         [Key]
         public int UnitId { get; set; }
-        public string UnitCode { get; set; }
-        public string UnitName { get; set; }
+        public string? UnitCode { get; set; }
+        public string? UnitName { get; set; }
 
         //Relational Model
         public ICollection<SubUnitModel>? SubUnits { get; set; } //Has many SubUnits
