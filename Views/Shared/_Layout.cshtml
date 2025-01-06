@@ -263,34 +263,44 @@
                                 </li>
                             </ul>
                         </li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("AttendanceAdministrator") || User.IsInRole("ClaimAdministrator"))
+                    {
                         <li class="nav-header">Management Request & Claim</li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "ManagementPermissionRequest")"
-                               class="nav-link @UrlActive.IsActive(@Context, "ManagementPermissionRequest")">
-                                <i class="nav-icon fas fa-user-clock"></i>
-                                <p>
-                                    Permission Request
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "ManagementLeaveRequest")"
-                               class="nav-link @UrlActive.IsActive(@Context, "ManagementLeaveRequest")">
-                                <i class="nav-icon fas fa-suitcase"></i>
-                                <p>
-                                    Leave Request
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "ManagementMedicalClaim")"
-                               class="nav-link @UrlActive.IsActive(@Context, "ManagementMedicalClaim")">
-                                <i class="fas fa-clinic-medical nav-icon"></i>
-                                <p>
-                                    Medical Claim
-                                </p>
-                            </a>
-                        </li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("AttendanceAdministrator"))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "ManagementPermissionRequest")"
+                                   class="nav-link @UrlActive.IsActive(@Context, "ManagementPermissionRequest")">
+                                    <i class="nav-icon fas fa-user-clock"></i>
+                                    <p>
+                                        Permission Request
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "ManagementLeaveRequest")"
+                                   class="nav-link @UrlActive.IsActive(@Context, "ManagementLeaveRequest")">
+                                    <i class="nav-icon fas fa-suitcase"></i>
+                                    <p>
+                                        Leave Request
+                                    </p>
+                                </a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("ClaimAdministrator"))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "ManagementMedicalClaim")"
+                                   class="nav-link @UrlActive.IsActive(@Context, "ManagementMedicalClaim")">
+                                    <i class="fas fa-clinic-medical nav-icon"></i>
+                                    <p>
+                                        Medical Claim
+                                    </p>
+                                </a>
+                            </li>
+                        }
                     }
                     @if (User.IsInRole("User"))
                     {
@@ -420,7 +430,8 @@
                         {
                             <div class="row d-flex justify-content-end mb-3">
                                 <div class="col-md-4">
-                                    <select class="form-control select2bs4" style="width: 100%;" id="year-period-dropdown">
+                                    <select class="form-control select2bs4" style="width: 100%;"
+                                            id="year-period-dropdown">
                                         <!-- Dropdown options can be dynamically generated here -->
                                     </select>
                                 </div>
@@ -450,7 +461,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-            <strong>Copyright &copy; 2024 - <span id="currentYear"></span> <a href="/">IT APPLICATION</a>.</strong>
+        <strong>Copyright &copy; 2024 - <span id="currentYear"></span> <a href="/">IT APPLICATION</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 1.0.0

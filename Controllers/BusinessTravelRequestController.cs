@@ -1,9 +1,11 @@
 ﻿using DHR.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHR.Controllers
 {
+    [Authorize(Roles = "User")]
     public class BusinessTravelRequestController(AppDbContext context) : Controller
     {
         // GET: BusinessTravelRequestController

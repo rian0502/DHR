@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHR.Controllers
 {
+    [Authorize(Roles = "Admin, AttendanceAdministrator")]
     public class ManagementPermissionRequestController : Controller
     {
         // GET: ManagementPermissionRequestController

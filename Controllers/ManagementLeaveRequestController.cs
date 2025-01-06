@@ -3,6 +3,7 @@ using DHR.Models;
 using DHR.Providers;
 using DHR.ViewModels.ManagementLeaveRequest;
 using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace DHR.Controllers
 {
+    [Authorize(Roles = "Admin, AttendanceAdministrator")]
     public class ManagementLeaveRequestController(
         AppDbContext context,
         MongoDbContext mongoDbContext,

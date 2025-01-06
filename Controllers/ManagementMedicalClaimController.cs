@@ -4,9 +4,11 @@ using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DHR.ViewModels.ManagementImportViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DHR.Controllers
 {
+    [Authorize(Roles = "Admin, ClaimAdministrator")]
     public class ManagementMedicalClaimController(
         AppDbContext context,
         MongoDbContext mongoDbContext,

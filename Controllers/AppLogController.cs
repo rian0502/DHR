@@ -1,10 +1,12 @@
 ﻿using DHR.Helper;
 using DHR.Models;
+using Microsoft.AspNetCore.Authorization;
 using MongoDB.Driver;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHR.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class AppLogController(MongoDbContext mongoDbContext) : Controller
 {
     public async Task<IActionResult> Index()

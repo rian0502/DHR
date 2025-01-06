@@ -1,8 +1,10 @@
 using DHR.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHR.Controllers;
 
+[Authorize(Roles = "User")]
 public class PermissionRequestController(AppDbContext context) : Controller
 {
     // GET

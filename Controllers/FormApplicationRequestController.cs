@@ -1,6 +1,7 @@
 using DHR.Helper;
 using DHR.Models;
 using DHR.ViewModels.FormApplicationRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 
 namespace DHR.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class FormApplicationRequestController(
     AppDbContext context,
     UserManager<Users> userManager,
