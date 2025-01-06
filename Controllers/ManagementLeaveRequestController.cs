@@ -24,17 +24,10 @@ namespace DHR.Controllers
         {
             return View();
         }
-
-        // GET: ManagementLeaveRequest/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        
         // GET: ManagementLeaveRequest/Create
         public async Task<ActionResult> Create()
         {
-            
             ViewBag.LeaveTypes = new List<string>
             {
                 "Cuti",
@@ -42,11 +35,11 @@ namespace DHR.Controllers
                 "Cuti Melahirkan",
                 "Cuti Menikah"
             };
-            
+
             ViewBag.Employee = await context.Employee
                 .Include(e => e.Users)
                 .Where(model => model.Users != null && model.Users.UserName != "admin")
-                .Select(model => new 
+                .Select(model => new
                 {
                     model.EmployeeId,
                     model.Nip,
@@ -73,10 +66,10 @@ namespace DHR.Controllers
                         "Cuti Melahirkan",
                         "Cuti Menikah"
                     };
-                    ViewBag.Users = await context.Employee
+                    ViewBag.Employee = await context.Employee
                         .Include(e => e.Users)
                         .Where(employeeModel => employeeModel.Users != null && employeeModel.Users.UserName != "admin")
-                        .Select(employeeModel => new 
+                        .Select(employeeModel => new
                         {
                             employeeModel.EmployeeId,
                             employeeModel.Nip,
@@ -93,6 +86,7 @@ namespace DHR.Controllers
                 {
                     return RedirectToAction("Logout", "Account");
                 }
+
                 var leaveRequest = new EmployeeLeaveRequestModel
                 {
                     LeaveDate = model.LeaveDate,
@@ -139,45 +133,137 @@ namespace DHR.Controllers
         }
 
         // GET: ManagementLeaveRequest/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
+            var model = await context.EmployeeLeaveRequest.FindAsync(id);
 
-            return View();
+            ViewBag.LeaveTypes = new List<string>
+            {
+                "Cuti",
+                "Cuti Bersama",
+                "Cuti Melahirkan",
+                "Cuti Menikah"
+            };
+            ViewBag.Employee = await context.Employee
+                .Include(e => e.Users)
+                .Where(employeeModel => employeeModel.Users != null && employeeModel.Users.UserName != "admin")
+                .Select(employeeModel => new
+                {
+                    employeeModel.EmployeeId,
+                    employeeModel.Nip,
+                    employeeModel.Users.FullName,
+                    employeeModel.Users.Id
+                })
+                .ToListAsync();
+
+
+            return View(new EditViewModel
+            {
+                EmployeeLeaveRequestId = model.EmployeeLeaveRequestId,
+                EmployeeId = model.EmployeeId,
+                LeaveDate = model.LeaveDate,
+                LeaveDays = model.LeaveDays,
+                LeaveType = model.LeaveType,
+                LeaveReason = model.LeaveReason
+            });
         }
 
         // POST: ManagementLeaveRequest/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, EditViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                if (ModelState.IsValid)
+                {
+                    var user = await userManager.GetUserAsync(User);
+                    var time = DateTime.UtcNow;
+                    if (user == null)
+                    {
+                        return RedirectToAction("Logout", "Account");
+                    }
 
-        // GET: ManagementLeaveRequest/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+                    var oldData = await context.EmployeeLeaveRequest.FindAsync(id);
+                    if (oldData == null)
+                    {
+                        TempData["Errors"] = "Data not found";
+                        return RedirectToAction(nameof(Index));
+                    }
 
-        // POST: ManagementLeaveRequest/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                    var logs = new AppLogModel
+                    {
+                        CreatedAt = time,
+                        CreatedBy = $"{user.Id} - {user.FullName}",
+                        Params = JsonConvert.SerializeObject(new
+                        {
+                            OldData = JsonConvert.SerializeObject(new
+                            {
+                                oldData.LeaveType,
+                                oldData.LeaveDate,
+                                oldData.LeaveDays,
+                                oldData.LeaveReason
+                            }),
+                            NewData = model
+                        }),
+                        Source = JsonConvert.SerializeObject(new
+                        {
+                            Controller = "ManagementLeaveRequest",
+                            Action = "Edit",
+                            Database = "EmployeeLeaveRequest"
+                        })
+                    };
+                    //update data
+                    oldData.EmployeeId = model.EmployeeId;
+                    oldData.LeaveDate = model.LeaveDate;
+                    oldData.LeaveDays = model.LeaveDays;
+                    oldData.LeaveType = model.LeaveType;
+                    oldData.LeaveReason = model.LeaveReason;
+                    oldData.UpdatedBy = user.Id;
+                    oldData.UpdatedAt = time;
+                    context.EmployeeLeaveRequest.Update(oldData);
+                    await context.SaveChangesAsync();
+                    await mongoDbContext.AppLogs.InsertOneAsync(logs);
+                    TempData["Success"] = "Data updated successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var leaveRequest = await context.EmployeeLeaveRequest.FindAsync(id);
+
+                ViewBag.LeaveTypes = new List<string>
+                {
+                    "Cuti",
+                    "Cuti Bersama",
+                    "Cuti Melahirkan",
+                    "Cuti Menikah"
+                };
+                ViewBag.Employee = await context.Employee
+                    .Include(e => e.Users)
+                    .Where(employeeModel => employeeModel.Users != null && employeeModel.Users.UserName != "admin")
+                    .Select(employeeModel => new
+                    {
+                        employeeModel.EmployeeId,
+                        employeeModel.Nip,
+                        employeeModel.Users.FullName,
+                        employeeModel.Users.Id
+                    })
+                    .ToListAsync();
+
+
+                return View(new EditViewModel
+                {
+                    EmployeeLeaveRequestId = leaveRequest.EmployeeLeaveRequestId,
+                    EmployeeId = leaveRequest.EmployeeId,
+                    LeaveDate = leaveRequest.LeaveDate,
+                    LeaveDays = leaveRequest.LeaveDays,
+                    LeaveType = leaveRequest.LeaveType ?? "",
+                    LeaveReason = leaveRequest.LeaveReason ?? ""
+                });
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                TempData["Errors"] = e.Message;
+                return RedirectToAction("Index");
             }
         }
 
@@ -300,9 +386,9 @@ namespace DHR.Controllers
                         LeaveRequestId = emc.EmployeeLeaveRequestId,
                         EmployeNip = emc.Employee.Nip,
                         EmployeeName = emc.Employee.Users.FullName,
-                        LeaveDate = emc.LeaveDate,
-                        LeaveDays = emc.LeaveDays,
-                        LeaveType = emc.LeaveType
+                        emc.LeaveDate,
+                        emc.LeaveDays,
+                        emc.LeaveType
                     }).ToListAsync();
             var response = new
             {
@@ -336,7 +422,7 @@ namespace DHR.Controllers
                         {
                             Nip = int.TryParse(reader.GetValue(1)?.ToString(), out var nip) ? nip : 0,
                             LeaveDate = ParseDate(reader.GetValue(3).ToString()),
-                            LeaveDays = double.TryParse(reader.GetValue(4)?.ToString().Replace(",", "."), out var days)
+                            LeaveDays = double.TryParse(reader.GetValue(4).ToString().Replace(",", "."), out var days)
                                 ? days
                                 : 0,
                             LeaveType = reader.GetValue(5).ToString(),
