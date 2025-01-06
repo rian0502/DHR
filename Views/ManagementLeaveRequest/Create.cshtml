@@ -1,0 +1,81 @@
+@model DHR.ViewModels.ManagementLeaveRequest.CreateViewModel
+
+@{
+    ViewData["Title"] = "Create Leave Request";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementLeaveRequest")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="LeaveDate">Leave Date</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["LeaveDate"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="LeaveDate">
+                            <span asp-validation-for="LeaveDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="LeaveDays">Leave Days</label>
+                            <input type="number" min=".5" step=".5"
+                                   class="form-control @(ViewData.ModelState["LeaveDays"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="LeaveDays">
+                            <span asp-validation-for="LeaveDays" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label asp-for="EmployeeId">Employee</label>
+                        <select
+                            class="form-control select2bs4 @(ViewData.ModelState["EmployeeId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                            style="width: 100%;" asp-for="EmployeeId">
+
+                            @foreach (var emp in ViewBag.Employee)
+                            {
+                                <option value="@emp.EmployeeId">@emp.Nip - @emp.FullName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="LeaveType">Leave Type</label>
+                        <select
+                            class="form-control select2bs4 @(ViewData.ModelState["LeaveType"]?.Errors.Any() == true ? "is-invalid" : "")"
+                            style="width: 100%;" asp-for="LeaveType">
+                            @foreach (var leaveType in ViewBag.LeaveTypes)
+                            {
+                                <option value="@leaveType">@leaveType</option>
+                            }
+                        </select>
+                        <span asp-validation-for="LeaveType" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="LeaveReason">Reason</label>
+                            <textarea
+                                class="form-control @(ViewData.ModelState["LeaveReason"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                asp-for="LeaveReason"
+                                placeholder="Ex: Konsultasi Dokter, Keperluan Keluarga, Melahirkan Anak Ke-3."
+                                rows="4"></textarea>
+                            <span asp-validation-for="LeaveReason" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

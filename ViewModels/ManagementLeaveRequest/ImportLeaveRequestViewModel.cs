@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using DHR.Validation;
 
-namespace DHR.ViewModels.ManagementImportViewModel;
+namespace DHR.ViewModels.ManagementLeaveRequest;
 
 public class ImportLeaveRequestViewModel
 {
