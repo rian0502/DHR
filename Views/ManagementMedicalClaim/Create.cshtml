@@ -1,0 +1,120 @@
+@model DHR.ViewModels.ManagementMedicalClaim.CreateViewModel
+
+@{
+    ViewData["Title"] = "Create Medical Claim";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementMedicalClaim")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="PeriodId">Periode</label>
+                            @Html.DropDownList(
+                                "PeriodId",
+                                (SelectList)ViewBag.Periods,
+                                new { @class = "form-control select2bs4"}
+                            )
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="ClaimDate">Claim Date</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["ClaimDate"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="ClaimDate">
+                            <span asp-validation-for="ClaimDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PaymentPeriod">Payment Period</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["PaymentPeriod"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="PaymentPeriod">
+                            <span asp-validation-for="PaymentPeriod" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="EmployeeId">Employee</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["EmployeeId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="EmployeeId">
+
+                                @foreach (var emp in ViewBag.Employee)
+                                {
+                                    <option value="@emp.EmployeeId">@emp.Nip - @emp.FullName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="ClaimCategory">Claim Category</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["ClaimCategory"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="ClaimCategory">
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category">@category</option>
+                                }
+                            </select>
+                            <span asp-validation-for="ClaimCategory" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="Diagnosis">Diagnosis</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["Diagnosis"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Diagnosis">
+                            <span asp-validation-for="Diagnosis" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="ClaimStatus">Claim Status</label>
+                            <select
+                                class="form-control select2bs4 @(ViewData.ModelState["ClaimStatus"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                style="width: 100%;" asp-for="ClaimStatus">
+                                <option value="t">Layak</option>
+                                <option value="y">Tidak Layak</option>
+                            </select>
+                            <span asp-validation-for="ClaimStatus" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="ClaimDescription">Description</label>
+                            <textarea
+                                class="form-control @(ViewData.ModelState["ClaimDescription"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                asp-for="ClaimDescription"
+                                placeholder="Ex: Konsultasi Dokter, Keperluan Keluarga, Melahirkan Anak Ke-3."
+                                rows="4"></textarea>
+                            <span asp-validation-for="ClaimDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,10 +1,15 @@
 ﻿using DHR.Helper;
+using DHR.Models;
 using DHR.Providers;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using DHR.ViewModels.ManagementImportViewModel;
 using Microsoft.AspNetCore.Authorization;
+using DHR.ViewModels.ManagementMedicalClaim;
+using DHR.ViewModels.ManagementImportViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace DHR.Controllers
 {
@@ -12,6 +17,7 @@ namespace DHR.Controllers
     public class ManagementMedicalClaimController(
         AppDbContext context,
         MongoDbContext mongoDbContext,
+        UserManager<Users> userManager,
         MedicalClaimService medicalClaimService) : Controller
     {
         // GET: ManagementClaimController
@@ -21,67 +27,332 @@ namespace DHR.Controllers
         }
 
         // GET: ManagementClaimController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            ViewBag.Categories = new List<string> { "RAWAT_JALAN", "RAWAT_INAP", "MELAHIRKAN", "KACAMATA" };
+
+            var periods = await context.Periods
+                .Select(period => new
+                {
+                    period.PeriodId,
+                    period.IsActive,
+                    period.StartPeriodDate,
+                    period.EndPeriodDate
+                })
+                .OrderBy(period => period.StartPeriodDate)
+                .ToListAsync();
+
+            var selectedPeriodId = periods.FirstOrDefault(p => p.IsActive)?.PeriodId;
+
+            ViewBag.Periods = new SelectList(
+                periods.Select(p => new
+                {
+                    p.PeriodId,
+                    DisplayText = $"{p.StartPeriodDate:dd MMM yyyy} - {p.EndPeriodDate:dd MMM yyyy}"
+                }),
+                "PeriodId",
+                "DisplayText",
+                selectedPeriodId
+            );
+
+
+            ViewBag.Employee = await context.Employee
+                .Include(e => e.Users)
+                .Where(model => model.Users != null && model.Users.UserName != "admin")
+                .Select(model => new
+                {
+                    model.EmployeeId,
+                    model.Nip,
+                    model.Users.FullName,
+                    model.Users.Id
+                }).OrderBy(employee => employee.Nip)
+                .ToListAsync();
             return View();
         }
 
         // POST: ManagementClaimController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CreateViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var user = await userManager.GetUserAsync(User);
+                    if (user == null)
+                    {
+                        return RedirectToAction("Logout", "Account");
+                    }
+
+                    var time = DateTime.UtcNow;
+                    var insert = await context.EmployeeMedicalClaims.AddAsync(new EmployeeMedicalClaim
+                    {
+                        EmployeeId = model.EmployeeId,
+                        ClaimDate = model.ClaimDate,
+                        ClaimStatus = model.ClaimStatus,
+                        ClaimCategory = model.ClaimCategory,
+                        ClaimDescription = model.ClaimDescription,
+                        Diagnosis = model.Diagnosis,
+                        PaymentPeriod = model.PaymentPeriod,
+                        PeriodId = model.PeriodId,
+                        CreatedBy = user.Id,
+                        CreatedAt = time,
+                        UpdatedBy = user.Id,
+                        UpdatedAt = time
+                    });
+                    await context.SaveChangesAsync();
+                    var logs = new AppLogModel
+                    {
+                        CreatedBy = $"{user.Id} - {user.FullName}",
+                        CreatedAt = time,
+                        Params = JsonConvert.SerializeObject(new
+                        {
+                            model.PeriodId,
+                            model.EmployeeId,
+                            model.ClaimDate,
+                            model.PaymentPeriod,
+                            model.Diagnosis,
+                            model.ClaimCategory,
+                            model.ClaimDescription,
+                            model.ClaimStatus
+                        }),
+                        Source = JsonConvert.SerializeObject(new
+                        {
+                            Controller = "ManagementMedicalClaim",
+                            Action = "Create",
+                            Database = "EmployeeMedicalClaims"
+                        })
+                    };
+                    await mongoDbContext.AppLogs.InsertOneAsync(logs);
+                    TempData["Success"] = "Data has been saved successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ViewBag.Categories = new List<string> { "RAWAT_JALAN", "RAWAT_INAP", "MELAHIRKAN", "KACAMATA" };
+
+                var periods = await context.Periods
+                    .Select(period => new
+                    {
+                        period.PeriodId,
+                        period.IsActive,
+                        period.StartPeriodDate,
+                        period.EndPeriodDate
+                    })
+                    .OrderBy(period => period.StartPeriodDate)
+                    .ToListAsync();
+
+                var selectedPeriodId = periods.FirstOrDefault(p => p.IsActive)?.PeriodId;
+
+                ViewBag.Periods = new SelectList(
+                    periods.Select(p => new
+                    {
+                        p.PeriodId,
+                        DisplayText = $"{p.StartPeriodDate:dd MMM yyyy} - {p.EndPeriodDate:dd MMM yyyy}"
+                    }),
+                    "PeriodId",
+                    "DisplayText",
+                    selectedPeriodId
+                );
+
+
+                ViewBag.Employee = await context.Employee
+                    .Include(e => e.Users)
+                    .Where(model => model.Users != null && model.Users.UserName != "admin")
+                    .Select(model => new
+                    {
+                        model.EmployeeId,
+                        model.Nip,
+                        model.Users.FullName,
+                        model.Users.Id
+                    }).OrderBy(employee => employee.Nip)
+                    .ToListAsync();
+                return View(model);
             }
-            catch
+            catch (Exception exception)
             {
-                return View();
+                TempData["Errors"] = exception.Message;
+                return RedirectToAction(nameof(Index));
             }
         }
 
         // GET: ManagementClaimController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var medicalClaim = await context.EmployeeMedicalClaims.FindAsync(id);
+            if (medicalClaim == null)
+            {
+                TempData["Errors"] = "Data not found";
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Categories = new List<string> { "RAWAT_JALAN", "RAWAT_INAP", "MELAHIRKAN", "KACAMATA" };
+            var periods = await context.Periods
+                .Select(period => new
+                {
+                    period.PeriodId,
+                    period.IsActive,
+                    period.StartPeriodDate,
+                    period.EndPeriodDate
+                })
+                .OrderBy(period => period.StartPeriodDate)
+                .ToListAsync();
+
+            var selectedPeriodId = periods.FirstOrDefault(p => p.IsActive)?.PeriodId;
+
+            ViewBag.Periods = new SelectList(
+                periods.Select(p => new
+                {
+                    p.PeriodId,
+                    DisplayText = $"{p.StartPeriodDate:dd MMM yyyy} - {p.EndPeriodDate:dd MMM yyyy}"
+                }),
+                "PeriodId",
+                "DisplayText",
+                selectedPeriodId
+            );
+            ViewBag.Employee = await context.Employee
+                .Include(e => e.Users)
+                .Where(model => model.Users != null && model.Users.UserName != "admin")
+                .Select(model => new
+                {
+                    model.EmployeeId,
+                    model.Nip,
+                    model.Users.FullName,
+                    model.Users.Id
+                }).OrderBy(employee => employee.Nip)
+                .ToListAsync();
+            return View(new EditViewModel
+            {
+                EmployeeMedicalClaimId = medicalClaim.EmployeeMedicalClaimId,
+                ClaimDate = medicalClaim.ClaimDate,
+                PaymentPeriod = medicalClaim.PaymentPeriod,
+                Diagnosis = medicalClaim.Diagnosis,
+                ClaimStatus = medicalClaim.ClaimStatus,
+                ClaimCategory = medicalClaim.ClaimCategory,
+                ClaimDescription = medicalClaim.ClaimDescription,
+                PeriodId = medicalClaim.PeriodId,
+                EmployeeId = medicalClaim.EmployeeId
+            });
         }
 
         // POST: ManagementClaimController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, EditViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var user = await userManager.GetUserAsync(User);
+                var time = DateTime.UtcNow;
+                if (user == null)
+                {
+                    return RedirectToAction("Logout", "Account");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var oldMedicalClaim = await context.EmployeeMedicalClaims.FindAsync(id);
+                    var logs = new AppLogModel
+                    {
+                        CreatedBy = $"{user.Id} - {user.FullName}",
+                        CreatedAt = time,
+                        Params = JsonConvert.SerializeObject(new
+                        {
+                            oldData = JsonConvert.SerializeObject(new
+                            {
+                                oldMedicalClaim.EmployeeMedicalClaimId,
+                                oldMedicalClaim.ClaimCategory,
+                                oldMedicalClaim.ClaimDate,
+                                oldMedicalClaim.ClaimDescription,
+                                oldMedicalClaim.ClaimStatus,
+                                oldMedicalClaim.Diagnosis,
+                                oldMedicalClaim.EmployeeId,
+                                oldMedicalClaim.PaymentPeriod,
+                                oldMedicalClaim.PeriodId,
+                                oldMedicalClaim.CreatedAt,
+                                oldMedicalClaim.UpdatedAt,
+                                oldMedicalClaim.CreatedBy,
+                                oldMedicalClaim.UpdatedBy
+                            }),
+                            newData = model
+                        }),
+                        Source = JsonConvert.SerializeObject(new
+                        {
+                            Controller = "ManagementMedicalClaim",
+                            Action = "Edit",
+                            Database = "EmployeeMedicalClaims"
+                        })
+                    };
+
+                    //update data
+                    oldMedicalClaim.ClaimCategory = model.ClaimCategory;
+                    oldMedicalClaim.ClaimDate = model.ClaimDate;
+                    oldMedicalClaim.ClaimDescription = model.ClaimDescription;
+                    oldMedicalClaim.ClaimStatus = model.ClaimStatus;
+                    oldMedicalClaim.Diagnosis = model.Diagnosis;
+                    oldMedicalClaim.EmployeeId = model.EmployeeId;
+                    oldMedicalClaim.PaymentPeriod = model.PaymentPeriod;
+                    oldMedicalClaim.PeriodId = model.PeriodId;
+                    oldMedicalClaim.UpdatedAt = time;
+                    oldMedicalClaim.UpdatedBy = user.Id;
+                    context.EmployeeMedicalClaims.Update(oldMedicalClaim);
+                    await context.SaveChangesAsync();
+                    await mongoDbContext.AppLogs.InsertOneAsync(logs);
+                    TempData["Success"] = "Data has been updated successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var medicalClaim = await context.EmployeeMedicalClaims.FindAsync(id);
+                if (medicalClaim == null)
+                {
+                    TempData["Errors"] = "Data not found";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ViewBag.Categories = new List<string> { "RAWAT_JALAN", "RAWAT_INAP", "MELAHIRKAN", "KACAMATA" };
+                var periods = await context.Periods
+                    .Select(period => new
+                    {
+                        period.PeriodId,
+                        period.IsActive,
+                        period.StartPeriodDate,
+                        period.EndPeriodDate
+                    })
+                    .OrderBy(period => period.StartPeriodDate)
+                    .ToListAsync();
+
+                var selectedPeriodId = periods.FirstOrDefault(p => p.IsActive)?.PeriodId;
+
+                ViewBag.Periods = new SelectList(
+                    periods.Select(p => new
+                    {
+                        p.PeriodId,
+                        DisplayText = $"{p.StartPeriodDate:dd MMM yyyy} - {p.EndPeriodDate:dd MMM yyyy}"
+                    }),
+                    "PeriodId",
+                    "DisplayText",
+                    selectedPeriodId
+                );
+                ViewBag.Employee = await context.Employee
+                    .Include(e => e.Users)
+                    .Where(model => model.Users != null && model.Users.UserName != "admin")
+                    .Select(model => new
+                    {
+                        model.EmployeeId,
+                        model.Nip,
+                        model.Users.FullName,
+                        model.Users.Id
+                    }).OrderBy(employee => employee.Nip)
+                    .ToListAsync();
+                return View(model);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                TempData["Errors"] = e.Message;
+                return RedirectToAction(nameof(Index));
             }
         }
 
-        // GET: ManagementClaimController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ManagementClaimController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
         // GET: ManagementClaimController/Import
         public IActionResult Import()
         {
@@ -273,7 +544,7 @@ namespace DHR.Controllers
         {
             return DateTime.TryParse(dateString, out var tempDate)
                 ? DateOnly.FromDateTime(tempDate)
-                : (DateOnly?)null;
+                : null;
         }
     }
 }
