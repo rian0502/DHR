@@ -1,7 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace DHR.Helper
 {
@@ -30,18 +27,14 @@ namespace DHR.Helper
             DataTableRequest request, 
             string[] columnNames)
         {
-            // 1. Searching
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
                 query = query.Where(item =>
                     columnNames.Any(col => EF.Property<string>(item, col).Contains(request.SearchValue))
                 );
             }
-
-            // 2. Total record count setelah filtering
             var totalRecords = await query.CountAsync();
 
-            // 3. Sorting
             if (request.SortColumnIndex >= 0 && request.SortColumnIndex < columnNames.Length)
             {
                 string sortColumn = columnNames[request.SortColumnIndex];
@@ -50,7 +43,6 @@ namespace DHR.Helper
                     : query.OrderByDescending(x => EF.Property<object>(x, sortColumn));
             }
 
-            // 4. Pagination
             var pagedData = await query
                 .Skip(request.Start)
                 .Take(request.Length)

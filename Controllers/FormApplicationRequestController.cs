@@ -48,8 +48,6 @@ public class FormApplicationRequestController(
         {
             return View(model);
         }
-
-        return Ok(model);
         var user = await userManager.GetUserAsync(User);
         var currentTime = DateTime.UtcNow;
         if (user == null)
