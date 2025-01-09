@@ -1,0 +1,73 @@
+@model DHR.ViewModels.Employee.EditAccountEmployeeViewModel
+
+@{
+    ViewBag.Title = "Edit Account";
+}
+
+
+<div class="col-12">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.UserID)
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                    <a href="@Url.Action("Index", "Employee")" class="btn btn-danger">Back</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Username">Username</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["Username"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Username"
+                                   placeholder="Ex: jhon.doe, jane.doe">
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Email">Email</label>
+                            <input type="email"
+                                   class="form-control @(ViewData.ModelState["Email"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Email"
+                                   placeholder="Ex: jhon.doe@darmexagro.com, jane.doe@darmexagro.com">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Password">Password</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["Password"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="LockoutEnd">Account Lockout Until</label>
+                            <input type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                   class="form-control @(ViewData.ModelState["LockoutEnd"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="LockoutEnd">
+                            <span asp-validation-for="LockoutEnd" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer text-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -74,7 +74,7 @@ public class EducationController(EducationService educationService, UserManager<
         var result = await educationService.FindById(id);
         return View(new EditEducationViewModel{
             EducationId = result.EducationId,
-            EducationName = result.EducationName!
+            EducationName = result.EducationName ?? ""
         });
     }
 

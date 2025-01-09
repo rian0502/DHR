@@ -208,6 +208,13 @@ public class EmployeeController(
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, EditEmployeeViewModel model)
     {
+        var admin = await userManager.GetUserAsync(User);
+        var time = DateTime.UtcNow;
+        if (admin == null)
+        {
+            return RedirectToAction("Logout", "Account");
+        }
+
         if (!ModelState.IsValid)
         {
             ViewBag.Divisions = await divisionService.FindAll();
@@ -223,11 +230,62 @@ public class EmployeeController(
             return View(model);
         }
 
-        var Oldemployee = await context.Employee
+        var oldemployee = await context.Employee
             .Include(usr => usr.Users)
             .FirstOrDefaultAsync(emp => emp.EmployeeId == id);
 
         var updateUser = context.Users.FirstOrDefault(x => x.Id == model.UserId);
+
+        var logs = new AppLogModel
+        {
+            CreatedBy = $"{admin.Id} - {admin.FullName}",
+            CreatedAt = time,
+            Source = JsonConvert.SerializeObject(new
+            {
+                Controller = "EmployeeController",
+                Action = "Edit",
+                Database = "Employee & AspNetUsers"
+            }),
+            Params = JsonConvert.SerializeObject(new
+            {
+                oldData = JsonConvert.SerializeObject(new
+                {
+                    oldemployee.Nip,
+                    oldemployee.Nik,
+                    oldemployee.Npwp,
+                    oldemployee.Address,
+                    oldemployee.DivisionId,
+                    oldemployee.JobTitleId,
+                    oldemployee.ReligionId,
+                    oldemployee.EducationId,
+                    oldemployee.TaxExemptIncomeId,
+                    oldemployee.SubUnitId,
+                    oldemployee.CompanyId,
+                    updateUser.FullName,
+                    updateUser.Email,
+                    updateUser.PhoneNumber,
+                }),
+                newData = JsonConvert.SerializeObject(new
+                {
+                    model.Nip,
+                    model.Nik,
+                    model.Npwp,
+                    model.Address,
+                    model.DivisionId,
+                    model.JobTitleId,
+                    model.ReligionId,
+                    model.EducationId,
+                    model.TaxExemptIncomeId,
+                    model.SubUnitId,
+                    model.CompanyId,
+                    model.FullName,
+                    model.Email,
+                    model.PhoneNumber
+                })
+            })
+        };
+
+
         updateUser.FullName = model.FullName;
         updateUser.Email = model.Email;
         updateUser.PhoneNumber = model.PhoneNumber;
@@ -251,9 +309,11 @@ public class EmployeeController(
         updateEmployee.TaxExemptIncomeId = model.TaxExemptIncomeId;
         updateEmployee.SubUnitId = model.SubUnitId;
         updateEmployee.CompanyId = model.CompanyId;
+        updateEmployee.UpdatedAt = time;
+        updateEmployee.UpdatedBy = admin.Id;
         //update employee
         await context.SaveChangesAsync();
-
+        await mongoDbContext.AppLogs.InsertOneAsync(logs);
 
         TempData["Success"] = $"Employee: {updateUser.FullName} has been updated";
         return RedirectToAction(nameof(Index));
@@ -285,6 +345,7 @@ public class EmployeeController(
             TempData["Errors"] = "No data found";
             return RedirectToAction(nameof(Import));
         }
+
         TempData["Success"] = "Data has been imported";
         return Ok(user);
     }
