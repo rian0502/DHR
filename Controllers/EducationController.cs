@@ -10,7 +10,10 @@ using Newtonsoft.Json;
 namespace DHR.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class EducationController(EducationService educationService, UserManager<Users> userManager, MongoDbContext mongoDbContext) : Controller
+public class EducationController(
+    EducationService educationService,
+    UserManager<Users> userManager,
+    MongoDbContext mongoDbContext) : Controller
 {
     // GET: EducationController
     public async Task<ActionResult> Index()
@@ -18,7 +21,7 @@ public class EducationController(EducationService educationService, UserManager<
         var educations = await educationService.FindAll();
         return View(educations);
     }
-    
+
     // GET: EducationController/Create
     public ActionResult Create()
     {
@@ -34,8 +37,13 @@ public class EducationController(EducationService educationService, UserManager<
         {
             if (!ModelState.IsValid) return View(model);
             var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+
             var currentTime = DateTime.UtcNow;
-            var insert = await educationService.Insert(model, user!.Id, currentTime);
+            var insert = await educationService.Insert(model, user.Id, currentTime);
             if (insert == 0)
             {
                 TempData["Errors"] = "Failed to create Education";
@@ -50,7 +58,7 @@ public class EducationController(EducationService educationService, UserManager<
                 {
                     model.EducationName
                 }),
-                Source =JsonConvert.SerializeObject(new
+                Source = JsonConvert.SerializeObject(new
                 {
                     Controller = "EducationController",
                     Action = "Create",
@@ -61,7 +69,7 @@ public class EducationController(EducationService educationService, UserManager<
             TempData["Success"] = "Education created successfully";
             return RedirectToAction(nameof(Index));
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             TempData["Errors"] = ex.Message;
             return View(model);
@@ -72,7 +80,8 @@ public class EducationController(EducationService educationService, UserManager<
     public async Task<ActionResult> Edit(int id)
     {
         var result = await educationService.FindById(id);
-        return View(new EditEducationViewModel{
+        return View(new EditEducationViewModel
+        {
             EducationId = result.EducationId,
             EducationName = result.EducationName ?? ""
         });
@@ -89,10 +98,16 @@ public class EducationController(EducationService educationService, UserManager<
             {
                 return View(model);
             }
+
             var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+
             var currentTime = DateTime.UtcNow;
             var oldData = await educationService.FindById(id);
-            var update = await educationService.Update(model, user!.Id, currentTime);
+            var update = await educationService.Update(model, user.Id, currentTime);
             if (update == 0)
             {
                 TempData["Errors"] = "Failed to update Education";
@@ -119,13 +134,13 @@ public class EducationController(EducationService educationService, UserManager<
             TempData["Success"] = "Education updated successfully";
             return RedirectToAction(nameof(Index));
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             TempData["Errors"] = ex.Message;
             return View(model);
         }
     }
-    
+
     // POST: EducationController/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -137,7 +152,7 @@ public class EducationController(EducationService educationService, UserManager<
         }
         catch
         {
-           return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

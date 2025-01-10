@@ -43,41 +43,44 @@ public class SubUnitController(
                 ViewBag.Units = await unitService.FindAll();
                 return View(model);
             }
-            else
+
+            var users = await userManager.GetUserAsync(User);
+            if (users == null)
             {
-                var users = await userManager.GetUserAsync(User);
-                var currentTime = DateTime.UtcNow;
-                var insert = await subUnitService.Insert(model, users!.Id, currentTime);
-
-                if (insert == 3)
-                {
-                    TempData["Errors"] = "Sub Unit Code or Sub Unit Name already exists!";
-                    return RedirectToAction(nameof(Create));
-                }
-
-                var logs = new AppLogModel
-                {
-                    CreatedAt = currentTime,
-                    CreatedBy = $"{users.Id} - {users.FullName}",
-                    Params = JsonConvert.SerializeObject(new
-                    {
-                        model.SubUnitCode,
-                        model.SubUnitName,
-                        model.SubUnitAddress,
-                        model.UnitId,
-                        model.LocationId
-                    }),
-                    Source = JsonConvert.SerializeObject(new
-                    {
-                        Controller = "SubUnitController",
-                        Action = "Create",
-                        Database = "SubUnit"
-                    }),
-                };
-                await mongoDbContext.AppLogs.InsertOneAsync(logs);
-                TempData["Success"] = "Sub Unit has been created successfully!";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Logout", "Account");
             }
+
+            var currentTime = DateTime.UtcNow;
+            var insert = await subUnitService.Insert(model, users.Id, currentTime);
+
+            if (insert == 3)
+            {
+                TempData["Errors"] = "Sub Unit Code or Sub Unit Name already exists!";
+                return RedirectToAction(nameof(Create));
+            }
+
+            var logs = new AppLogModel
+            {
+                CreatedAt = currentTime,
+                CreatedBy = $"{users.Id} - {users.FullName}",
+                Params = JsonConvert.SerializeObject(new
+                {
+                    model.SubUnitCode,
+                    model.SubUnitName,
+                    model.SubUnitAddress,
+                    model.UnitId,
+                    model.LocationId
+                }),
+                Source = JsonConvert.SerializeObject(new
+                {
+                    Controller = "SubUnitController",
+                    Action = "Create",
+                    Database = "SubUnit"
+                }),
+            };
+            await mongoDbContext.AppLogs.InsertOneAsync(logs);
+            TempData["Success"] = "Sub Unit has been created successfully!";
+            return RedirectToAction(nameof(Index));
         }
         catch (Exception e)
         {
