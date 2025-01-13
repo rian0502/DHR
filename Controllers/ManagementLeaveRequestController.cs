@@ -326,6 +326,7 @@ namespace DHR.Controllers
             };
 
             var query = context.EmployeeLeaveRequest
+                .Where(l => l.IsDeleted == false)
                 .Include(e => e.Employee)
                 .ThenInclude(e => e.Users)
                 .AsQueryable();

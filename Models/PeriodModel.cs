@@ -18,5 +18,7 @@ namespace DHR.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public string? UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsDeleted { get; set; }
+        public string? DeleteReason { get; set; }
     }
 }

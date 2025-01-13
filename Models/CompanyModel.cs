@@ -19,6 +19,8 @@ namespace DHR.Models
         public DateTime CreatedAt { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; }
+        public string? DeleteReason { get; set; }
 
     }
 }

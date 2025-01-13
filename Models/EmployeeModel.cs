@@ -26,18 +26,18 @@ namespace DHR.Models
         public string? UserId { get; set; }
         
         //Relational Model
+        public Users? Users { get; set; } // Belongs to Users
+        public SubUnitModel? SubUnit { get; set; } // Belongs to SubUnit
         public CompanyModel? Company { get; set; } // Belongs to Company
         public DivisionModel? Division { get; set; } // Belongs to Division
         public JobTitleModel? JobTitle { get; set; } // Belongs to JobTitle
         public ReligionModel? Religion { get; set; } // Belongs to Religion
         public EducationModel? Education { get; set; } // Belongs to Education
         public TaxExemptIncomeModel? TaxExemptIncome { get; set; } // Belongs to TaxExemptIncome
-        public SubUnitModel? SubUnit { get; set; } // Belongs to SubUnit
-        public Users? Users { get; set; } // Belongs to Users
-        public ICollection<EmployeeDependentModel>? EmployeeDependents { get; set; } // Has many EmployeeDependent
         public ICollection<EmployeeBenefit>? Benefits { get; set; } // Has many Benefit
         public ICollection<EmployeeMedicalClaim>? MedicalClaims { get; set; } // Has many MedicalClaim
-         
+        public ICollection<EmployeeDependentModel>? EmployeeDependents { get; set; } // Has many EmployeeDependent
+        public ICollection<EmployeePermissionRequest>? EmployeePermissions { get; set; } // Has many EmployeePermissions
         public ICollection<EmployeeLeaveRequestModel>? EmployeeLeaveRequestModels { get; set; } // Has many EmployeeLeaveRequestModel
 
         //Log Attributes
@@ -45,5 +45,7 @@ namespace DHR.Models
         public DateTime CreatedAt { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; }
+        public string? DeleteReason { get; set; }
     }
 }
