@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace DHR.Controllers
 {
-    [Authorize(Roles = "Admin, ClaimAdministrator")]
+    [Authorize(Roles = "Admin, ClaimAdministrator, ClaimManager")]
     public class ManagementMedicalClaimController(
         AppDbContext context,
         MongoDbContext mongoDbContext,
@@ -23,6 +23,7 @@ namespace DHR.Controllers
         // GET: ManagementClaimController
         public ActionResult Index()
         {
+            ViewBag.RoleUser = User.IsInRole("ClaimManager") ? "ClaimManager" : "OtherUser";
             return View();
         }
 

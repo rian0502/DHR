@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Create Role";
+}
+
+<div class="col-12">
+    <form asp-action="Create" asp-controller="Roles" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                    <a href="@Url.Action("Index", "Roles")" class="btn btn-danger">
+                        Back
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="RoleName">Role</label>
+                            <input type="text" id="RoleName" placeholder="Ex: Admin, User, AdminAttendance" name="RoleName"
+                                   class="form-control @(ViewData.ModelState["RoleName"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            @if (ViewData.ModelState["RoleName"]?.Errors.Any() == true)
+                            {
+                                <span class="text-danger">@ViewData.ModelState["RoleName"]?.Errors[0].ErrorMessage</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-info">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

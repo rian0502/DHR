@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityRole>
+
+@{
+    ViewData["Title"] = "List Role";
+    var iteration = 1;
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-tools">
+                <a href="@Url.Action("Create", "Roles")" class="btn btn-info">
+                    <i class="fas fa-plus mr-2"></i>Role
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model){
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@item.Name</td>
+                        </tr>
+                        iteration++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

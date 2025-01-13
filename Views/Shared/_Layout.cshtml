@@ -271,10 +271,10 @@
                             </ul>
                         </li>
                     }
-                    @if (User.IsInRole("Admin") || User.IsInRole("AttendanceAdministrator") || User.IsInRole("ClaimAdministrator"))
+                    @if (User.IsInRole("Admin") || User.IsInRole("AttendanceAdministrator") || User.IsInRole("ClaimAdministrator") || User.IsInRole("AttendanceManager") || User.IsInRole("ClaimManager"))
                     {
                         <li class="nav-header">Management Request & Claim</li>
-                        @if (User.IsInRole("Admin") || User.IsInRole("AttendanceAdministrator"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("AttendanceAdministrator") || User.IsInRole("AttendanceManager"))
                         {
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "ManagementPermissionRequest")"
@@ -296,7 +296,7 @@
                             </li>
                         }
 
-                        @if (User.IsInRole("Admin") || User.IsInRole("ClaimAdministrator"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("ClaimAdministrator") || User.IsInRole("ClaimManager"))
                         {
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "ManagementMedicalClaim")"

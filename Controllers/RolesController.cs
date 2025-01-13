@@ -28,7 +28,7 @@ namespace DHR.Controllers
         {
             try
             {
-                string roleName = collection["RoleName"].FirstOrDefault();
+                var roleName = collection["RoleName"].FirstOrDefault();
 
                 if (string.IsNullOrWhiteSpace(roleName))
                 {
