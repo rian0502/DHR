@@ -14,6 +14,7 @@ public class DivisionService(AppDbContext context)
     {
         var results = await context.Divisions
             .Include(d => d.SubDepartment)
+            .Where(d => d.IsDeleted == false)
             .ToListAsync();
         return results;
     }

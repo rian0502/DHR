@@ -88,7 +88,7 @@
                         <li class="nav-header">Master Data</li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "Employee", "Education", "JobTitle", "WorkArea", "Unit", "SubUnit", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
+                               class="nav-link @UrlActive.IsActive(@Context, "Employee", "Roles","Education", "JobTitle", "WorkArea", "Unit", "SubUnit", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
                                 <i class="nav-icon fas fa-server"></i>
                                 <p>
                                     Master Data
@@ -101,6 +101,13 @@
                                        class="nav-link @UrlActive.IsActive(@Context, "Employee")">
                                         <i class="fas fa-users nav-icon"></i>
                                         <p>Employees</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Roles")"
+                                       class="nav-link @UrlActive.IsActive(@Context, "Roles")">
+                                        <i class="fas fa-user-lock nav-icon"></i>
+                                        <p>Roles</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">

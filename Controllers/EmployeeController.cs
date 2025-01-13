@@ -43,11 +43,12 @@ public class EmployeeController(
     {
         ViewBag.Divisions = await divisionService.FindAll();
         ViewBag.JobTitle = await jobTitleService.FindAll();
-        ViewBag.Companies = await EntityFrameworkQueryableExtensions.ToListAsync(context.Companies);
-        ViewBag.Taxes = await EntityFrameworkQueryableExtensions.ToListAsync(context.TaxExemptIncomes);
-        ViewBag.SubUnits = await EntityFrameworkQueryableExtensions.ToListAsync(context.SubUnits.Include(x => x.Unit));
-        ViewBag.Religions = await EntityFrameworkQueryableExtensions.ToListAsync(context.Religions);
-        ViewBag.Educations = await EntityFrameworkQueryableExtensions.ToListAsync(context.Educations);
+        ViewBag.Companies = await context.Companies.Where(c => c.IsDeleted == false).ToListAsync();
+        ViewBag.Taxes = await context.TaxExemptIncomes.Where(t => t.IsDeleted == false).ToListAsync();
+        ViewBag.SubUnits = await context.SubUnits.Where(su => su.IsDeleted == false)
+            .Include(su => su.Unit).ToListAsync();
+        ViewBag.Religions = await context.Religions.Where(r => r.IsDeleted == false).ToListAsync();
+        ViewBag.Educations = await context.Educations.Where(ed => ed.IsDeleted == false).ToListAsync();
 
         return View();
     }
@@ -61,11 +62,12 @@ public class EmployeeController(
         {
             ViewBag.Divisions = await divisionService.FindAll();
             ViewBag.JobTitle = await jobTitleService.FindAll();
-            ViewBag.Taxes = await EntityFrameworkQueryableExtensions.ToListAsync(context.TaxExemptIncomes);
-            ViewBag.SubUnits =
-                await EntityFrameworkQueryableExtensions.ToListAsync(context.SubUnits.Include(x => x.Unit));
-            ViewBag.Religions = await EntityFrameworkQueryableExtensions.ToListAsync(context.Religions);
-            ViewBag.Educations = await EntityFrameworkQueryableExtensions.ToListAsync(context.Educations);
+            ViewBag.Companies = await context.Companies.Where(c => c.IsDeleted == false).ToListAsync();
+            ViewBag.Taxes = await context.TaxExemptIncomes.Where(t => t.IsDeleted == false).ToListAsync();
+            ViewBag.SubUnits = await context.SubUnits.Where(su => su.IsDeleted == false)
+                .Include(su => su.Unit).ToListAsync();
+            ViewBag.Religions = await context.Religions.Where(r => r.IsDeleted == false).ToListAsync();
+            ViewBag.Educations = await context.Educations.Where(ed => ed.IsDeleted == false).ToListAsync();
             return View(model);
         }
 
@@ -165,11 +167,12 @@ public class EmployeeController(
     {
         ViewBag.Divisions = await divisionService.FindAll();
         ViewBag.JobTitle = await jobTitleService.FindAll();
-        ViewBag.Companies = await context.Companies.ToListAsync();
-        ViewBag.Taxes = await context.TaxExemptIncomes.ToListAsync();
-        ViewBag.SubUnits = await context.SubUnits.Include(unit => unit.Unit).ToListAsync();
-        ViewBag.Religions = await context.Religions.ToListAsync();
-        ViewBag.Educations = await context.Educations.ToListAsync();
+        ViewBag.Companies = await context.Companies.Where(c => c.IsDeleted == false).ToListAsync();
+        ViewBag.Taxes = await context.TaxExemptIncomes.Where(t => t.IsDeleted == false).ToListAsync();
+        ViewBag.SubUnits = await context.SubUnits.Where(su => su.IsDeleted == false)
+            .Include(su => su.Unit).ToListAsync();
+        ViewBag.Religions = await context.Religions.Where(r => r.IsDeleted == false).ToListAsync();
+        ViewBag.Educations = await context.Educations.Where(ed => ed.IsDeleted == false).ToListAsync();
         ViewBag.Roles = await context.Roles.Where(r => r.Name != "Admin").ToListAsync();
         var employee = await context.Employee
             .Include(usr => usr.Users)
@@ -219,14 +222,13 @@ public class EmployeeController(
         {
             ViewBag.Divisions = await divisionService.FindAll();
             ViewBag.JobTitle = await jobTitleService.FindAll();
-            ViewBag.Companies = await EntityFrameworkQueryableExtensions.ToListAsync(context.Companies);
-            ViewBag.Taxes = await EntityFrameworkQueryableExtensions.ToListAsync(context.TaxExemptIncomes);
-            ViewBag.SubUnits =
-                await EntityFrameworkQueryableExtensions.ToListAsync(context.SubUnits.Include(x => x.Unit));
-            ViewBag.Religions = await EntityFrameworkQueryableExtensions.ToListAsync(context.Religions);
-            ViewBag.Educations = await EntityFrameworkQueryableExtensions.ToListAsync(context.Educations);
-            ViewBag.Roles =
-                await EntityFrameworkQueryableExtensions.ToListAsync(context.Roles.Where(r => r.Name != "Admin"));
+            ViewBag.Companies = await context.Companies.Where(c => c.IsDeleted == false).ToListAsync();
+            ViewBag.Taxes = await context.TaxExemptIncomes.Where(t => t.IsDeleted == false).ToListAsync();
+            ViewBag.SubUnits = await context.SubUnits.Where(su => su.IsDeleted == false)
+                .Include(su => su.Unit).ToListAsync();
+            ViewBag.Religions = await context.Religions.Where(r => r.IsDeleted == false).ToListAsync();
+            ViewBag.Educations = await context.Educations.Where(ed => ed.IsDeleted == false).ToListAsync();
+            ViewBag.Roles = await context.Roles.Where(r => r.Name != "Admin").ToListAsync();
             return View(model);
         }
 
@@ -400,7 +402,6 @@ public class EmployeeController(
                         continue;
                     }
 
-                    ;
                     var asignRole = await userManager.FindByEmailAsync(reader.GetValue(3).ToString());
                     await userManager.AddToRoleAsync(asignRole, "User");
                     var userId = newUser.Id;
