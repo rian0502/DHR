@@ -392,6 +392,140 @@ namespace DHR.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Authorize(Roles = "ClaimManager")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var medicalClaim = await context.EmployeeMedicalClaims.Include(emp => emp.Employee)
+                .ThenInclude(usr => usr.Users).Where(mdc => mdc.EmployeeMedicalClaimId == id)
+                .Select(mdc => new EmployeeMedicalClaim
+                {
+                    EmployeeMedicalClaimId = mdc.EmployeeMedicalClaimId,
+                    ClaimDate = mdc.ClaimDate,
+                    ClaimStatus = mdc.ClaimStatus,
+                    ClaimCategory = mdc.ClaimCategory,
+                    ClaimDescription = mdc.ClaimDescription,
+                    Diagnosis = mdc.Diagnosis,
+                    PaymentPeriod = mdc.PaymentPeriod,
+                    PeriodId = mdc.PeriodId,
+                    EmployeeId = mdc.EmployeeId,
+                    Employee = new EmployeeModel
+                    {
+                        Nip = mdc.Employee.Nip,
+                        Users = new Users
+                        {
+                            FullName = mdc.Employee.Users.FullName
+                        }
+                    },
+                    Period = new PeriodModel
+                    {
+                        StartPeriodDate = mdc.Period.StartPeriodDate,
+                        EndPeriodDate = mdc.Period.EndPeriodDate
+                    }
+                }).FirstOrDefaultAsync();
+            return View(medicalClaim);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClaimManager")]
+        public async Task<IActionResult> Delete(int id, IFormCollection model)
+        {
+            try
+            {
+                var reason = model["DeleteReason"].FirstOrDefault();
+                if (string.IsNullOrEmpty(reason))
+                {
+                    ModelState.AddModelError("DeleteReason", "Delete Reason is Required");
+                    var medicalClaim = await context.EmployeeMedicalClaims.Include(emp => emp.Employee)
+                        .ThenInclude(usr => usr.Users).Where(mdc => mdc.EmployeeMedicalClaimId == id)
+                        .Select(mdc => new EmployeeMedicalClaim
+                        {
+                            EmployeeMedicalClaimId = mdc.EmployeeMedicalClaimId,
+                            ClaimDate = mdc.ClaimDate,
+                            ClaimStatus = mdc.ClaimStatus,
+                            ClaimCategory = mdc.ClaimCategory,
+                            ClaimDescription = mdc.ClaimDescription,
+                            Diagnosis = mdc.Diagnosis,
+                            PaymentPeriod = mdc.PaymentPeriod,
+                            PeriodId = mdc.PeriodId,
+                            EmployeeId = mdc.EmployeeId,
+                            Employee = new EmployeeModel
+                            {
+                                Nip = mdc.Employee.Nip,
+                                Users = new Users
+                                {
+                                    FullName = mdc.Employee.Users.FullName
+                                }
+                            },
+                            Period = new PeriodModel
+                            {
+                                StartPeriodDate = mdc.Period.StartPeriodDate,
+                                EndPeriodDate = mdc.Period.EndPeriodDate
+                            }
+                        }).FirstOrDefaultAsync();
+                    return View(medicalClaim);
+                }
+
+                var user = await userManager.GetUserAsync(User);
+                var time = DateTime.UtcNow;
+                if (user == null)
+                {
+                    return RedirectToAction("Logout", "Account");
+                }
+
+                var oldData = await context.EmployeeMedicalClaims.FindAsync(id);
+                if (oldData == null)
+                {
+                    TempData["Errors"] = "Data not found";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var logs = new AppLogModel
+                {
+                    CreatedAt = time,
+                    CreatedBy = $"{user.Id} - {user.FullName}",
+                    Params = JsonConvert.SerializeObject(new
+                    {
+                        oldData.ClaimDate,
+                        oldData.ClaimCategory,
+                        oldData.ClaimDescription,
+                        oldData.ClaimStatus,
+                        oldData.EmployeeId,
+                        oldData.PaymentPeriod,
+                        oldData.Diagnosis,
+                        oldData.UpdatedAt,
+                        oldData.UpdatedBy,
+                        oldData.PeriodId,
+                        oldData.EmployeeMedicalClaimCode,
+                        oldData.EmployeeMedicalClaimId,
+                        DeleteReason = reason
+                    }),
+                    Source = JsonConvert.SerializeObject(new
+                    {
+                        Controller = "ManagementMedicalClaim",
+                        Action = "Delete",
+                        Database = "EmployeeMedicalClaim"
+                    })
+                };
+                oldData.DeleteReason = reason;
+                oldData.IsDeleted = true;
+                oldData.UpdatedAt = time;
+                oldData.UpdatedBy = user.Id;
+                context.EmployeeMedicalClaims.Update(oldData);
+                await context.SaveChangesAsync();
+                await mongoDbContext.AppLogs.InsertOneAsync(logs);
+                TempData["Success"] = "Data has been deleted successfully";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                TempData["Errors"] = e.Message;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> GetMedicalClaims()
         {
@@ -421,6 +555,7 @@ namespace DHR.Controllers
                 .Include(emc => emc.Period)
                 .Include(emc => emc.Employee)
                 .ThenInclude(e => e.Users)
+                .Where(emc => !emc.IsDeleted)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchValue))
