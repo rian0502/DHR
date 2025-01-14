@@ -48,6 +48,36 @@
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
+            <!-- Messages Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        @if (System.Threading.Thread.CurrentThread.CurrentCulture.ToString() == "id")
+                        {
+                            <img src="https://flagcdn.com/w40/id.png"
+                                 alt="Indonesia"
+                                 style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;">
+                        }
+                        else
+                        {
+                            <img src="https://flagcdn.com/w40/us.png"
+                                 alt="English"
+                                 style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;">
+                        }
+
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                        <a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="en">
+                            <img src="https://flagcdn.com/w40/us.png" alt="English" style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;"> English
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="id">
+                            <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;"> Indonesia
+                        </a>
+                    </div>
+                </li>
+
+
+
             <!-- Account Dropdown Menu -->
             <partial name="_AuthPartial"/>
             <li class="nav-item">
@@ -88,7 +118,7 @@
                         <li class="nav-header">Master Data</li>
                         <li class="nav-item">
                             <a href="#"
-                               class="nav-link @UrlActive.IsActive(@Context, "Employee", "Roles","Education", "JobTitle", "WorkArea", "Unit", "SubUnit", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
+                               class="nav-link @UrlActive.IsActive(@Context, "Employee", "Roles", "Education", "JobTitle", "WorkArea", "Unit", "SubUnit", "Company", "Department", "SubDepartment", "Division", "TaxExemptIncome")">
                                 <i class="nav-icon fas fa-server"></i>
                                 <p>
                                     Master Data
@@ -317,7 +347,7 @@
                                class="nav-link @UrlActive.IsActive(@Context, "Attendance")">
                                 <i class="nav-icon far fa-calendar-check"></i>
                                 <p>
-                                    Attendance
+                                    @Resource.AttendanceMenu
                                 </p>
                             </a>
                         </li>
@@ -326,7 +356,7 @@
                                class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest", "PermissionRequest", "WorkEntryRequest", "BusinessTravelRequest")">
                                 <i class="nav-icon fas fa-file-signature"></i>
                                 <p>
-                                    Requests
+                                    @Resource.RequestMenu
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -335,28 +365,28 @@
                                     <a href="@Url.Action("Index", "LeaveRequest")"
                                        class="nav-link @UrlActive.IsActive(@Context, "LeaveRequest")">
                                         <i class="nav-icon fas fa-suitcase"></i>
-                                        <p>Leave Request</p>
+                                        <p>@Resource.LeaveRequest</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "PermissionRequest")"
                                        class="nav-link @UrlActive.IsActive(@Context, "PermissionRequest")">
                                         <i class="nav-icon fas fa-user-clock"></i>
-                                        <p>Permission Request</p>
+                                        <p>@Resource.PermissionRequest</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "WorkEntryRequest")"
                                        class="nav-link @UrlActive.IsActive(@Context, "WorkEntryRequest")">
                                         <i class="fas fa-file-contract nav-icon"></i>
-                                        <p>Work Entry Request</p>
+                                        <p>@Resource.WorkEntryRequest</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "BusinessTravelRequest")"
                                        class="nav-link @UrlActive.IsActive(@Context, "BusinessTravelRequest")">
                                         <i class="nav-icon bi bi-luggage"></i>
-                                        <p>Business Travel Request</p>
+                                        <p>@Resource.BusinessTravelRequest</p>
                                     </a>
                                 </li>
 
@@ -367,7 +397,7 @@
                                class="nav-link @UrlActive.IsActive(@Context, "Inpatient", "Outpatient", "OpticalServices", "MaternityServices")">
                                 <i class="fas fa-hospital-user nav-icon"></i>
                                 <p>
-                                    Medical Claim
+                                    @Resource.MedicalClaimMenu
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -376,28 +406,28 @@
                                     <a href="@Url.Action("Index", "Outpatient")"
                                        class="nav-link @UrlActive.IsActive(@Context, "Outpatient")">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Outpatient Care</p>
+                                        <p>@Resource.OutpatientCare</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "Inpatient")"
                                        class="nav-link @UrlActive.IsActive(@Context, "Inpatient")">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Inpatient Care</p>
+                                        <p>@Resource.InpatientCare</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "MaternityServices")"
                                        class="nav-link @UrlActive.IsActive(@Context, "MaternityServices")">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Maternity Expenses</p>
+                                        <p>@Resource.MaternityExpenses</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@Url.Action("Index", "OpticalServices")"
                                        class="nav-link @UrlActive.IsActive(@Context, "OpticalServices")">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Optical Services</p>
+                                        <p>@Resource.OpticalServices</p>
                                     </a>
                                 </li>
                             </ul>

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using DHR.Models;
+using System.Globalization;
 
 namespace DHR.Controllers
 {
@@ -13,6 +14,22 @@ namespace DHR.Controllers
         public IActionResult Dashboard()
         {
             return View();
+        }
+        public IActionResult ChangeLanguage(string lang)
+        {
+            if (!string.IsNullOrEmpty(lang))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(lang);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
+            }
+            else
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en");
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+                lang = "en";
+            }
+            Response.Cookies.Append("lang", lang);
+            return Redirect(Request.GetTypedHeaders().Referer.ToString());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
