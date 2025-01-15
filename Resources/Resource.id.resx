@@ -135,6 +135,12 @@
   <data name="CalendarDays" xml:space="preserve">
     <value>Hari Kalender</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Tanggal</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>Masuk</value>
+  </data>
   <data name="InpatientCare" xml:space="preserve">
     <value>Rawat Inap</value>
   </data>
@@ -144,14 +150,23 @@
   <data name="LeaveRequest" xml:space="preserve">
     <value>Cuti</value>
   </data>
+  <data name="LeaveTaken" xml:space="preserve">
+    <value>Total Cuti</value>
+  </data>
   <data name="MaternityExpenses" xml:space="preserve">
     <value>Biaya Melahirkan</value>
   </data>
   <data name="MedicalClaimMenu" xml:space="preserve">
     <value>Klaim Medis</value>
   </data>
+  <data name="MoreInfo" xml:space="preserve">
+    <value>Info Lebih Lanjut</value>
+  </data>
   <data name="OpticalServices" xml:space="preserve">
     <value>Kacamata</value>
+  </data>
+  <data name="Out" xml:space="preserve">
+    <value>Keluar</value>
   </data>
   <data name="OutpatientCare" xml:space="preserve">
     <value>Rawat Jalan</value>

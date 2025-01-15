@@ -115,6 +115,24 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In.
+        /// </summary>
+        public static string In {
+            get {
+                return ResourceManager.GetString("In", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inpatient Care.
         /// </summary>
         public static string InpatientCare {
@@ -142,6 +160,15 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leave Taken.
+        /// </summary>
+        public static string LeaveTaken {
+            get {
+                return ResourceManager.GetString("LeaveTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maternity Expenses.
         /// </summary>
         public static string MaternityExpenses {
@@ -160,11 +187,29 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More Info.
+        /// </summary>
+        public static string MoreInfo {
+            get {
+                return ResourceManager.GetString("MoreInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical Services.
         /// </summary>
         public static string OpticalServices {
             get {
                 return ResourceManager.GetString("OpticalServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out.
+        /// </summary>
+        public static string Out {
+            get {
+                return ResourceManager.GetString("Out", resourceCulture);
             }
         }
         
