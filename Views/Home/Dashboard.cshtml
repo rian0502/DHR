@@ -76,12 +76,12 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3 id="count-remaining-leave">0</h3>
-                        <p>Remaining Leave</p>
+                        <p>@Resource.LeaveTaken</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-clipboard-list"></i>
                     </div>
-                    <a href="@Url.Action("Index", "LeaveRequest")" class="small-box-footer">More info <i
+                    <a href="@Url.Action("Index", "LeaveRequest")" class="small-box-footer">@Resource.MoreInfo <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -91,13 +91,14 @@
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3 id="count-medical-claim">0</h3>
-                        <p>Medical Claim</p>
+                        <p>@Resource.MedicalClaimMenu</p>
                     </div>
                     <div class="icon">
                         <i class="bi bi-hospital"></i>
                     </div>
                     <a href="@Url.Action("Index", "Outpatient")" class="small-box-footer">
-                        More info <i class="fas fa-arrow-circle-right"></i></a>
+                        @Resource.MoreInfo <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
             <!-- ./col -->
@@ -106,13 +107,13 @@
                 <div class="small-box bg-purple">
                     <div class="inner">
                         <h3 id="count-business-trip">0</h3>
-                        <p>Business Trip</p>
+                        <p>@Resource.BusinessTravelRequest</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-plane-departure"></i>
                     </div>
-                    <a href="@Url.Action("Index", "BusinessTravelRequest")" class="small-box-footer">More info <i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    <a href="@Url.Action("Index", "BusinessTravelRequest")" class="small-box-footer">
+                        @Resource.MoreInfo <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -121,13 +122,13 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3 id="totalAllowance">0</h3>
-                        <p>Meal Allowance</p>
+                        <p>@Resource.AllowanceTotal</p>
                     </div>
                     <div class="icon">
                         <i class="bi bi-cash-coin"></i>
                     </div>
-                    <a href="@Url.Action("Index", "Attendance")" class="small-box-footer">More info <i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    <a href="@Url.Action("Index", "Attendance")" class="small-box-footer">
+                        @Resource.MoreInfo <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -137,7 +138,7 @@
             <div class="col-md-6">
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Attendance</h3>
+                        <h3 class="card-title">@Resource.AttendanceMenu</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -155,7 +156,7 @@
             <div class="col-md-6">
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Allowance</h3>
+                        <h3 class="card-title">@Resource.Allowance</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">

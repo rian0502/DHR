@@ -1,0 +1,110 @@
+@model EmployeeMedicalClaim?
+
+@{
+    ViewBag.Title = "Delete Medical Claim";
+}
+<div class="col-12">
+    <form asp-action="Delete" method="post" asp-route-id="@Model.EmployeeMedicalClaimId">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EmployeeMedicalClaimId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementMedicalClaim")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Periods">Period</label>
+                            <input type="text" class="form-control" id="Periods"
+                                   value="@($"{Model.Period.StartPeriodDate:dd-MMMM-yyyy} - {Model.Period.EndPeriodDate:dd-MMMM-yyyy}")"
+                                   disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="LeaveDate">Claim Date</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="LeaveDate"
+                                   value="@Model.ClaimDate"
+                                   disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="LeaveDays">Status</label>
+                            <input type="text" class="form-control" id="LeaveDays"
+                                   value="@Model.ClaimStatus" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="EmployeeName">Employee</label>
+                            <input type="text" class="form-control" id="EmployeeName"
+                                   value="@Model.Employee.Users.FullName" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="LeaveType">Leave Type</label>
+                            <input type="text" class="form-control" id="LeaveType" value="@Model.ClaimCategory"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="PaymentPeriod">Payment Period</label>
+                            <input type="text" class="form-control" id="PaymentPeriod"
+                                   value="@Model.PaymentPeriod" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Diagnosis">Diagnosis</label>
+                            <input type="text" class="form-control" id="Diagnosis" value="@Model.Diagnosis"
+                                   disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="LeaveReason">Reason</label>
+                            <textarea class="form-control" id="LeaveReason" readonly="readonly"
+                                      rows="4">@Model.ClaimDescription</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="DeleteReason">Reason for Deleted Data</label>
+                            <textarea name="DeleteReason" required="required"
+                                      class="form-control @(ViewData.ModelState["DeleteReason"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                      id="DeleteReason" rows="4"></textarea>
+                            @if (ViewData.ModelState["DeleteReason"]?.Errors.Any() == true)
+                            {
+                                <span
+                                    class="text-danger">@ViewData.ModelState["DeleteReason"]?.Errors[0].ErrorMessage</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+
+    </form>
+</div>

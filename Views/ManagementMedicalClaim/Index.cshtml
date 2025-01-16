@@ -38,6 +38,7 @@
 {
     <script>
         $(document).ready(function () {
+            const roleUser = '@ViewBag.RoleUser';
             $('#medicalClaimTable').DataTable({
                 "processing": true,
                 "serverSide": true,
@@ -59,7 +60,7 @@
                     { "data": "nip", "name": "NIP", "autoWidth": true },
                     { "data": "employeeName", "name": "Employee Name", "autoWidth": true },
                     {
-                        "data": "startEndPeriod",  // Ganti dengan kolom gabungan
+                        "data": "startEndPeriod",
                         "name": "Period",
                         "autoWidth": true
                     },
@@ -75,16 +76,28 @@
                         "className": "text-center",
                         "orderable": false,
                         "render": function (data) {
-                            return `<div class="dropdown">
+                            if (roleUser === 'ClaimManager'){
+                                return `<div class="dropdown">
                                 <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
                                     <i class="fas fa-chevron-circle-down"></i>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                     <a class="dropdown-item" href="/ManagementMedicalClaim/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
                                     <a class="dropdown-item" href="/ManagementMedicalClaim/Details/${data}"><i class="fas fa-info-circle"></i> Detail</a>
                                     <a class="dropdown-item bg-danger" href="/ManagementMedicalClaim/Delete/${data}"><i class="fas fa-trash"></i> Delete</a>
                                 </div>
-                            </div>`
+                            </div>`;
+                            }else{
+                                return `<div class="dropdown">
+                                <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Details/${data}"><i class="fas fa-info-circle"></i> Detail</a>
+                                </div>
+                            </div>`;
+                            }
                         }
                     }
                 ]

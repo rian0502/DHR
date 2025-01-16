@@ -4,7 +4,6 @@ using DHR.Providers;
 using DHR.ViewModels.ManagementLeaveRequest;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace DHR.Controllers
 {
-    [Authorize(Roles = "Admin, AttendanceAdministrator")]
+    [Authorize(Roles = "Admin, AttendanceAdministrator, AttendanceManager")]
     public class ManagementLeaveRequestController(
         AppDbContext context,
         MongoDbContext mongoDbContext,
@@ -22,9 +21,10 @@ namespace DHR.Controllers
         // GET: ManagementLeaveRequest
         public ActionResult Index()
         {
+            ViewBag.RoleUser = User.IsInRole("AttendanceManager") ? "AttendanceManager" : "OtherUser";
             return View();
         }
-        
+
         // GET: ManagementLeaveRequest/Create
         public async Task<ActionResult> Create()
         {
@@ -304,6 +304,125 @@ namespace DHR.Controllers
             }
         }
 
+
+        // GET: ManagementLeaveRequest/Delete/5
+        [Authorize(Roles = "AttendanceManager")]
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await context.EmployeeLeaveRequest.Include(emp => emp.Employee)
+                .ThenInclude(usr => usr.Users)
+                
+                .Where(emp => emp.EmployeeLeaveRequestId == id)
+                .Select(emp => new EmployeeLeaveRequestModel
+                {
+                    EmployeeLeaveRequestId = emp.EmployeeLeaveRequestId,
+                    EmployeeId = emp.EmployeeId,
+                    LeaveDate = emp.LeaveDate,
+                    LeaveDays = emp.LeaveDays,
+                    LeaveType = emp.LeaveType,
+                    LeaveReason = emp.LeaveReason,
+                    Employee = new EmployeeModel
+                    {
+                        Nip = emp.Employee.Nip,
+                        Users = new Users
+                        {
+                            FullName = emp.Employee.Users.FullName
+                        }
+                    }
+                }).FirstOrDefaultAsync();
+            return View(model);
+        }
+        
+        // POST: ManagementLeaveRequest/Delete/5
+        [Authorize(Roles = "AttendanceManager")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id, IFormCollection model)
+        {
+            try
+            {
+                var reason = model["DeleteReason"].FirstOrDefault();
+                if (string.IsNullOrEmpty(reason))
+                {
+                    ModelState.AddModelError("DeleteReason", "Delete Reason is Required");
+                    var leaveRequest = await context.EmployeeLeaveRequest.Include(emp => emp.Employee)
+                        .ThenInclude(usr => usr.Users)
+                
+                        .Where(emp => emp.EmployeeLeaveRequestId == id)
+                        .Select(emp => new EmployeeLeaveRequestModel
+                        {
+                            EmployeeLeaveRequestId = emp.EmployeeLeaveRequestId,
+                            EmployeeId = emp.EmployeeId,
+                            LeaveDate = emp.LeaveDate,
+                            LeaveDays = emp.LeaveDays,
+                            LeaveType = emp.LeaveType,
+                            LeaveReason = emp.LeaveReason,
+                            Employee = new EmployeeModel
+                            {
+                                Nip = emp.Employee.Nip,
+                                Users = new Users
+                                {
+                                    FullName = emp.Employee.Users.FullName
+                                }
+                            }
+                        }).FirstOrDefaultAsync();
+                    return View(leaveRequest);
+                }
+
+                var user = await userManager.GetUserAsync(User);
+                var time = DateTime.UtcNow;
+                if (user == null)
+                {
+                    return RedirectToAction("Logout", "Account");
+                }
+
+                var oldData = await context.EmployeeLeaveRequest.FindAsync(id);
+                if (oldData == null)
+                {
+                    TempData["Errors"] = "Data not found";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var logs = new AppLogModel
+                {
+                    CreatedAt = time,
+                    CreatedBy = $"{user.Id} - {user.FullName}",
+                    Params = JsonConvert.SerializeObject(new
+                    {
+                        oldData.LeaveType,
+                        oldData.LeaveDate,
+                        oldData.LeaveDays,
+                        oldData.LeaveReason,
+                        oldData.EmployeeLeaveRequestCode,
+                        oldData.EmployeeLeaveRequestId,
+                        DeleteReason = reason
+                    }),
+                    Source = JsonConvert.SerializeObject(new
+                    {
+                        Controller = "ManagementLeaveRequest",
+                        Action = "Delete",
+                        Database = "EmployeeLeaveRequest"
+                    })
+                };
+                //update data
+                oldData.IsDeleted = true;
+                oldData.UpdatedBy = user.Id;
+                oldData.UpdatedAt = time;
+                context.EmployeeLeaveRequest.Update(oldData);
+                await context.SaveChangesAsync();
+                await mongoDbContext.AppLogs.InsertOneAsync(logs);
+                TempData["Success"] = "Data deleted successfully";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                TempData["Errors"] = e.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> GetLeaveRequests()
         {
@@ -326,6 +445,7 @@ namespace DHR.Controllers
             };
 
             var query = context.EmployeeLeaveRequest
+                .Where(l => l.IsDeleted == false)
                 .Include(e => e.Employee)
                 .ThenInclude(e => e.Users)
                 .AsQueryable();

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Attendance";
+    ViewData["Title"] = Resource.AttendanceMenu;
 }
 <form id="attendanceForm">
     @Html.AntiForgeryToken()
@@ -11,7 +11,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1"><i class="far fa-calendar"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Calendar Days</span>
+                    <span class="info-box-text">@Resource.CalendarDays</span>
                     <span class="info-box-number" id="total-days">
                         0
                     </span>
@@ -26,7 +26,7 @@
                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-scroll"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Time-Off</span>
+                    <span class="info-box-text">@Resource.TimeOff</span>
                     <span class="info-box-number" id="time-off">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -40,7 +40,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-warning elevation-1"><i class="far fa-calendar-check"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Allowance Days</span>
+                    <span class="info-box-text">@Resource.AllowanceDays</span>
                     <span class="info-box-number" id="meal-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -52,7 +52,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-bill-wave"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Allowance</span>
+                    <span class="info-box-text">@Resource.Allowance</span>
                     <span class="info-box-number" id="meal-allowance-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -66,7 +66,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-calendar-alt"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Work Days</span>
+                    <span class="info-box-text">@Resource.WorkDays</span>
                     <span class="info-box-number" id="work-days">0</span>
                 </div>
             </div>
@@ -93,7 +93,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-yellow elevation-1"><i class="fas fa-hourglass-end"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Late</span>
+                    <span class="info-box-text">@Resource.Late</span>
                     <span class="info-box-number" id="late-days">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -105,7 +105,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-wallet"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Allowance Total</span>
+                    <span class="info-box-text">@Resource.AllowanceTotal</span>
                     <span class="info-box-number" id="meal-total">0</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -136,9 +136,9 @@
                         <thead>
                         <tr>
                             <th class="text-center">No</th>
-                            <th>Date</th>
-                            <th>In</th>
-                            <th>Out</th>
+                            <th>@Resource.Date</th>
+                            <th>@Resource.In</th>
+                            <th>@Resource.Out</th>
                             <th class="text-center">Status</th>
                             <th>Notes</th>
                         </tr>

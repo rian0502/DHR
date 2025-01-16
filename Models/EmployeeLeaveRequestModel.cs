@@ -6,7 +6,9 @@ public class EmployeeLeaveRequestModel
 {
     [Key]
     public int EmployeeLeaveRequestId { get; set; }
-    
+
+    public string? EmployeeLeaveRequestCode { get; set; }
+
     public DateOnly LeaveDate { get; set; }
     
     public double LeaveDays { get; set; }
@@ -33,5 +35,6 @@ public class EmployeeLeaveRequestModel
     public DateTime CreatedAt { get; set; }
     public string? UpdatedBy { get; set; }
     public DateTime UpdatedAt { get; set; }
-    
+    public bool IsDeleted { get; set; }
+    public string? DeleteReason { get; set; }
 }

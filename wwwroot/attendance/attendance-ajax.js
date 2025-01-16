@@ -2,58 +2,119 @@
     function formatDecimal(time) {
         return time === null || time === undefined ? '-' : time.toFixed(2);
     }
-
     function noteLateInformation(late, note, code, lateCount) {
+        let lang = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('lang='))
+            ?.split('=')[1];
+        if (lang !== 'id' && lang !== 'en') {
+            lang = 'en';
+        }
+        const translations = {
+            en: {
+                lateMessage: 'Late',
+                lateHour: 'Hour',
+                lateCountMessage: `Not eligible for allowance due to being late {count} times`,
+                default: '-'
+            },
+            id: {
+                lateMessage: 'Terlambat',
+                lateHour: 'Jam',
+                lateCountMessage: `Tidak mendapat tunjangan karena terlambat {count} kali`,
+                default: '-'
+            }
+        };
         if (note && note.trim() !== '') {
             return note;
         }
         if (lateCount > 3 && code === '-') {
-            return `<span class="badge bg-danger">Not eligible for allowance due to being late ${lateCount} times</span>`;
+            return `<span class="badge bg-danger">${translations[lang].lateCountMessage.replace("{count}", lateCount)}</span>`;
         }
         if (late > 0) {
-            return `<span class="badge bg-warning">Late ${late} Hour</span>`;
+            return `<span class="badge bg-warning">${translations[lang].lateMessage} ${late} ${translations[lang].lateHour}</span>`;
         }
-        return '-';
+        return translations[lang].default;
+    }
+    function statusAttendance(code) {
+        let lang = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('lang='))
+            ?.split('=')[1];
+        if (lang !== 'id' && lang !== 'en') {
+            lang = 'en';
+        }
+        const translations = {
+            en: {
+                '1': 'Entered',
+                'A': 'Alpha',
+                'P': 'Business Trip',
+                'D': 'Dispensation',
+                'L': 'Holiday',
+                'S': 'Sick',
+                'C': 'Leave',
+                'I': 'Permission',
+                'CB': 'Collective Leave',
+                'M': 'Maternity Leave',
+                'N': 'National Holiday',
+                '-': 'Late',
+                default: 'Unknown Status'
+            },
+            id: {
+                '1': 'Masuk',
+                'A': 'Alpha',
+                'P': 'Perjalanan Dinas',
+                'D': 'Dispensasi',
+                'L': 'Libur',
+                'S': 'Sakit',
+                'C': 'Cuti',
+                'I': 'Izin',
+                'CB': 'Cuti Bersama',
+                'M': 'Cuti Melahirkan',
+                'N': 'Libur Nasional',
+                '-': 'Terlambat',
+                default: 'Tidak Diketahui'
+            }
+        };
+        const text = translations[lang][code] || translations[lang].default;
+        return `<span class="badge bg-${getBadgeColor(code)}">${text}</span>`;
     }
 
-    function statusAttendance(code) {
+    function getBadgeColor(code) {
         switch (code) {
-            case '1':
-                return `<span class="badge bg-primary">Entered</span>`;
-            case 'A':
-                return `<span class="badge bg-danger">Alpha</span>`;
-            case 'P':
-                return `<span class="badge bg-info">Business Trip</span>`;
-            case 'D':
-                return `<span class="badge bg-warning">Dispensation</span>`;
-            case 'L':
-                return `<span class="badge bg-secondary">Holiday</span>`;
-            case 'S':
-                return `<span class="badge bg-warning">Sick</span>`;
-            case 'C':
-                return `<span class="badge bg-warning">Leave</span>`;
-            case 'I':
-                return `<span class="badge bg-info">Permission</span>`;
-            case 'CB':
-                return `<span class="badge bg-warning">Collective Leave</span>`;
-            case 'M':
-                return `<span class="badge bg-warning">Maternity Leave</span>`;
-            case 'N':
-                return `<span class="badge bg-secondary">National Holiday</span>`;
-            case '-':
-                return `<span class="badge bg-danger">Late</span>`;
-            default:
-                return `<span class="badge bg-dark">Unknown Status</span>`;
+            case '1': return 'primary';
+            case 'A': return 'danger';
+            case 'P': return 'info';
+            case 'D': return 'warning';
+            case 'L': return 'secondary';
+            case 'S': return 'warning';
+            case 'C': return 'warning';
+            case 'I': return 'info';
+            case 'CB': return 'warning';
+            case 'M': return 'warning';
+            case 'N': return 'secondary';
+            case '-': return 'danger';
+            default: return 'dark';
         }
     }
+
 
     function formatDateWithDay(dateString) {
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const dateObj = new Date(dateString);
-        const day = days[dateObj.getDay()];
-        const formattedDate = dateObj.toLocaleDateString();
-        return `${day}, ${formattedDate}`;
+        let lang = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('lang='))
+            ?.split('=')[1];
+
+        if (lang !== 'id' && lang !== 'en') {
+            lang = 'en';
+        }
+        const daysFormatter = new Intl.DateTimeFormat(lang, { weekday: 'long' });
+        const days = daysFormatter.formatToParts(new Date(dateString))
+            .find(part => part.type === 'weekday')?.value;
+        const formattedDate = new Date(dateString).toLocaleDateString(lang);
+
+        return `${days}, ${formattedDate}`;
     }
+
 
     const table = $('#attendanceRow').DataTable({
         ajax: {

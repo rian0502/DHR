@@ -1,0 +1,76 @@
+@model DHR.Models.EmployeeLeaveRequestModel
+
+@{
+    ViewBag.Title = "Delete Leave Request";
+}
+
+<div class="col-12">
+    <form asp-action="Delete" method="post" asp-route-id="@Model.EmployeeLeaveRequestId">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EmployeeLeaveRequestId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementLeaveRequest")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="LeaveDate">Leave Date</label>
+                            <input type="date"
+                                   class="form-control"
+                                   id="LeaveDate"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="LeaveDays">Leave Days</label>
+                            <input type="number" class="form-control" id="LeaveDays"
+                                   value="@Model.LeaveDays" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="EmployeeName">Employee</label>
+                        <input type="text" class="form-control" id="EmployeeName"
+                               value="@Model.Employee.Users.FullName" readonly="readonly">
+                    </div>
+                    <div class="col-6">
+                        <label for="LeaveType">Leave Type</label>
+                        <input type="text" class="form-control" id="LeaveType" value="@Model.LeaveType"
+                               readonly="readonly">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="LeaveReason">Reason</label>
+                            <textarea class="form-control" id="LeaveReason" readonly="readonly"
+                                      rows="4">@Model.LeaveReason</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="DeleteReason">Reason for Deleted Data</label>
+                            <textarea name="DeleteReason" required="required"
+                                      class="form-control @(ViewData.ModelState["DeleteReason"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                      id="DeleteReason" rows="4"></textarea>
+                            @if (ViewData.ModelState["DeleteReason"]?.Errors.Any() == true)
+                            {
+                                <span
+                                    class="text-danger">@ViewData.ModelState["DeleteReason"]?.Errors[0].ErrorMessage</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -14,6 +14,7 @@ public class DepartmentService(AppDbContext context)
     public async Task<IEnumerable<DepartmentModel>> FindAll()
     {
         var results = await context.Departments
+            .Where(d => d.IsDeleted == false)
             .ToListAsync();
         return results;
     }

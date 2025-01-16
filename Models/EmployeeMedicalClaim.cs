@@ -7,6 +7,7 @@ public class EmployeeMedicalClaim
 {
     [Key]
     public int EmployeeMedicalClaimId { get; set; }
+    public string? EmployeeMedicalClaimCode { get; set; }
     public DateOnly? ClaimDate { get; set; }
     public string? Diagnosis { get; set; }
     public string? ClaimStatus { get; set; }
@@ -25,4 +26,6 @@ public class EmployeeMedicalClaim
     public DateTime CreatedAt { get; set; }
     public string? UpdatedBy { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public bool IsDeleted { get; set; }
+    public string? DeleteReason { get; set; }
 }
