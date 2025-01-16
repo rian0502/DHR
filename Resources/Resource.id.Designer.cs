@@ -60,6 +60,33 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tunjangan.
+        /// </summary>
+        public static string Allowance {
+            get {
+                return ResourceManager.GetString("Allowance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tunjangan Perhari.
+        /// </summary>
+        public static string AllowanceDays {
+            get {
+                return ResourceManager.GetString("AllowanceDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Tunjangan.
+        /// </summary>
+        public static string AllowanceTotal {
+            get {
+                return ResourceManager.GetString("AllowanceTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kehadiran.
         /// </summary>
         public static string AttendanceMenu {
@@ -69,11 +96,182 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Perjalanan Dinas.
+        /// </summary>
+        public static string BusinessTravelRequest {
+            get {
+                return ResourceManager.GetString("BusinessTravelRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hari Kalender.
+        /// </summary>
+        public static string CalendarDays {
+            get {
+                return ResourceManager.GetString("CalendarDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tanggal.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Masuk.
+        /// </summary>
+        public static string In {
+            get {
+                return ResourceManager.GetString("In", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rawat Inap.
+        /// </summary>
+        public static string InpatientCare {
+            get {
+                return ResourceManager.GetString("InpatientCare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terlambat.
+        /// </summary>
+        public static string Late {
+            get {
+                return ResourceManager.GetString("Late", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cuti.
+        /// </summary>
+        public static string LeaveRequest {
+            get {
+                return ResourceManager.GetString("LeaveRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Cuti.
+        /// </summary>
+        public static string LeaveTaken {
+            get {
+                return ResourceManager.GetString("LeaveTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manajemen.
+        /// </summary>
+        public static string Management {
+            get {
+                return ResourceManager.GetString("Management", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Biaya Melahirkan.
+        /// </summary>
+        public static string MaternityExpenses {
+            get {
+                return ResourceManager.GetString("MaternityExpenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Klaim Medis.
+        /// </summary>
+        public static string MedicalClaimMenu {
+            get {
+                return ResourceManager.GetString("MedicalClaimMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info Lebih Lanjut.
+        /// </summary>
+        public static string MoreInfo {
+            get {
+                return ResourceManager.GetString("MoreInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kacamata.
+        /// </summary>
+        public static string OpticalServices {
+            get {
+                return ResourceManager.GetString("OpticalServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keluar.
+        /// </summary>
+        public static string Out {
+            get {
+                return ResourceManager.GetString("Out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rawat Jalan.
+        /// </summary>
+        public static string OutpatientCare {
+            get {
+                return ResourceManager.GetString("OutpatientCare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Izin.
+        /// </summary>
+        public static string PermissionRequest {
+            get {
+                return ResourceManager.GetString("PermissionRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Permintaan.
         /// </summary>
         public static string RequestMenu {
             get {
                 return ResourceManager.GetString("RequestMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tidak Masuk.
+        /// </summary>
+        public static string TimeOff {
+            get {
+                return ResourceManager.GetString("TimeOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hari Kerja.
+        /// </summary>
+        public static string WorkDays {
+            get {
+                return ResourceManager.GetString("WorkDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Izin Masuk Kerja.
+        /// </summary>
+        public static string WorkEntryRequest {
+            get {
+                return ResourceManager.GetString("WorkEntryRequest", resourceCulture);
             }
         }
     }

@@ -1,0 +1,92 @@
+﻿@model DHR.ViewModels.ManagementPermissionRequest.EditViewModel
+@{
+    ViewData["Title"] = "Edit Permission";
+}
+
+<div class="col-12">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.EmployeePermissionRequestId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementPermissionRequest")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="EmployeePermissionRequestCode">Permission Code</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["EmployeePermissionRequestCode"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="EmployeePermissionRequestCode">
+                            <span asp-validation-for="EmployeePermissionRequestCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PermissionDate">Permission Date</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["PermissionDate"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="PermissionDate">
+                            <span asp-validation-for="PermissionDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PermissionDays">Permission Days</label>
+                            <input type="number" min=".5" step=".5"
+                                   class="form-control @(ViewData.ModelState["PermissionDays"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="PermissionDays">
+                            <span asp-validation-for="PermissionDays" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="EmployeeId">Employee</label>
+                            <select class="form-control select2bs4 @(ViewData.ModelState["EmployeeId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                    style="width: 100%;" asp-for="EmployeeId">
+                                @foreach (var emp in ViewBag.Employee)
+                                {
+                                    <option value="@emp.EmployeeId">@emp.Nip - @emp.FullName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PermissionType">Permission Type</label>
+                            <select class="form-control select2bs4 @(ViewData.ModelState["PermissionType"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                    style="width: 100%;" asp-for="PermissionType">
+                                @foreach (var item in ViewBag.PermissionTypes)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PermissionType" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="PermissionReason">Permission Reason</label>
+                            <textarea class="form-control @(ViewData.ModelState["PermissionReason"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                      asp-for="PermissionReason"
+                                      placeholder="Ex: Konsultasi Dokter, Keperluan Keluarga."
+                                      rows="4"></textarea>
+                            <span asp-validation-for="PermissionReason" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

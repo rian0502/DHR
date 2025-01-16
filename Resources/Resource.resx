@@ -130,7 +130,7 @@
     <value>Attendance</value>
   </data>
   <data name="BusinessTravelRequest" xml:space="preserve">
-    <value>Business Travel Request</value>
+    <value>Business Travel</value>
   </data>
   <data name="CalendarDays" xml:space="preserve">
     <value>Calendar Days</value>
@@ -148,7 +148,7 @@
     <value>Late</value>
   </data>
   <data name="LeaveRequest" xml:space="preserve">
-    <value>Leave Request</value>
+    <value>Leave</value>
   </data>
   <data name="LeaveTaken" xml:space="preserve">
     <value>Leave Taken</value>
@@ -172,7 +172,7 @@
     <value>Outpatient Care</value>
   </data>
   <data name="PermissionRequest" xml:space="preserve">
-    <value>Permission Request</value>
+    <value>Permission</value>
   </data>
   <data name="RequestMenu" xml:space="preserve">
     <value>Request</value>
@@ -185,5 +185,8 @@
   </data>
   <data name="WorkEntryRequest" xml:space="preserve">
     <value>Work Entry Request</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Management</value>
   </data>
 </root>

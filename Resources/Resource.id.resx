@@ -186,4 +186,7 @@
   <data name="WorkEntryRequest" xml:space="preserve">
     <value>Izin Masuk Kerja</value>
   </data>
+  <data name="Management" xml:space="preserve">
+    <value>Manajemen</value>
+  </data>
 </root>

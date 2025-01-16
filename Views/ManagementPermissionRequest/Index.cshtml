@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<EmployeePermissionRequest>
+
 @{
+    ViewData["Title"] = $"{Resource.Management} {Resource.PermissionRequest}";
+    var iteration = 1;
 }
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "ManagementPermissionRequest")" class="btn btn-info">
+                <i class="fas fa-plus-square mr-2"></i> Leave
+            </a>
+        </div>
+        <div class="card-body">
+            <table id="leaveRequestTable" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="text-center">No</th>
+                    <th>NIP</th>
+                    <th>Employee</th>
+                    <th>@Resource.Date</th>
+                    <th>Days</th>
+                    <th>Type</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@iteration</td>
+                        <td>@item.Employee?.Nip</td>
+                        <td>@item.Employee?.Users?.FullName</td>
+                        <td>@item.PermissionDate</td>
+                        <td>@item.PermissionDays</td>
+                        <td>@item.PermissionType</td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                    <a class="dropdown-item" href="@Url.Action("Edit", new { id = item.EmployeePermissionRequestId})"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" href="@Url.Action("Detail", new { id = item.EmployeePermissionRequestId})"><i class="fas fa-info-circle"></i> Detail</a>
+                                    <a class="dropdown-item bg-danger" href="@Url.Action("Delete", new { id = item.EmployeePermissionRequestId})"><i class="fas fa-trash"></i> Delete</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

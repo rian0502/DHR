@@ -7,13 +7,10 @@ public class EmployeePermissionRequest
     public int EmployeePermissionRequestId { get; set; }
     public string? EmployeePermissionRequestCode { get; set; }
     public DateOnly PermissionDate { get; set; }
-    
     public double PermissionDays { get; set; }
-
+    public string? PermissionType { get; set; }
     public string? PermissionReason { get; set; }
-
     public int EmployeeId { get; set; }
-
     //Relational Model
     public EmployeeModel? Employee { get; set; }
 

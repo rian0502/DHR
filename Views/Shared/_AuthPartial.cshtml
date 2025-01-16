@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-<li class="nav-item dropdown">
+﻿<li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
         <i class="bi bi-person-circle mr-2"></i>
         @User.FindFirst(ClaimTypes.Name)?.Value
