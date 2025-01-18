@@ -123,6 +123,15 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pegawai.
+        /// </summary>
+        public static string Employee {
+            get {
+                return ResourceManager.GetString("Employee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Masuk.
         /// </summary>
         public static string In {
@@ -204,6 +213,15 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Perhatian.
+        /// </summary>
+        public static string Notice {
+            get {
+                return ResourceManager.GetString("Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kacamata.
         /// </summary>
         public static string OpticalServices {
@@ -254,6 +272,78 @@ namespace DHR.Resources {
         public static string TimeOff {
             get {
                 return ResourceManager.GetString("TimeOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah mengajukan perjalanan dinas namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserBusinessTripNullAlert {
+            get {
+                return ResourceManager.GetString("UserBusinessTripNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah mengajukan izin masuk kerja namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserEntryPermissionNullAlert {
+            get {
+                return ResourceManager.GetString("UserEntryPermissionNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah melakukan klaim rawat inap namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserInpatientNullAlert {
+            get {
+                return ResourceManager.GetString("UserInpatientNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah mengajukan cuti namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserLeaveNullAlert {
+            get {
+                return ResourceManager.GetString("UserLeaveNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah melakukan klaim biaya kelahiran namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserMaternityNullAlert {
+            get {
+                return ResourceManager.GetString("UserMaternityNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah melakukan klaim layanan kacamata namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserOpticalNullAlert {
+            get {
+                return ResourceManager.GetString("UserOpticalNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah melakukan klaim rawat jalan namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserOutpatientNullAlert {
+            get {
+                return ResourceManager.GetString("UserOutpatientNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jika Anda merasa telah mengajukan izin namun data belum muncul, silakan hubungi HRD..
+        /// </summary>
+        public static string UserPermissionNullAlert {
+            get {
+                return ResourceManager.GetString("UserPermissionNullAlert", resourceCulture);
             }
         }
         

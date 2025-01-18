@@ -29,7 +29,7 @@ namespace DHR.Controllers
                 }
             }
             
-            return NotFound("User or Employee not found.");
+            return View();
         }
 
 

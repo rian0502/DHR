@@ -189,4 +189,34 @@
   <data name="Management" xml:space="preserve">
     <value>Manajemen</value>
   </data>
+  <data name="UserOutpatientNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah melakukan klaim rawat jalan namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="Notice" xml:space="preserve">
+    <value>Perhatian</value>
+  </data>
+  <data name="UserInpatientNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah melakukan klaim rawat inap namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="UserOpticalNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah melakukan klaim layanan kacamata namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="UserMaternityNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah melakukan klaim biaya kelahiran namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="UserLeaveNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah mengajukan cuti namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="UserPermissionNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah mengajukan izin namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="UserBusinessTripNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah mengajukan perjalanan dinas namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="UserEntryPermissionNullAlert" xml:space="preserve">
+    <value>Jika Anda merasa telah mengajukan izin masuk kerja namun data belum muncul, silakan hubungi HRD.</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Pegawai</value>
+  </data>
 </root>

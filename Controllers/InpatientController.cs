@@ -27,8 +27,8 @@ namespace DHR.Controllers
                     return View(medicalClaims);
                 }
             }
-            
-            return NotFound("User or Employee not found.");
+
+            return View();
         }
         
         // GET: InpatientController/Create

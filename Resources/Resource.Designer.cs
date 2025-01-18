@@ -123,6 +123,15 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee.
+        /// </summary>
+        public static string Employee {
+            get {
+                return ResourceManager.GetString("Employee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In.
         /// </summary>
         public static string In {
@@ -204,6 +213,15 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notice.
+        /// </summary>
+        public static string Notice {
+            get {
+                return ResourceManager.GetString("Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical Services.
         /// </summary>
         public static string OpticalServices {
@@ -254,6 +272,78 @@ namespace DHR.Resources {
         public static string TimeOff {
             get {
                 return ResourceManager.GetString("TimeOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted a business trip request but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserBusinessTripNullAlert {
+            get {
+                return ResourceManager.GetString("UserBusinessTripNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted a work entry permission request but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserEntryPermissionNullAlert {
+            get {
+                return ResourceManager.GetString("UserEntryPermissionNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted an inpatient claim but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserInpatientNullAlert {
+            get {
+                return ResourceManager.GetString("UserInpatientNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted a leave request but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserLeaveNullAlert {
+            get {
+                return ResourceManager.GetString("UserLeaveNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted a maternity service claim but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserMaternityNullAlert {
+            get {
+                return ResourceManager.GetString("UserMaternityNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted an optical service claim but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserOpticalNullAlert {
+            get {
+                return ResourceManager.GetString("UserOpticalNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted an outpatient claim but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserOutpatientNullAlert {
+            get {
+                return ResourceManager.GetString("UserOutpatientNullAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you believe you have submitted a permission request but it is not showing here, please contact HR..
+        /// </summary>
+        public static string UserPermissionNullAlert {
+            get {
+                return ResourceManager.GetString("UserPermissionNullAlert", resourceCulture);
             }
         }
         

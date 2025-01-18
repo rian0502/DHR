@@ -10,6 +10,7 @@ public class PermissionRequestController(AppDbContext context) : Controller
     // GET
     public IActionResult Index()
     {
+        
         return View();
     }
 

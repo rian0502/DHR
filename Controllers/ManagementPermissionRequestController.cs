@@ -452,4 +452,20 @@ public class ManagementPermissionRequestController(
             return RedirectToAction(nameof(Index));
         }
     }
+    
+    
+    // GET: ManagementPermissionRequestController/Import
+    public ActionResult Import()
+    {
+        return View();
+    }
+    
+    // POST: ManagementPermissionRequestController/Import
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Import(ImportPermissionViewModel model)
+    {
+        
+        return View();
+    }
 }

@@ -189,4 +189,34 @@
   <data name="Management" xml:space="preserve">
     <value>Management</value>
   </data>
+  <data name="UserOutpatientNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted an outpatient claim but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="Notice" xml:space="preserve">
+    <value>Notice</value>
+  </data>
+  <data name="UserInpatientNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted an inpatient claim but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="UserOpticalNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted an optical service claim but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="UserMaternityNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted a maternity service claim but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="UserLeaveNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted a leave request but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="UserPermissionNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted a permission request but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="UserBusinessTripNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted a business trip request but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="UserEntryPermissionNullAlert" xml:space="preserve">
+    <value>If you believe you have submitted a work entry permission request but it is not showing here, please contact HR.</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
 </root>
