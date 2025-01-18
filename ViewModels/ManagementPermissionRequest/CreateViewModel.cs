@@ -18,6 +18,9 @@ namespace DHR.ViewModels.ManagementPermissionRequest
         
         [Required(ErrorMessage = "Permission Reason is required")]
         public required string PermissionReason { get; set; }
+        
+        [Required(ErrorMessage = "Personnel Remarks is required")]
+        public required string PersonnelRemarks { get; set; }
 
         [Required(ErrorMessage = "Employee Id is required")]
         public int EmployeeId { get; set; }

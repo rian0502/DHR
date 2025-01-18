@@ -20,6 +20,9 @@ public class EditViewModel
         
     [Required(ErrorMessage = "Permission Reason is required")]
     public required string PermissionReason { get; set; }
+    
+    [Required(ErrorMessage = "Permission Remarks is required")]
+    public required string PersonnelRemarks { get; set; }
 
     [Required(ErrorMessage = "Employee Id is required")]
     public int EmployeeId { get; set; }

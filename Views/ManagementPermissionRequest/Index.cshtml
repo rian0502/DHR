@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = $"{Resource.Management} {Resource.PermissionRequest}";
-    var iteration = 1;
+    const int iteration = 1;
 }
 
 <div class="col-12">
@@ -32,7 +32,7 @@
                         <td class="text-center">@iteration</td>
                         <td>@item.Employee?.Nip</td>
                         <td>@item.Employee?.Users?.FullName</td>
-                        <td>@item.PermissionDate</td>
+                        <td>@(item.PermissionDate.ToString("dd MMMM yyyy"))</td>
                         <td>@item.PermissionDays</td>
                         <td>@item.PermissionType</td>
                         <td class="text-center">
@@ -41,9 +41,8 @@
                                     <i class="fas fa-chevron-circle-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                    <a class="dropdown-item" href="@Url.Action("Edit", new { id = item.EmployeePermissionRequestId})"><i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item" href="@Url.Action("Detail", new { id = item.EmployeePermissionRequestId})"><i class="fas fa-info-circle"></i> Detail</a>
-                                    <a class="dropdown-item bg-danger" href="@Url.Action("Delete", new { id = item.EmployeePermissionRequestId})"><i class="fas fa-trash"></i> Delete</a>
+                                    <a class="dropdown-item" href="@Url.Action("Edit", new { id = item.EmployeePermissionRequestId })"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item bg-danger" href="@Url.Action("Delete", new { id = item.EmployeePermissionRequestId })"><i class="fas fa-trash"></i> Delete</a>
                                 </div>
                             </div>
                         </td>

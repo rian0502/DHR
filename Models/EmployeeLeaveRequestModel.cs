@@ -21,7 +21,6 @@ public class EmployeeLeaveRequestModel
      * Does Not Deduct Annual Leave: Maternity Leave, Marriage Leave
      */
     public string? LeaveType { get; set; }
-
     
     public int EmployeeId { get; set; }
     

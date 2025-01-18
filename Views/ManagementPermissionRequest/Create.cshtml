@@ -13,7 +13,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="form-group">
                             <label asp-for="EmployeePermissionRequestCode">Permission Code</label>
                             <input type="text"
@@ -22,8 +22,6 @@
                             <span asp-validation-for="EmployeePermissionRequestCode" class="text-danger"></span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="PermissionDate">Permission Date</label>
@@ -33,6 +31,8 @@
                             <span asp-validation-for="PermissionDate" class="text-danger"></span>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="PermissionDays">Permission Days</label>
@@ -40,6 +40,19 @@
                                    class="form-control @(ViewData.ModelState["PermissionDays"]?.Errors.Any() == true ? "is-invalid" : "")"
                                    asp-for="PermissionDays">
                             <span asp-validation-for="PermissionDays" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PersonnelRemarks">Personal Remarks</label>
+                            <select class="form-control select2bs4 @(ViewData.ModelState["PersonnelRemarks"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                    style="width: 100%;" asp-for="PersonnelRemarks">
+                                @foreach (var item in ViewBag.PermissionRemarks)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PersonnelRemarks" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

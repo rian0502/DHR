@@ -1,5 +1,97 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model EmployeePermissionRequest
+
 @{
+    ViewData["Title"] = "Delete Permission";
 }
+
+<div class="col-12">
+    <form asp-action="Delete" method="post" asp-route-id="@Model.EmployeePermissionRequestId">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EmployeePermissionRequestId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementPermissionRequest")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="EmployeePermissionRequestCode">Permission Code</label>
+                            <input type="text" class="form-control" id="EmployeePermissionRequestCode"
+                                   disabled="disabled"
+                                   value="@Model.EmployeePermissionRequestCode">
+
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="PermissionDate">Permission Date</label>
+                            <input type="text" value="@(Model.PermissionDate.ToString("dddd, dd MMMM yyyy"))" class="form-control" disabled="disabled"
+                                   id="PermissionDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="PermissionDays">Permission Days</label>
+                            <input type="text" value="@Model.PermissionDays" disabled="disabled" class="form-control"
+                                   id="PermissionDays">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="PersonnelRemarks">Personal Remarks</label>
+                            <input type="text" class="form-control" id="PersonnelRemarks" disabled="disabled"
+                                   value="@Model.PersonnelRemarks">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="EmployeeName">Employee</label>
+                            <input type="text" class="form-control" id="EmployeeName" disabled="disabled"
+                                   value="@(Model.Employee?.Users?.FullName)">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="PermissionType">Permission Type</label>
+                            <input type="text" class="form-control" id="PermissionType" disabled="disabled"
+                                   value="@Model.PermissionType">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="PermissionReason">Permission Reason</label>
+                            <textarea
+                                class="form-control" id="PermissionReason" disabled="disabled"
+                                rows="4">@Model.PermissionReason</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="DeleteReason">Reason for Deleted Data</label>
+                            <textarea name="DeleteReason" required="required"
+                                      class="form-control @(ViewData.ModelState["DeleteReason"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                      id="DeleteReason" rows="4"></textarea>
+                            @if (ViewData.ModelState["DeleteReason"]?.Errors.Any() == true)
+                            {
+                                <span
+                                    class="text-danger">@ViewData.ModelState["DeleteReason"]?.Errors[0].ErrorMessage</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </form>
+</div>
