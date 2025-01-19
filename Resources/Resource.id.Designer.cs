@@ -60,6 +60,15 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tentang Saya.
+        /// </summary>
+        public static string AboutMe {
+            get {
+                return ResourceManager.GetString("AboutMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tunjangan.
         /// </summary>
         public static string Allowance {
@@ -96,6 +105,15 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manfaat.
+        /// </summary>
+        public static string Benefit {
+            get {
+                return ResourceManager.GetString("Benefit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Perjalanan Dinas.
         /// </summary>
         public static string BusinessTravelRequest {
@@ -114,6 +132,42 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ubah Kata Sandi Anda.
+        /// </summary>
+        public static string ChangeyourPassword {
+            get {
+                return ResourceManager.GetString("ChangeyourPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tutup.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Perusahaan.
+        /// </summary>
+        public static string Company {
+            get {
+                return ResourceManager.GetString("Company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Konfirmasi Kata Sandi.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tanggal.
         /// </summary>
         public static string Date {
@@ -123,11 +177,47 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Departemen.
+        /// </summary>
+        public static string Department {
+            get {
+                return ResourceManager.GetString("Department", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ubah Kata Sandi.
+        /// </summary>
+        public static string EditPassword {
+            get {
+                return ResourceManager.GetString("EditPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tingkat Pendidikan.
+        /// </summary>
+        public static string EducationLevel {
+            get {
+                return ResourceManager.GetString("EducationLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pegawai.
         /// </summary>
         public static string Employee {
             get {
                 return ResourceManager.GetString("Employee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keluarga.
+        /// </summary>
+        public static string Family {
+            get {
+                return ResourceManager.GetString("Family", resourceCulture);
             }
         }
         
@@ -146,6 +236,15 @@ namespace DHR.Resources {
         public static string InpatientCare {
             get {
                 return ResourceManager.GetString("InpatientCare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jabatan.
+        /// </summary>
+        public static string JobTitle {
+            get {
+                return ResourceManager.GetString("JobTitle", resourceCulture);
             }
         }
         
@@ -213,11 +312,29 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kata Sandi Baru.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Perhatian.
         /// </summary>
         public static string Notice {
             get {
                 return ResourceManager.GetString("Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kata Sandi Lama.
+        /// </summary>
+        public static string OldPassword {
+            get {
+                return ResourceManager.GetString("OldPassword", resourceCulture);
             }
         }
         
@@ -267,11 +384,29 @@ namespace DHR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Simpan.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tidak Masuk.
         /// </summary>
         public static string TimeOff {
             get {
                 return ResourceManager.GetString("TimeOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Satuan.
+        /// </summary>
+        public static string Unit {
+            get {
+                return ResourceManager.GetString("Unit", resourceCulture);
             }
         }
         

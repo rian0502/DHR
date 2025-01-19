@@ -40,7 +40,7 @@
                     </ul>
                     <button type="button" class="btn btn-info btn-block" data-toggle="modal"
                             data-target="#modal-default">
-                        Edit Password
+                        @Resource.EditPassword
                     </button>
                 </div>
             </div>
@@ -48,29 +48,29 @@
         <div class="col-md-6">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">About Me</h3>
+                    <h3 class="card-title">@Resource.AboutMe</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <strong><i class="fas fa-user-graduate mr-1"></i> Education Level</strong>
+                    <strong><i class="fas fa-user-graduate mr-1"></i>@Resource.EducationLevel</strong>
                     <p class="text-muted">
                         @Model.Education!.EducationName
                     </p>
                     <hr>
-                    <strong><i class="fas fa-user-tie mr-1"></i> Job Title</strong>
+                    <strong><i class="fas fa-user-tie mr-1"></i>@Resource.JobTitle</strong>
                     <p class="text-muted">
                         @(Model.JobTitle?.JobTitleName ?? "-")
                     </p>
                     <hr>
-                    <strong><i class="far fa-building mr-1"></i> Company</strong>
+                    <strong><i class="far fa-building mr-1"></i>@Resource.Company</strong>
                     <p class="text-muted">@Model.Company?.CompanyName</p>
                     <hr>
 
-                    <strong><i class="fas fa-street-view mr-1"></i> Unit</strong>
+                    <strong><i class="fas fa-street-view mr-1"></i>@Resource.Unit</strong>
                     <p class="text-muted">@Model.SubUnit!.SubUnitName</p>
                     <hr>
 
-                    <strong><i class="fas fa-sitemap mr-1"></i> Department</strong>
+                    <strong><i class="fas fa-sitemap mr-1"></i>@Resource.Department</strong>
                     <p class="text-muted">@Model.Division!.DivisionName - @Model.Division?.SubDepartment.SubDepartmentName</p>
                 </div>
                 <!-- /.card-body -->
@@ -81,7 +81,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Benefit</strong></h2>
+                    <h2 class="card-title"><strong>@Resource.Benefit</strong></h2>
                 </div>
                 <div class="card-body">
                     <table id="example3" class="table table-bordered table-hover">
@@ -103,9 +103,9 @@
                                 <tr>
                                     <td class="text-center">@iteration</td>
                                     <td>@item.StartDate - @item.EndDate</td>
-                                    <td>@item.Benefit.BenefitName</td>
+                                    <td>@(item.Benefit?.BenefitName)</td>
                                     <td>@item.Amount</td>
-                                    <td>@item.Benefit.Category</td>
+                                    <td>@(item.Benefit?.Category)</td>
 
                                 </tr>
                                 iteration++;
@@ -121,11 +121,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Family</strong></h2>
+                    <h2 class="card-title"><strong>@Resource.Family</strong></h2>
                     <div class="card-tools">
                         <a href="@Url.Action("Create", "EmployeeDependent")" class="btn btn-info">
                             <i class="fas fa-plus mr-2"></i>
-                            Family
+                            @Resource.Family
                         </a>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
             <form id="changePasswordForm">
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
-                    <h4 class="modal-title">Change your Password</h4>
+                    <h4 class="modal-title">@Resource.ChangeyourPassword</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -201,21 +201,21 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="old-password">Old Password</label>
+                                <label for="old-password">@Resource.OldPassword</label>
                                 <input id="old-password" type="password" class="form-control" placeholder="Old Password"
                                        name="oldPassword">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="new-password">New Password</label>
+                                <label for="new-password">@Resource.NewPassword</label>
                                 <input id="new-password" type="password" class="form-control" placeholder="New Password"
                                        name="newPassword">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="confirm-new-password">Confirm Password</label>
+                                <label for="confirm-new-password">@Resource.ConfirmPassword</label>
                                 <input id="confirm-new-password" type="password" class="form-control"
                                        placeholder="Confirm New Password" name="confirmNewPassword">
                             </div>
@@ -223,8 +223,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="submit-btn">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@Resource.Close</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">@Resource.Save</button>
                 </div>
             </form>
         </div>

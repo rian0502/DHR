@@ -219,4 +219,49 @@
   <data name="Employee" xml:space="preserve">
     <value>Pegawai</value>
   </data>
+  <data name="AboutMe" xml:space="preserve">
+    <value>Tentang Saya</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Perusahaan</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>Jabatan</value>
+  </data>
+  <data name="Benefit" xml:space="preserve">
+    <value>Manfaat</value>
+  </data>
+  <data name="EditPassword" xml:space="preserve">
+    <value>Ubah Kata Sandi</value>
+  </data>
+  <data name="EducationLevel" xml:space="preserve">
+    <value>Tingkat Pendidikan</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Satuan</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Departemen</value>
+  </data>
+  <data name="Family" xml:space="preserve">
+    <value>Keluarga</value>
+  </data>
+  <data name="ChangeyourPassword" xml:space="preserve">
+    <value>Ubah Kata Sandi Anda</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Kata Sandi Lama</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Kata Sandi Baru</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Konfirmasi Kata Sandi</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Simpan</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Tutup</value>
+  </data>
 </root>
