@@ -1,12 +1,12 @@
 ﻿using DHR.Helper;
 using DHR.Models;
+using ExcelDataReader;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using DHR.ViewModels.ManagementPermissionRequest;
-using Newtonsoft.Json;
 
 namespace DHR.Controllers;
 
@@ -465,7 +465,62 @@ public class ManagementPermissionRequestController(
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Import(ImportPermissionViewModel model)
     {
-        
-        return View();
+        try
+        {
+            return Ok(ReadPermissionRequestFromExcelAsync(model.ExcelFile));
+            return RedirectToAction(nameof(Index));
+        }
+        catch(Exception e)
+        {
+            TempData["Errors"] = e.Message;
+            return RedirectToAction(nameof(Index));
+        }
     }
+    
+    private async Task<List<object>> ReadPermissionRequestFromExcelAsync(IFormFile excelFile)
+    {
+        var claims = new List<object>();
+
+        await using var stream = excelFile.OpenReadStream();
+        using var reader = ExcelReaderFactory.CreateReader(stream);
+        bool isFirstSheet = true;
+        do
+        {
+            if (isFirstSheet)
+            {
+                reader.Read();
+
+                while (reader.Read())
+                {
+                    if (reader.IsDBNull(0) || reader.IsDBNull(1)) continue;
+
+                    var claim = new
+                    {
+                        Nip = int.TryParse(reader.GetValue(1).ToString(), out var nip) ? nip : 0,
+                        Code = reader.GetValue(2).ToString(),
+                        PermissionDate = reader.GetValue(3).ToString(),
+                        PermissionDays = reader.GetValue(4).ToString(),
+                        PermissionType = reader.GetValue(5).ToString(),
+                        PermissionRemarks = reader.GetValue(6).ToString(),
+                        PermissionReason = reader.GetValue(7).ToString()
+                    };
+
+                    claims.Add(claim);
+                }
+
+                isFirstSheet = false;
+            }
+        } while (reader.NextResult());
+
+        return claims;
+    }
+
+    private DateOnly? ParseDate(string dateString)
+    {
+        return DateTime.TryParse(dateString, out var tempDate)
+            ? DateOnly.FromDateTime(tempDate)
+            : null;
+    }
+    
+    
 }
