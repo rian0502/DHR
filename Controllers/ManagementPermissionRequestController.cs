@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using DHR.ViewModels.ManagementPermissionRequest;
+using Microsoft.AspNetCore.Http.HttpResults;
+using DHR.Providers;
 
 namespace DHR.Controllers;
 
@@ -14,7 +16,8 @@ namespace DHR.Controllers;
 public class ManagementPermissionRequestController(
     UserManager<Users> userManager,
     AppDbContext context,
-    MongoDbContext mongoContext) : Controller
+    MongoDbContext mongoContext,
+    PermissionRequestService permissionRequestService) : Controller
 {
     // GET: ManagementPermissionRequestController
     public async Task<ActionResult> Index()
@@ -467,7 +470,27 @@ public class ManagementPermissionRequestController(
     {
         try
         {
-            return Ok(ReadPermissionRequestFromExcelAsync(model.ExcelFile));
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var users = await userManager.GetUserAsync(User);
+            if (users == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var permission = await ReadPermissionRequestFromExcelAsync(model.ExcelFile, users.Id);
+            if (permission.Count != 0)
+            {
+                await permissionRequestService.InsertBatchPermissionRequestsAsync(permission);
+                TempData["Success"] = "Data has been imported successfully";
+            }
+            else
+            {
+                TempData["Errors"] = "No valid data found to import";
+            }
+
             return RedirectToAction(nameof(Index));
         }
         catch(Exception e)
@@ -477,7 +500,7 @@ public class ManagementPermissionRequestController(
         }
     }
     
-    private async Task<List<object>> ReadPermissionRequestFromExcelAsync(IFormFile excelFile)
+    private async Task<List<object>> ReadPermissionRequestFromExcelAsync(IFormFile excelFile, string users)
     {
         var claims = new List<object>();
 
@@ -496,13 +519,15 @@ public class ManagementPermissionRequestController(
 
                     var claim = new
                     {
-                        Nip = int.TryParse(reader.GetValue(1).ToString(), out var nip) ? nip : 0,
-                        Code = reader.GetValue(2).ToString(),
-                        PermissionDate = reader.GetValue(3).ToString(),
-                        PermissionDays = reader.GetValue(4).ToString(),
-                        PermissionType = reader.GetValue(5).ToString(),
-                        PermissionRemarks = reader.GetValue(6).ToString(),
-                        PermissionReason = reader.GetValue(7).ToString()
+                        NIP = int.TryParse(reader.GetValue(1).ToString(), out var nip) ? nip : 0,
+                        EmployeePermissionRequestCode = reader.GetValue(3).ToString(),
+                        PermissionDate = ParseDate(reader.GetValue(4).ToString()),
+                        PermissionDays = double.TryParse(reader.GetValue(5).ToString(), out var days) ? days : 0,
+                        PermissionType = reader.GetValue(6).ToString(),
+                        PersonnelRemarks = reader.GetValue(7).ToString(),
+                        PermissionReason = reader.GetValue(8).ToString(),
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy = users
                     };
 
                     claims.Add(claim);
