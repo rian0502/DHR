@@ -28,6 +28,8 @@ namespace DHR.Helper
         public DbSet<EmployeeLeaveRequestModel> EmployeeLeaveRequest { get; set; }
         public DbSet<EmployeePermissionRequest> EmployeePermissionRequest { get; set; }
         public DbSet<EmployeeMedicalClaim> EmployeeMedicalClaims { get; set; }
+        public DbSet<EmployeeWorkEntryRequest> EmployeeWorkEntryRequests { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -49,7 +51,7 @@ namespace DHR.Helper
             builder.Entity<EmployeeModel>().HasMany(e => e.MedicalClaims).WithOne(mc => mc.Employee).HasForeignKey(mc => mc.EmployeeId);
             builder.Entity<EmployeeModel>().HasMany(e => e.EmployeePermissions).WithOne(ep => ep.Employee).HasForeignKey(ep => ep.EmployeeId);
             builder.Entity<EmployeeModel>().HasMany(e => e.EmployeeLeaveRequestModels).WithOne(elr => elr.Employee).HasForeignKey(elr => elr.EmployeeId);
-            
+            builder.Entity<EmployeeModel>().HasMany(e => e.EmployeeWorkEntryRequests).WithOne(e => e.Employee).HasForeignKey(e => e.EmployeeId);
         }
     }
 }

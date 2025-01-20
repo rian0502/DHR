@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = Resource.PermissionRequest;
+    int iteration = 1;
 }
 
 <div class="col-12">
@@ -30,12 +31,22 @@
                 <tr>
                     <th>No</th>
                     <th>Code</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Action</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>HR</th>
                 </tr>
                 </thead>
                 <tbody>
+                    @foreach(var item in Model){
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@item.EmployeePermissionRequestCode</td>
+                            <td>@item.PermissionDate</td>
+                            <td>@item.PermissionType</td>
+                            <td>@item.PersonnelRemarks</td>
+                        </tr>
+                        iteration++;
+                    }
                 </tbody>
             </table>
         </div>

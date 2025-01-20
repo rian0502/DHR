@@ -20,7 +20,10 @@ namespace DHR.Controllers
             {
                 return RedirectToAction("Logout", "Account");
             }
-            return View(employee.EmployeeLeaveRequestModels);
+            var filter = employee?.EmployeeLeaveRequestModels?
+                .Where(el => el.IsDeleted == false)
+                .ToList();
+            return View(filter);
         }
         [HttpGet]
         public async Task<IActionResult> DownloadForm()

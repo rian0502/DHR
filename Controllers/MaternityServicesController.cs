@@ -22,7 +22,7 @@ namespace DHR.Controllers
                 {
                     var medicalClaims = await context.EmployeeMedicalClaims
                         .Include(p => p.Period)
-                        .Where(x => x.EmployeeId == employee.EmployeeId && x.ClaimCategory == "MELAHIRKAN")
+                        .Where(x => x.EmployeeId == employee.EmployeeId && x.ClaimCategory == "MELAHIRKAN" && x.IsDeleted == false)
                         .ToListAsync();
 
                     return View(medicalClaims);

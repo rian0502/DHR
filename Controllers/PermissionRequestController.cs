@@ -1,17 +1,31 @@
 using DHR.Helper;
+using DHR.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DHR.Controllers;
 
 [Authorize(Roles = "User")]
-public class PermissionRequestController(AppDbContext context) : Controller
+public class PermissionRequestController(AppDbContext context, UserManager<Users> userManager) : Controller
 {
     // GET
-    public IActionResult Index()
+    public async Task<IActionResult> IndexAsync()
     {
-        
-        return View();
+        var user = await userManager.GetUserAsync(User);
+        var employee = await context.Employee
+            .Include(l => l.EmployeePermissions)
+            .FirstOrDefaultAsync(e => user != null && e.UserId == user.Id);
+        if (employee == null)
+        {
+            return RedirectToAction("Logout", "Account");
+        }
+        var filteredPermissions = employee?.EmployeePermissions?
+        .Where(ep => ep.IsDeleted == false)
+        .ToList();
+        return View(filteredPermissions);
+
     }
 
     [HttpGet]
