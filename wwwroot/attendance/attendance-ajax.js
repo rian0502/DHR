@@ -209,8 +209,9 @@
             {data: 'status', className: 'text-center'},
             {data: 'note'}
         ],
+        
         paging: false,
-        lengthChange: true,
+        lengthChange: false,
         searching: false,
         ordering: true,
         info: true,
