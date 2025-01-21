@@ -19,31 +19,9 @@ public class ManagementPermissionRequestController(
     PermissionRequestService permissionRequestService) : Controller
 {
     // GET: ManagementPermissionRequestController
-    public async Task<ActionResult> Index()
+    public ActionResult Index()
     {
-        var permissions = await context.EmployeePermissionRequest
-            .Include(emp => emp.Employee)
-            .ThenInclude(usr => usr.Users)
-            .Where(epr => !epr.IsDeleted).Select(epr => new EmployeePermissionRequest
-            {
-                EmployeePermissionRequestId = epr.EmployeePermissionRequestId,
-                EmployeePermissionRequestCode = epr.EmployeePermissionRequestCode,
-                PermissionType = epr.PermissionType,
-                PermissionDays = epr.PermissionDays,
-                PermissionDate = epr.PermissionDate,
-                EmployeeId = epr.EmployeeId,
-                Employee = new EmployeeModel
-                {
-                    EmployeeId = epr.Employee.EmployeeId,
-                    Nip = epr.Employee.Nip,
-                    Users = new Users
-                    {
-                        FullName = epr.Employee.Users.FullName
-                    }
-                }
-            })
-            .ToListAsync();
-        return View(permissions);
+        return View();
     }
 
     // GET: ManagementPermissionRequestController/Details/5
@@ -103,11 +81,11 @@ public class ManagementPermissionRequestController(
                     .ToListAsync();
                 ViewBag.PermissionTypes = new List<string>
                 {
-                     "Izin Terlambat",
-                     "Izin Tidak Masuk kerja",
-                     "Izin Pulang Cepat",
-                     "Izin Keluar Kantor",
-                     "Alpha"
+                    "Izin Terlambat",
+                    "Izin Tidak Masuk kerja",
+                    "Izin Pulang Cepat",
+                    "Izin Keluar Kantor",
+                    "Alpha"
                 };
                 ViewBag.PermissionRemarks = new List<string>
                 {
@@ -458,14 +436,14 @@ public class ManagementPermissionRequestController(
             return RedirectToAction(nameof(Index));
         }
     }
-    
-    
+
+
     // GET: ManagementPermissionRequestController/Import
     public ActionResult Import()
     {
         return View();
     }
-    
+
     // POST: ManagementPermissionRequestController/Import
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -473,16 +451,17 @@ public class ManagementPermissionRequestController(
     {
         try
         {
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+
             var users = await userManager.GetUserAsync(User);
             if (users == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+
             var permission = await ReadPermissionRequestFromExcelAsync(model.ExcelFile, users.Id);
             if (permission.Count != 0)
             {
@@ -496,13 +475,13 @@ public class ManagementPermissionRequestController(
 
             return RedirectToAction(nameof(Index));
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             TempData["Errors"] = e.Message;
             return RedirectToAction(nameof(Index));
         }
     }
-    
+
     private async Task<List<object>> ReadPermissionRequestFromExcelAsync(IFormFile excelFile, string users)
     {
         var claims = new List<object>();
@@ -549,6 +528,105 @@ public class ManagementPermissionRequestController(
             ? DateOnly.FromDateTime(tempDate)
             : null;
     }
-    
-    
+
+    [HttpPost]
+    public async Task<IActionResult> GetPermissionRequests()
+    {
+        var draw = Request.Form["draw"].FirstOrDefault();
+        var start = Request.Form["start"].FirstOrDefault();
+        var length = Request.Form["length"].FirstOrDefault();
+        var searchValue = Request.Form["search[value]"].FirstOrDefault();
+        var sortColumnIndex = Convert.ToInt32(HttpContext.Request.Form["order[0][column]"].FirstOrDefault());
+        var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+        sortColumnDirection = (sortColumnDirection == "desc") ? "desc" : "asc";
+
+        string[] columnNames =
+        {
+            "EmployeePermissionRequestCode",
+            "EmployeePermissionRequestId",
+            "Employee.Nip",
+            "Employee.Users.FullName",
+            "PermissionDate",
+            "PersonnelRemarks",
+            "PermissionType"
+        };
+
+        var query = context.EmployeePermissionRequest
+            .Where(l => l.IsDeleted == false)
+            .Include(e => e.Employee)
+            .ThenInclude(e => e.Users)
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(searchValue))
+        {
+            query = query.Where(e => e.Employee.Users != null && searchValue != null &&
+                                     e.PermissionType != null &&
+                                     (e.Employee.Users.FullName.Contains(searchValue) ||
+                                      e.EmployeePermissionRequestCode.Contains(searchValue) ||
+                                      e.Employee.Nip.ToString().Contains(searchValue) ||
+                                      e.PermissionDate.ToString().Contains(searchValue) ||
+                                      e.PersonnelRemarks.ToString().Contains(searchValue) ||
+                                      e.PermissionType.Contains(searchValue)));
+        }
+
+        var totalRecords = await query.CountAsync();
+
+        if (sortColumnIndex >= 0 & sortColumnIndex < columnNames.Length)
+        {
+            string sortColumn = columnNames[sortColumnIndex];
+            if (sortColumn == "Employee.Nip")
+            {
+                query = sortColumnDirection == "asc"
+                    ? query.OrderBy(e => e.Employee.Nip)
+                    : query.OrderByDescending(e => e.Employee.Nip);
+            }
+            else if (sortColumn == "Employee.Users.FullName")
+            {
+                query = sortColumnDirection == "asc"
+                    ? query.OrderBy(e => e.Employee.Users.FullName)
+                    : query.OrderByDescending(e => e.Employee.Users.FullName);
+            }
+            else if (sortColumn == "PermissionDate")
+            {
+                query = sortColumnDirection == "asc"
+                    ? query.OrderBy(e => e.PermissionDate)
+                    : query.OrderByDescending(e => e.PermissionDate);
+            }
+            else if (sortColumn == "PersonnelRemarks")
+            {
+                query = sortColumnDirection == "asc"
+                    ? query.OrderBy(e => e.PersonnelRemarks)
+                    : query.OrderByDescending(e => e.PersonnelRemarks);
+            }            
+            else if (sortColumn == "PermissionType")
+            {
+                query = sortColumnDirection == "asc"
+                    ? query.OrderBy(e => e.PermissionType)
+                    : query.OrderByDescending(e => e.PermissionType);
+            }
+        }
+
+        // Pagination
+        var pagedData = await
+            query.Skip(Convert.ToInt32(start))
+                .Take(Convert.ToInt32(length)).Select(emc => new
+                {
+                    emc.EmployeePermissionRequestCode,
+                    emc.EmployeePermissionRequestId,
+                    EmployeeNip = emc.Employee.Nip,
+                    EmployeeName = emc.Employee.Users.FullName,
+                    emc.PermissionDate,
+                    emc.PermissionType,
+                    emc.PersonnelRemarks
+                }).ToListAsync();
+        var response = new
+        {
+            draw,
+            recordsTotal = totalRecords,
+            recordsFiltered = totalRecords,
+            data = pagedData
+        };
+
+        return Json(response);
+    }
 }

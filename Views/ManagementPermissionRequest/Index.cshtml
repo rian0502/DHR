@@ -1,8 +1,5 @@
-﻿@model IEnumerable<EmployeePermissionRequest>
-
-@{
+﻿@{
     ViewData["Title"] = $"{Resource.Management} {Resource.PermissionRequest}";
-    int iteration = 1;
 }
 
 <div class="col-12">
@@ -19,7 +16,7 @@
             </div>
         </div>
         <div class="card-body">
-            <table id="example2" class="table table-bordered table-hover">
+            <table id="permissionRequestTable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="text-center">No</th>
@@ -27,38 +24,77 @@
                     <th>NIP</th>
                     <th>Employee</th>
                     <th>@Resource.Date</th>
-                    <th>Days</th>
                     <th>Type</th>
+                    <th>Remarks</th>
                     <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="text-center">@iteration</td>
-                        <td>@item.EmployeePermissionRequestCode</td>
-                        <td>@item.Employee?.Nip</td>
-                        <td>@item.Employee?.Users?.FullName</td>
-                        <td>@(item.PermissionDate.ToString("dd MMMM yyyy"))</td>
-                        <td>@item.PermissionDays</td>
-                        <td>@item.PermissionType</td>
-                        <td class="text-center">
-                            <div class="dropdown">
-                                <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
-                                    <i class="fas fa-chevron-circle-down"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                    <a class="dropdown-item" href="@Url.Action("Edit", new { id = item.EmployeePermissionRequestId })"><i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item bg-danger" href="@Url.Action("Delete", new { id = item.EmployeePermissionRequestId })"><i class="fas fa-trash"></i> Delete</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                     iteration++;
-                }
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            const roleUser = '@ViewBag.RoleUser';
+            console.log(roleUser);
+            $('#permissionRequestTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "ajax": {
+                    "url": "/ManagementPermissionRequest/GetPermissionRequests",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": null,
+                        "render": function (data, type, row, meta) {
+                            return meta.row + 1;
+                        },
+                        "name": "No",
+                        "autoWidth": true
+                    },
+                    {"data": "employeePermissionRequestCode", "name": "Code", "autoWidth": true},
+                    {"data": "employeeNip", "name": "NIP", "autoWidth": true},
+                    {"data": "employeeName", "name": "Employee", "autoWidth": true},
+                    {"data": "permissionDate", "name": "Date", "autoWidth": true},
+                    {"data": "permissionType", "name": "Type", "autoWidth": true},
+                    {"data": "personnelRemarks", "name": "Remarks", "autoWidth": true},
+                    {
+                        "data": "employeePermissionRequestId",
+                        "render": function (data) {
+                            if (roleUser === "AttendanceManager") {
+                                return `<div class="dropdown">
+                                <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                    <a class="dropdown-item" href="/ManagementPermissionRequest/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item bg-danger" href="/ManagementPermissionRequest/Delete/${data}"><i class="fas fa-trash"></i> Delete</a>
+                                </div>
+                                </div>`;
+                            } else {
+                                return `<div class="dropdown">
+                                <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                    <a class="dropdown-item" href="/ManagementPermissionRequest/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
+                                </div>
+                                </div>`;
+                            }
+                        },
+                        "name": "Action",
+                        "autoWidth": true
+                    }
+                ]
+            });
+        });
+    </script>
+}

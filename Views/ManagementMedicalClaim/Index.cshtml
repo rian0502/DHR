@@ -4,7 +4,8 @@
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <a href="@Url.Action("Create", "ManagementMedicalClaim")" class="btn btn-info"><i class="fas fa-plus-square mr-2"></i>Medical Claim</a>
+            <a href="@Url.Action("Create", "ManagementMedicalClaim")" class="btn btn-info"><i
+                    class="fas fa-plus-square mr-2"></i>Medical Claim</a>
             <div class="card-tools">
                 <a href="@Url.Content("~/uploads/TemplateForm/TemplateMedicalClaim.xlsx")" class="btn btn-success">
                     <i class="fas fa-download mr-2"></i>Template</a>
@@ -57,8 +58,8 @@
                         "name": "No",
                         "autoWidth": true
                     },
-                    { "data": "nip", "name": "NIP", "autoWidth": true },
-                    { "data": "employeeName", "name": "Employee Name", "autoWidth": true },
+                    {"data": "nip", "name": "NIP", "autoWidth": true},
+                    {"data": "employeeName", "name": "Employee Name", "autoWidth": true},
                     {
                         "data": "startEndPeriod",
                         "name": "Period",
@@ -69,32 +70,30 @@
                         "name": "Claim Date",
                         "autoWidth": true
                     },
-                    { "data": "claimStatus", "name": "Claim Status", "autoWidth": true },
-                    { "data": "claimCategory", "name": "Claim Category", "autoWidth": true },
+                    {"data": "claimStatus", "name": "Claim Status", "autoWidth": true},
+                    {"data": "claimCategory", "name": "Claim Category", "autoWidth": true},
                     {
                         "data": "employeeMedicalClaimId",
                         "className": "text-center",
                         "orderable": false,
                         "render": function (data) {
-                            if (roleUser === 'ClaimManager'){
+                            if (roleUser === 'ClaimManager') {
                                 return `<div class="dropdown">
                                 <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
                                     <i class="fas fa-chevron-circle-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                     <a class="dropdown-item" href="/ManagementMedicalClaim/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Details/${data}"><i class="fas fa-info-circle"></i> Detail</a>
                                     <a class="dropdown-item bg-danger" href="/ManagementMedicalClaim/Delete/${data}"><i class="fas fa-trash"></i> Delete</a>
                                 </div>
                             </div>`;
-                            }else{
+                            } else {
                                 return `<div class="dropdown">
                                 <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
                                     <i class="fas fa-chevron-circle-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                     <a class="dropdown-item" href="/ManagementMedicalClaim/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Details/${data}"><i class="fas fa-info-circle"></i> Detail</a>
                                 </div>
                             </div>`;
                             }
