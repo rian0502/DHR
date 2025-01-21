@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using DHR.ViewModels.ManagementPermissionRequest;
-using Microsoft.AspNetCore.Http.HttpResults;
 using DHR.Providers;
 
 namespace DHR.Controllers;
@@ -71,7 +70,8 @@ public class ManagementPermissionRequestController(
             "Izin Terlambat",
             "Izin Tidak Masuk kerja",
             "Izin Pulang Cepat",
-            "Izin Keluar Kantor"
+            "Izin Keluar Kantor",
+            "Alpha"
         };
         ViewBag.PermissionRemarks = new List<string>
         {
@@ -103,10 +103,11 @@ public class ManagementPermissionRequestController(
                     .ToListAsync();
                 ViewBag.PermissionTypes = new List<string>
                 {
-                    "Izin Terlambat",
-                    "Izin Tidak Masuk kerja",
-                    "Izin Pulang Cepat",
-                    "Izin Keluar Kantor"
+                     "Izin Terlambat",
+                     "Izin Tidak Masuk kerja",
+                     "Izin Pulang Cepat",
+                     "Izin Keluar Kantor",
+                     "Alpha"
                 };
                 ViewBag.PermissionRemarks = new List<string>
                 {
@@ -210,7 +211,8 @@ public class ManagementPermissionRequestController(
             "Izin Terlambat",
             "Izin Tidak Masuk kerja",
             "Izin Pulang Cepat",
-            "Izin Keluar Kantor"
+            "Izin Keluar Kantor",
+            "Alpha"
         };
         ViewBag.PermissionRemarks = new List<string>
         {
@@ -262,7 +264,8 @@ public class ManagementPermissionRequestController(
                     "Izin Terlambat",
                     "Izin Tidak Masuk kerja",
                     "Izin Pulang Cepat",
-                    "Izin Keluar Kantor"
+                    "Izin Keluar Kantor",
+                    "Alpha"
                 };
                 ViewBag.PermissionRemarks = new List<string>
                 {

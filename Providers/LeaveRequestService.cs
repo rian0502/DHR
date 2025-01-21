@@ -17,12 +17,15 @@ public class LeaveRequestService(string connectionString)
             foreach (var request in requests)
             {
                 await using var command = new SqlCommand(
-                    "EXEC [dbo].[sp_BatchInsert_LeaveRequests] @NIP, @LeaveDate, @LeaveDays, @LeaveType, @LeaveReason, @CreatedBy, @CreatedAt",
+                    "EXEC [dbo].[sp_BatchInsert_LeaveRequests] @NIP, @Code, @LeaveDate, @LeaveDays, @LeaveType, @LeaveReason, @CreatedBy, @CreatedAt",
                     connection, transaction);
 
                 command.Parameters.Add(new SqlParameter("@NIP", SqlDbType.Int)
                     { Value = GetPropertyValue(request, "Nip") });
-                
+
+                command.Parameters.Add(new SqlParameter("@Code", SqlDbType.VarChar, 50)
+                    { Value = GetPropertyValue(request, "Code") });
+
                 command.Parameters.Add(new SqlParameter("@LeaveDate", SqlDbType.Date)
                     { Value = GetDateTimePropertyValue(request, "LeaveDate") });
                 

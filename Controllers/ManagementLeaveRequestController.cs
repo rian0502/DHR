@@ -284,10 +284,16 @@ namespace DHR.Controllers
 
             try
             {
-                var claims = await ReadLeaveRequestFromExcelAsync(model.ExcelFile);
-                if (claims.Count != 0)
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
                 {
-                    await leaveRequestService.InsertBatchLeaveRequestsAsync(claims);
+                    return RedirectToAction("Logout", "Account");
+                }
+                var leaves = await ReadLeaveRequestFromExcelAsync(model.ExcelFile, user.Id);
+                if (leaves.Count != 0)
+                {
+
+                    await leaveRequestService.InsertBatchLeaveRequestsAsync(leaves);
                     TempData["Success"] = "Data successfully imported";
                 }
                 else
@@ -521,7 +527,7 @@ namespace DHR.Controllers
             return Json(response);
         }
 
-        private async Task<List<object>> ReadLeaveRequestFromExcelAsync(IFormFile excelFile)
+        private async Task<List<object>> ReadLeaveRequestFromExcelAsync(IFormFile excelFile, string user)
         {
             var claims = new List<object>();
 
@@ -541,13 +547,14 @@ namespace DHR.Controllers
                         var claim = new
                         {
                             Nip = int.TryParse(reader.GetValue(1)?.ToString(), out var nip) ? nip : 0,
-                            LeaveDate = ParseDate(reader.GetValue(3).ToString()),
-                            LeaveDays = double.TryParse(reader.GetValue(4).ToString().Replace(",", "."), out var days)
+                            Code = reader.GetValue(3).ToString(),
+                            LeaveDate = ParseDate(reader.GetValue(4).ToString()),
+                            LeaveDays = double.TryParse(reader.GetValue(5).ToString().Replace(",", "."), out var days)
                                 ? days
                                 : 0,
-                            LeaveType = reader.GetValue(5).ToString(),
-                            LeaveReason = reader.GetValue(6).ToString(),
-                            CreatedBy = "admin",
+                            LeaveType = reader.GetValue(6).ToString(),
+                            LeaveReason = reader.GetValue(7).ToString(),
+                            CreatedBy = user,
                             CreatedAt = DateTime.UtcNow
                         };
 
