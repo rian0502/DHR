@@ -7,6 +7,9 @@ public class EditViewModel
     [Required(ErrorMessage = "Missing Request ID")]
     public int EmployeeLeaveRequestId { get; set; }
     
+    [Required(ErrorMessage = "Please enter a leave code.")]
+    public required string LeaveCode { get; set; }
+    
     [Required(ErrorMessage = "Please select an employee.")]
     public int EmployeeId { get; set; }
     

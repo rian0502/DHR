@@ -19,10 +19,11 @@
             </div>
         </div>
         <div class="card-body">
-            <table id="leaveRequestTable" class="table table-bordered table-hover">
+            <table id="example2" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="text-center">No</th>
+                    <th>Code</th>
                     <th>NIP</th>
                     <th>Employee</th>
                     <th>@Resource.Date</th>
@@ -36,6 +37,7 @@
                 {
                     <tr>
                         <td class="text-center">@iteration</td>
+                        <td>@item.EmployeePermissionRequestCode</td>
                         <td>@item.Employee?.Nip</td>
                         <td>@item.Employee?.Users?.FullName</td>
                         <td>@(item.PermissionDate.ToString("dd MMMM yyyy"))</td>

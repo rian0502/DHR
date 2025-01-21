@@ -89,6 +89,7 @@ namespace DHR.Controllers
 
                 var leaveRequest = new EmployeeLeaveRequestModel
                 {
+                    EmployeeLeaveRequestCode = model.LeaveCode,
                     LeaveDate = model.LeaveDate,
                     LeaveDays = model.LeaveDays,
                     LeaveReason = model.LeaveReason,
@@ -112,7 +113,8 @@ namespace DHR.Controllers
                         model.LeaveDate,
                         model.LeaveDays,
                         model.LeaveType,
-                        model.LeaveReason
+                        model.LeaveReason,
+                        model.LeaveCode
                     }),
                     Source = JsonConvert.SerializeObject(new
                     {
@@ -160,11 +162,12 @@ namespace DHR.Controllers
             return View(new EditViewModel
             {
                 EmployeeLeaveRequestId = model.EmployeeLeaveRequestId,
+                LeaveCode = model.EmployeeLeaveRequestCode ?? "",
                 EmployeeId = model.EmployeeId,
                 LeaveDate = model.LeaveDate,
                 LeaveDays = model.LeaveDays,
-                LeaveType = model.LeaveType,
-                LeaveReason = model.LeaveReason
+                LeaveType = model.LeaveType ?? "",
+                LeaveReason = model.LeaveReason ?? ""
             });
         }
 
@@ -199,10 +202,16 @@ namespace DHR.Controllers
                         {
                             OldData = JsonConvert.SerializeObject(new
                             {
+                                oldData.EmployeeLeaveRequestCode,
                                 oldData.LeaveType,
                                 oldData.LeaveDate,
                                 oldData.LeaveDays,
-                                oldData.LeaveReason
+                                oldData.LeaveReason,
+                                oldData.EmployeeId,
+                                oldData.CreatedAt,
+                                oldData.CreatedBy,
+                                oldData.UpdatedAt,
+                                oldData.UpdatedBy
                             }),
                             NewData = model
                         }),
@@ -214,6 +223,7 @@ namespace DHR.Controllers
                         })
                     };
                     //update data
+                    oldData.EmployeeLeaveRequestCode = model.LeaveCode;
                     oldData.EmployeeId = model.EmployeeId;
                     oldData.LeaveDate = model.LeaveDate;
                     oldData.LeaveDays = model.LeaveDays;
@@ -253,6 +263,7 @@ namespace DHR.Controllers
                 return View(new EditViewModel
                 {
                     EmployeeLeaveRequestId = leaveRequest.EmployeeLeaveRequestId,
+                    LeaveCode = leaveRequest.EmployeeLeaveRequestCode ?? "",
                     EmployeeId = leaveRequest.EmployeeId,
                     LeaveDate = leaveRequest.LeaveDate,
                     LeaveDays = leaveRequest.LeaveDays,
@@ -442,6 +453,7 @@ namespace DHR.Controllers
 
             string[] columnNames =
             {
+                "EmployeeLeaveRequestCode",
                 "EmployeeLeaveRequestId",
                 "Employee.Nip",
                 "Employee.Users.FullName",
@@ -461,6 +473,7 @@ namespace DHR.Controllers
                 query = query.Where(e => e.Employee.Users != null && searchValue != null &&
                                          e.LeaveType != null &&
                                          (e.Employee.Users.FullName.Contains(searchValue) ||
+                                          e.EmployeeLeaveRequestCode.Contains(searchValue) ||
                                           e.Employee.Nip.ToString().Contains(searchValue) ||
                                           e.LeaveDate.ToString().Contains(searchValue) ||
                                           e.LeaveDays.ToString().Contains(searchValue) ||
@@ -502,6 +515,12 @@ namespace DHR.Controllers
                         ? query.OrderBy(e => e.LeaveType)
                         : query.OrderByDescending(e => e.LeaveType);
                 }
+                else if (sortColumn == "EmployeeLeaveRequestCode")
+                {
+                    query = sortColumnDirection == "asc"
+                        ? query.OrderBy(e => e.EmployeeLeaveRequestCode)
+                        : query.OrderByDescending(e => e.EmployeeLeaveRequestCode);
+                }
             }
 
             // Pagination
@@ -509,8 +528,9 @@ namespace DHR.Controllers
                 query.Skip(Convert.ToInt32(start))
                     .Take(Convert.ToInt32(length)).Select(emc => new
                     {
+                        emc.EmployeeLeaveRequestCode,
                         LeaveRequestId = emc.EmployeeLeaveRequestId,
-                        EmployeNip = emc.Employee.Nip,
+                        EmployeeNip = emc.Employee.Nip,
                         EmployeeName = emc.Employee.Users.FullName,
                         emc.LeaveDate,
                         emc.LeaveDays,
@@ -518,7 +538,7 @@ namespace DHR.Controllers
                     }).ToListAsync();
             var response = new
             {
-                draw = draw,
+                draw,
                 recordsTotal = totalRecords,
                 recordsFiltered = totalRecords,
                 data = pagedData
