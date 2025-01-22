@@ -33,7 +33,9 @@ namespace DHR.Controllers
                 "Cuti",
                 "Cuti Bersama",
                 "Cuti Melahirkan",
-                "Cuti Menikah"
+                "Cuti Menikah",
+                "Alpha (Potong Gaji)",
+                "Alpha (Potong Cuti)"
             };
 
             ViewBag.Employee = await context.Employee
@@ -64,7 +66,9 @@ namespace DHR.Controllers
                         "Cuti",
                         "Cuti Bersama",
                         "Cuti Melahirkan",
-                        "Cuti Menikah"
+                        "Cuti Menikah",
+                        "Alpha (Potong Gaji)",
+                        "Alpha (Potong Cuti)"
                     };
                     ViewBag.Employee = await context.Employee
                         .Include(e => e.Users)
@@ -144,7 +148,9 @@ namespace DHR.Controllers
                 "Cuti",
                 "Cuti Bersama",
                 "Cuti Melahirkan",
-                "Cuti Menikah"
+                "Cuti Menikah",
+                "Alpha (Potong Gaji)",
+                "Alpha (Potong Cuti)"
             };
             ViewBag.Employee = await context.Employee
                 .Include(e => e.Users)
@@ -245,7 +251,9 @@ namespace DHR.Controllers
                     "Cuti",
                     "Cuti Bersama",
                     "Cuti Melahirkan",
-                    "Cuti Menikah"
+                    "Cuti Menikah",
+                    "Alpha (Potong Gaji)",
+                    "Alpha (Potong Cuti)"
                 };
                 ViewBag.Employee = await context.Employee
                     .Include(e => e.Users)
@@ -300,10 +308,10 @@ namespace DHR.Controllers
                 {
                     return RedirectToAction("Logout", "Account");
                 }
+
                 var leaves = await ReadLeaveRequestFromExcelAsync(model.ExcelFile, user.Id);
                 if (leaves.Count != 0)
                 {
-
                     await leaveRequestService.InsertBatchLeaveRequestsAsync(leaves);
                     TempData["Success"] = "Data successfully imported";
                 }
@@ -329,7 +337,6 @@ namespace DHR.Controllers
         {
             var model = await context.EmployeeLeaveRequest.Include(emp => emp.Employee)
                 .ThenInclude(usr => usr.Users)
-                
                 .Where(emp => emp.EmployeeLeaveRequestId == id)
                 .Select(emp => new EmployeeLeaveRequestModel
                 {
@@ -350,7 +357,7 @@ namespace DHR.Controllers
                 }).FirstOrDefaultAsync();
             return View(model);
         }
-        
+
         // POST: ManagementLeaveRequest/Delete/5
         [Authorize(Roles = "AttendanceManager")]
         [HttpPost]
@@ -365,7 +372,6 @@ namespace DHR.Controllers
                     ModelState.AddModelError("DeleteReason", "Delete Reason is Required");
                     var leaveRequest = await context.EmployeeLeaveRequest.Include(emp => emp.Employee)
                         .ThenInclude(usr => usr.Users)
-                
                         .Where(emp => emp.EmployeeLeaveRequestId == id)
                         .Select(emp => new EmployeeLeaveRequestModel
                         {
@@ -569,7 +575,7 @@ namespace DHR.Controllers
                             Nip = int.TryParse(reader.GetValue(1)?.ToString(), out var nip) ? nip : 0,
                             Code = reader.GetValue(3).ToString(),
                             LeaveDate = ParseDate(reader.GetValue(4).ToString()),
-                            LeaveDays = double.TryParse(reader.GetValue(5).ToString().Replace(",", "."), out var days)
+                            LeaveDays = double.TryParse(reader.GetValue(5).ToString()?.Replace(",", "."), out var days)
                                 ? days
                                 : 0,
                             LeaveType = reader.GetValue(6).ToString(),

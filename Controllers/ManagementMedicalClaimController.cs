@@ -87,13 +87,14 @@ namespace DHR.Controllers
                     }
 
                     var time = DateTime.UtcNow;
-                    var insert = await context.EmployeeMedicalClaims.AddAsync(new EmployeeMedicalClaim
+                    await context.EmployeeMedicalClaims.AddAsync(new EmployeeMedicalClaim
                     {
                         EmployeeId = model.EmployeeId,
                         ClaimDate = model.ClaimDate,
                         ClaimStatus = model.ClaimStatus,
                         ClaimCategory = model.ClaimCategory,
                         ClaimDescription = model.ClaimDescription,
+                        EmployeeMedicalClaimCode = model.EmployeeMedicalClaimCode,
                         Diagnosis = model.Diagnosis,
                         PaymentPeriod = model.PaymentPeriod,
                         PeriodId = model.PeriodId,
@@ -224,15 +225,16 @@ namespace DHR.Controllers
                 .ToListAsync();
             return View(new EditViewModel
             {
-                EmployeeMedicalClaimId = medicalClaim.EmployeeMedicalClaimId,
-                ClaimDate = medicalClaim.ClaimDate,
-                PaymentPeriod = medicalClaim.PaymentPeriod,
-                Diagnosis = medicalClaim.Diagnosis,
-                ClaimStatus = medicalClaim.ClaimStatus,
-                ClaimCategory = medicalClaim.ClaimCategory,
-                ClaimDescription = medicalClaim.ClaimDescription,
                 PeriodId = medicalClaim.PeriodId,
-                EmployeeId = medicalClaim.EmployeeId
+                ClaimDate = medicalClaim.ClaimDate,
+                EmployeeId = medicalClaim.EmployeeId,
+                Diagnosis = medicalClaim.Diagnosis ?? "",
+                PaymentPeriod = medicalClaim.PaymentPeriod,
+                ClaimStatus = medicalClaim.ClaimStatus ?? "",
+                ClaimCategory = medicalClaim.ClaimCategory ?? "",
+                ClaimDescription = medicalClaim.ClaimDescription ?? "",
+                EmployeeMedicalClaimId = medicalClaim.EmployeeMedicalClaimId,
+                EmployeeMedicalClaimCode = medicalClaim.EmployeeMedicalClaimCode ?? ""
             });
         }
 
@@ -261,6 +263,7 @@ namespace DHR.Controllers
                         {
                             oldData = JsonConvert.SerializeObject(new
                             {
+                                oldMedicalClaim.EmployeeMedicalClaimCode,
                                 oldMedicalClaim.EmployeeMedicalClaimId,
                                 oldMedicalClaim.ClaimCategory,
                                 oldMedicalClaim.ClaimDate,
@@ -286,6 +289,7 @@ namespace DHR.Controllers
                     };
 
                     //update data
+                    oldMedicalClaim.EmployeeMedicalClaimCode = model.EmployeeMedicalClaimCode;
                     oldMedicalClaim.ClaimCategory = model.ClaimCategory;
                     oldMedicalClaim.ClaimDate = model.ClaimDate;
                     oldMedicalClaim.ClaimDescription = model.ClaimDescription;
@@ -371,7 +375,13 @@ namespace DHR.Controllers
 
             try
             {
-                var claims = await ReadMedicalClaimsFromExcelAsync(model.ExcelFile);
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Logout", "Account");
+                }
+
+                var claims = await ReadMedicalClaimsFromExcelAsync(model.ExcelFile, user.Id);
 
                 if (claims.Count != 0)
                 {
@@ -537,18 +547,14 @@ namespace DHR.Controllers
             var sortColumnDirection = HttpContext.Request.Form["order[0][dir]"].FirstOrDefault();
             sortColumnDirection = (sortColumnDirection == "desc") ? "desc" : "asc";
 
-            // Kolom yang digunakan untuk sorting (sesuaikan urutannya dengan urutan di DataTable)
             string[] columnNames =
             {
+                "EmployeeMedicalClaimCode",
                 "EmployeeMedicalClaimId",
                 "Employee.Nip",
                 "Employee.Users.FullName",
-                "StartEndPeriod",
                 "ClaimDate",
-                "ClaimStatus",
-                "ClaimCategory",
-                "Period.StartPeriodDate",
-                "Period.EndPeriodDate"
+                "ClaimCategory"
             };
 
             var query = context.EmployeeMedicalClaims
@@ -564,8 +570,8 @@ namespace DHR.Controllers
                     emc.Employee != null && emc.Employee.Users != null && emc.ClaimStatus != null &&
                     emc.Diagnosis != null && emc.ClaimCategory != null &&
                     (emc.Employee.Nip.ToString().Contains(searchValue) ||
+                     emc.EmployeeMedicalClaimCode.Contains(searchValue) ||
                      emc.Employee.Users.FullName.Contains(searchValue) ||
-                     emc.ClaimStatus.Contains(searchValue) ||
                      emc.Diagnosis.Contains(searchValue) ||
                      emc.Employee.Users.FullName.Contains(searchValue) ||
                      emc.ClaimCategory.Contains(searchValue))
@@ -593,20 +599,15 @@ namespace DHR.Controllers
                     query = sortColumnDirection == "asc"
                         ? query.OrderBy(emc => emc.ClaimDate)
                         : query.OrderByDescending(emc => emc.ClaimDate);
-                else if (sortColumn == "ClaimStatus")
-                    query = sortColumnDirection == "asc"
-                        ? query.OrderBy(emc => emc.ClaimStatus)
-                        : query.OrderByDescending(emc => emc.ClaimStatus);
                 else if (sortColumn == "ClaimCategory")
                     query = sortColumnDirection == "asc"
                         ? query.OrderBy(emc => emc.ClaimCategory)
                         : query.OrderByDescending(emc => emc.ClaimCategory);
-                else if (sortColumn == "StartEndPeriod")
+                else if (sortColumn == "EmployeeMedicalClaimCode")
                 {
                     query = sortColumnDirection == "asc"
-                        ? query.OrderBy(emc => emc.Period.StartPeriodDate).ThenBy(emc => emc.Period.EndPeriodDate)
-                        : query.OrderByDescending(emc => emc.Period.StartPeriodDate)
-                            .ThenByDescending(emc => emc.Period.EndPeriodDate);
+                        ? query.OrderBy(emc => emc.EmployeeMedicalClaimCode)
+                        : query.OrderByDescending(emc => emc.EmployeeMedicalClaimCode);
                 }
             }
 
@@ -616,19 +617,20 @@ namespace DHR.Controllers
                 .Take(length)
                 .Select(emc => new
                 {
+                    emc.EmployeeMedicalClaimCode,
                     emc.EmployeeMedicalClaimId,
                     StartEndPeriod = emc.Period.StartPeriodDate.ToString("dd/MMM/yyyy") + " - " +
                                      emc.Period.EndPeriodDate.ToString("dd/MMM/yyyy"),
-                    Nip = emc.Employee.Nip,
+                    emc.Employee.Nip,
                     EmployeeName = emc.Employee.Users.FullName,
                     ClaimDate = emc.ClaimDate.HasValue ? emc.ClaimDate.Value.ToString("dd/MMM/yyyy") : "",
-                    ClaimStatus = emc.ClaimStatus,
-                    ClaimCategory = emc.ClaimCategory
+                    emc.ClaimStatus,
+                    emc.ClaimCategory
                 })
                 .ToListAsync();
             var response = new
             {
-                draw = draw,
+                draw,
                 recordsTotal = totalRecords,
                 recordsFiltered = totalRecords,
                 data = pagedData
@@ -636,7 +638,7 @@ namespace DHR.Controllers
             return Json(response);
         }
 
-        private async Task<List<object>> ReadMedicalClaimsFromExcelAsync(IFormFile excelFile)
+        private async Task<List<object>> ReadMedicalClaimsFromExcelAsync(IFormFile excelFile, string user)
         {
             var claims = new List<object>();
 
@@ -647,7 +649,7 @@ namespace DHR.Controllers
             {
                 if (isFirstSheet)
                 {
-                    reader.Read(); // Skip the header row
+                    reader.Read();
 
                     while (reader.Read())
                     {
@@ -655,14 +657,15 @@ namespace DHR.Controllers
 
                         var claim = new
                         {
-                            EmployeeName = reader.GetValue(1)?.ToString(),
-                            EmployeeId = int.TryParse(reader.GetValue(2)?.ToString(), out var emplId) ? emplId : 0,
-                            ClaimDate = ParseDate(reader.GetValue(6)?.ToString()),
-                            Description = reader.GetValue(5)?.ToString(),
-                            Diagnosis = reader.GetValue(7)?.ToString(),
-                            TreatmentType = reader.GetValue(10)?.ToString(),
-                            PaymentPeriod = ParseDate(reader.GetValue(11)?.ToString()),
-                            CreatedBy = "admin",
+                            Period = reader.GetValue(1)?.ToString(),
+                            NIP = int.TryParse(reader.GetValue(2)?.ToString(), out var emplId) ? emplId : 0,
+                            Code = reader.GetValue(4)?.ToString(),
+                            ClaimCategory = reader.GetValue(6)?.ToString(),
+                            ClaimDate = ParseDate(reader.GetValue(7)?.ToString()),
+                            Diagnosis = reader.GetValue(8)?.ToString(),
+                            ClaimStatus = reader.GetValue(11)?.ToString(),
+                            PaymentPeriod = ParseDate(reader.GetValue(12)?.ToString()),
+                            CreatedBy = user,
                             CreatedAt = DateTime.UtcNow
                         };
 

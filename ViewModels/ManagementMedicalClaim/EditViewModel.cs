@@ -5,6 +5,8 @@ namespace DHR.ViewModels.ManagementMedicalClaim;
 public class EditViewModel
 {
     
+    [Required(ErrorMessage = "Employee Medical Claim Code is required")]
+    public required string EmployeeMedicalClaimCode { get; set; }
     [Required(ErrorMessage = "Missing Update Required")]
     public int EmployeeMedicalClaimId { get; set; }
     

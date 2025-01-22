@@ -48,8 +48,7 @@ public class ManagementPermissionRequestController(
             "Izin Terlambat",
             "Izin Tidak Masuk kerja",
             "Izin Pulang Cepat",
-            "Izin Keluar Kantor",
-            "Alpha"
+            "Izin Keluar Kantor"
         };
         ViewBag.PermissionRemarks = new List<string>
         {
@@ -84,8 +83,7 @@ public class ManagementPermissionRequestController(
                     "Izin Terlambat",
                     "Izin Tidak Masuk kerja",
                     "Izin Pulang Cepat",
-                    "Izin Keluar Kantor",
-                    "Alpha"
+                    "Izin Keluar Kantor"
                 };
                 ViewBag.PermissionRemarks = new List<string>
                 {
@@ -189,8 +187,7 @@ public class ManagementPermissionRequestController(
             "Izin Terlambat",
             "Izin Tidak Masuk kerja",
             "Izin Pulang Cepat",
-            "Izin Keluar Kantor",
-            "Alpha"
+            "Izin Keluar Kantor"
         };
         ViewBag.PermissionRemarks = new List<string>
         {
@@ -242,8 +239,7 @@ public class ManagementPermissionRequestController(
                     "Izin Terlambat",
                     "Izin Tidak Masuk kerja",
                     "Izin Pulang Cepat",
-                    "Izin Keluar Kantor",
-                    "Alpha"
+                    "Izin Keluar Kantor"
                 };
                 ViewBag.PermissionRemarks = new List<string>
                 {
@@ -597,7 +593,7 @@ public class ManagementPermissionRequestController(
                 query = sortColumnDirection == "asc"
                     ? query.OrderBy(e => e.PersonnelRemarks)
                     : query.OrderByDescending(e => e.PersonnelRemarks);
-            }            
+            }
             else if (sortColumn == "PermissionType")
             {
                 query = sortColumnDirection == "asc"

@@ -4,6 +4,9 @@ namespace DHR.ViewModels.ManagementMedicalClaim;
 
 public class CreateViewModel
 {
+    [Required(ErrorMessage = "Employee Medical Claim Code is required")]
+    public required string EmployeeMedicalClaimCode { get; set; }
+    
     [Required(ErrorMessage = "Claim Date is required")]
     public DateOnly ClaimDate { get; set; }
     [Required(ErrorMessage = "Payment Period is required")]

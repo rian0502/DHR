@@ -18,11 +18,10 @@
                 <thead>
                 <tr>
                     <th>No</th>
+                    <th>Code</th>
                     <th>NIP</th>
                     <th>Employee</th>
-                    <th>Period</th>
                     <th>Date</th>
-                    <th>Status</th>
                     <th>Category</th>
                     <th>Action</th>
                 </tr>
@@ -58,19 +57,14 @@
                         "name": "No",
                         "autoWidth": true
                     },
+                    {data: "employeeMedicalClaimCode", name: "Code", autoWidth: true},
                     {"data": "nip", "name": "NIP", "autoWidth": true},
                     {"data": "employeeName", "name": "Employee Name", "autoWidth": true},
-                    {
-                        "data": "startEndPeriod",
-                        "name": "Period",
-                        "autoWidth": true
-                    },
                     {
                         "data": "claimDate",
                         "name": "Claim Date",
                         "autoWidth": true
                     },
-                    {"data": "claimStatus", "name": "Claim Status", "autoWidth": true},
                     {"data": "claimCategory", "name": "Claim Category", "autoWidth": true},
                     {
                         "data": "employeeMedicalClaimId",

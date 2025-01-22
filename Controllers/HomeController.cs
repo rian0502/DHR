@@ -29,7 +29,7 @@ namespace DHR.Controllers
                 lang = "en";
             }
             Response.Cookies.Append("lang", lang);
-            return Redirect(Request.GetTypedHeaders().Referer.ToString());
+            return Redirect(Request.GetTypedHeaders().Referer?.ToString() ?? string.Empty);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

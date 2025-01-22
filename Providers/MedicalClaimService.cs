@@ -24,21 +24,23 @@ public class MedicalClaimService
             foreach (var claim in claims)
             {
                 await using var command = new SqlCommand(
-                    "EXEC [dbo].[sp_BatchInsert_MedicalClaims] @Period, @NIP, @ClaimDate, @ClaimCategory, @Diagnosis, @ClaimStatus, @PaymentPeriod, @CreatedBy, @CreatedAt",
+                    "EXEC [dbo].[sp_BatchInsert_MedicalClaims] @Period, @NIP, @Code, @ClaimDate, @ClaimCategory, @Diagnosis, @ClaimStatus, @PaymentPeriod, @CreatedBy, @CreatedAt",
                     connection, transaction);
 
                 command.Parameters.Add(new SqlParameter("@Period", SqlDbType.VarChar, 50)
-                    { Value = GetPropertyValue(claim, "EmployeeName") });
+                    { Value = GetPropertyValue(claim, "Period") });
                 command.Parameters.Add(new SqlParameter("@NIP", SqlDbType.Int)
-                    { Value = GetPropertyValue(claim, "EmployeeId") });
+                    { Value = GetPropertyValue(claim, "NIP") });
+                command.Parameters.Add(new SqlParameter("@Code", SqlDbType.VarChar, 50)
+                    { Value = GetPropertyValue(claim, "Code") });
                 command.Parameters.Add(new SqlParameter("@ClaimDate", SqlDbType.Date)
                     { Value = GetDateTimePropertyValue(claim, "ClaimDate") });
                 command.Parameters.Add(new SqlParameter("@ClaimCategory", SqlDbType.VarChar, 50)
-                    { Value = GetPropertyValue(claim, "Description") });
+                    { Value = GetPropertyValue(claim, "ClaimCategory") });
                 command.Parameters.Add(new SqlParameter("@Diagnosis", SqlDbType.VarChar, 255)
                     { Value = GetPropertyValue(claim, "Diagnosis") });
                 command.Parameters.Add(new SqlParameter("@ClaimStatus", SqlDbType.VarChar, 50)
-                    { Value = GetPropertyValue(claim, "TreatmentType") });
+                    { Value = GetPropertyValue(claim, "ClaimStatus") });
                 command.Parameters.Add(new SqlParameter("@PaymentPeriod", SqlDbType.Date)
                     { Value = GetDateTimePropertyValue(claim, "PaymentPeriod") });
                 command.Parameters.Add(new SqlParameter("@CreatedBy", SqlDbType.VarChar, 255)
