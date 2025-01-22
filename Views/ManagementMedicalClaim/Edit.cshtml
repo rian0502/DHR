@@ -20,7 +20,7 @@
                             @Html.DropDownList(
                                 "PeriodId",
                                 (SelectList)ViewBag.Periods,
-                                new { @class = "form-control select2bs4"}
+                                new { @class = "form-control select2bs4" }
                             )
                         </div>
                     </div>
@@ -28,8 +28,8 @@
                         <div class="form-group">
                             <label asp-for="EmployeeMedicalClaimCode">Code</label>
                             <input type="text" asp-for="EmployeeMedicalClaimCode"
-                                class="form-control @(ViewData.ModelState["EmployeeMedicalClaimCode"]?.Errors.Any() == true ? "is-invalid" : "")">
-                                <span asp-validation-for="EmployeeMedicalClaimCode" class="text-danger"></span>
+                                   class="form-control @(ViewData.ModelState["EmployeeMedicalClaimCode"]?.Errors.Any() == true ? "is-invalid" : "")">
+                            <span asp-validation-for="EmployeeMedicalClaimCode" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
