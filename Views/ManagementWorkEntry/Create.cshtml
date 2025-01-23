@@ -1,0 +1,97 @@
+﻿@model DHR.ViewModels.ManagementWorkEntry.CreateViewModel
+
+@{
+    ViewData["Title"] = "Create Work Entry";
+}
+
+<div class="col-12">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementWorkEntry")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="EmployeeWorkEntryCode">Code</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["EmployeeWorkEntryCode"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="EmployeeWorkEntryCode">
+                            <span asp-validation-for="EmployeeWorkEntryCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="WorkDate">Work Date</label>
+                            <input type="date"
+                                   class="form-control @(ViewData.ModelState["WorkDate"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="WorkDate">
+                            <span asp-validation-for="WorkDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="WorkStartTime">Start Time</label>
+                            <input type="time"
+                                   class="form-control @(ViewData.ModelState["WorkStartTime"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="WorkStartTime">
+                            <span asp-validation-for="WorkStartTime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="WorkEndTime">End Time</label>
+                            <input type="time"
+                                   class="form-control @(ViewData.ModelState["WorkEndTime"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="WorkEndTime">
+                            <span asp-validation-for="WorkEndTime" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="EmployeeId">Employee</label>
+                            <select class="form-control select2bs4 @(ViewData.ModelState["EmployeeId"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                    style="width: 100%;" asp-for="EmployeeId">
+                                @foreach (var emp in ViewBag.Employee)
+                                {
+                                    <option value="@emp.EmployeeId">@emp.Nip - @emp.FullName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PersonnelRemark">Remarks</label>
+                            <input type="text"
+                                   class="form-control @(ViewData.ModelState["PersonnelRemark"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                   asp-for="PersonnelRemark">
+                            <span asp-validation-for="PersonnelRemark" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="WorkReason">Reason</label>
+                            <textarea class="form-control @(ViewData.ModelState["WorkReason"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                      asp-for="WorkReason"
+                                      placeholder="Ex: Melakukan Audit Data sebelum closing."
+                                      rows="4"></textarea>
+                            <span asp-validation-for="WorkReason" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

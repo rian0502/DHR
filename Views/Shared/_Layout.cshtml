@@ -50,33 +50,34 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        @if (Thread.CurrentThread.CurrentCulture.ToString() == "id")
-                        {
-                            <img src="https://flagcdn.com/w40/id.png"
-                                 alt="Indonesia"
-                                 style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;">
-                        }
-                        else
-                        {
-                            <img src="https://flagcdn.com/w40/us.png"
-                                 alt="English"
-                                 style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;">
-                        }
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    @if (Thread.CurrentThread.CurrentCulture.ToString() == "id")
+                    {
+                        <img src="https://flagcdn.com/w40/id.png"
+                             alt="Indonesia"
+                             style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;">
+                    }
+                    else
+                    {
+                        <img src="https://flagcdn.com/w40/us.png"
+                             alt="English"
+                             style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;">
+                    }
 
+                </a>
+                <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                    <a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="en">
+                        <img src="https://flagcdn.com/w40/us.png" alt="English"
+                             style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;"> English
                     </a>
-                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                        <a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="en">
-                            <img src="https://flagcdn.com/w40/us.png" alt="English" style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;"> English
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="id">
-                            <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;"> Indonesia
-                        </a>
-                    </div>
-                </li>
-
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-controller="Home" asp-action="ChangeLanguage" asp-route-lang="id">
+                        <img src="https://flagcdn.com/w40/id.png" alt="Indonesia"
+                             style="width: 20px; height: 14px; border: 1px solid black; border-radius: 2px;"> Indonesia
+                    </a>
+                </div>
+            </li>
 
 
             <!-- Account Dropdown Menu -->
@@ -322,6 +323,15 @@
                                     <i class="nav-icon fas fa-suitcase"></i>
                                     <p>
                                         Leave
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "ManagementWorkEntry")"
+                                   class="nav-link @UrlActive.IsActive(@Context, "ManagementWorkEntry")">
+                                    <i class="nav-icon bi bi-person-workspace"></i>
+                                    <p>
+                                        Work Entry
                                     </p>
                                 </a>
                             </li>

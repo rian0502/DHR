@@ -1,50 +1,53 @@
 ﻿@{
-    ViewData["Title"] = $"{Resource.Management} {Resource.MedicalClaimMenu}";
+    ViewData["Title"] = $"{Resource.Management} Work Entry";
 }
+
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <a href="@Url.Action("Create", "ManagementMedicalClaim")" class="btn btn-info"><i
-                    class="fas fa-plus-square mr-2"></i>Medical Claim</a>
+            <a href="@Url.Action("Create", "ManagementWorkEntry")" class="btn btn-info">
+                <i class="fas fa-plus-square mr-2"></i> Work Entry
+            </a>
             <div class="card-tools">
-                <a href="@Url.Content("~/uploads/TemplateForm/TemplateMedicalClaim.xlsx")" class="btn btn-success">
-                    <i class="fas fa-download mr-2"></i>Template</a>
-                <a href="@Url.Action("Import", "ManagementMedicalClaim")" class="btn btn-primary">
-                    <i class="fas fa-upload mr-2"></i>Data</a>
+                <a href="@Url.Content("~/uploads/TemplateForm/TemplateWorkEntry.xlsx")" class="btn btn-success">
+                    <i class="fas fa-download mr-2"></i>Template
+                </a>
+                <a href="@Url.Action("Import", "ManagementWorkEntry")" class="btn btn-primary">
+                    <i class="fas fa-upload mr-2"></i>Data
+                </a>
             </div>
         </div>
         <div class="card-body">
-            <table id="medicalClaimTable" class="table table-bordered table-hover">
+            <table id="workEntryRequestTable" class="table table-bordered table-hover">
                 <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Code</th>
-                    <th>NIP</th>
-                    <th>Employee</th>
-                    <th>Date</th>
-                    <th>Category</th>
-                    <th>Action</th>
-                </tr>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th>Code</th>
+                        <th>NIP</th>
+                        <th>Employee</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>@Resource.Date</th>
+                        <th class="text-center">Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
 @section Scripts
 {
     <script>
         $(document).ready(function () {
             const roleUser = '@ViewBag.RoleUser';
-            $('#medicalClaimTable').DataTable({
+            $('#workEntryRequestTable').DataTable({
                 "processing": true,
                 "serverSide": true,
                 "responsive": true,
                 "ajax": {
-                    "url": "/ManagementMedicalClaim/GetMedicalClaims",
+                    "url": "/ManagementWorkEntry/GetWorkEntryRequests",
                     "type": "POST",
                     "datatype": "json"
                 },
@@ -57,28 +60,28 @@
                         "name": "No",
                         "autoWidth": true
                     },
-                    {"data": "employeeMedicalClaimCode", "name": "Code", autoWidth: true},
-                    {"data": "nip", "name": "NIP", "autoWidth": true},
-                    {"data": "employeeName", "name": "Employee Name", "autoWidth": true},
+                    {"data": "employeeWorkEntryCode", "name": "Code", autoWidth: true},
+                    {"data": "employeeNip", "name": "NIP", "autoWidth": true},
+                    {"data": "employeeName", "name": "Name", "autoWidth": true},
+                    {"data": "workStartTime", "name": "Start", "autoWidth": true},
+                    {"data": "workEndTime", "name": "End", "autoWidth": true},
                     {
-                        "data": "claimDate",
-                        "name": "Claim Date",
+                        "data": "workDate",
+                        "name": "Date",
                         "autoWidth": true
                     },
-                    {"data": "claimCategory", "name": "Claim Category", "autoWidth": true},
                     {
-                        "data": "employeeMedicalClaimId",
-                        "className": "text-center",
+                        "data": "employeeWorkEntryId",
                         "orderable": false,
                         "render": function (data) {
-                            if (roleUser === 'ClaimManager') {
+                            if (roleUser === 'AttendanceManager') {
                                 return `<div class="dropdown">
                                 <a class="btn btn-outline-info" data-toggle="dropdown" href="#">
                                     <i class="fas fa-chevron-circle-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item bg-danger" href="/ManagementMedicalClaim/Delete/${data}"><i class="fas fa-trash"></i> Delete</a>
+                                    <a class="dropdown-item" href="/ManagementWorkEntry/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item bg-danger" href="/ManagementWorkEntry/Delete/${data}"><i class="fas fa-trash"></i> Delete</a>
                                 </div>
                             </div>`;
                             } else {
@@ -87,7 +90,7 @@
                                     <i class="fas fa-chevron-circle-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                    <a class="dropdown-item" href="/ManagementMedicalClaim/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item" href="/ManagementWorkEntry/Edit/${data}"><i class="fas fa-edit"></i> Edit</a>
                                 </div>
                             </div>`;
                             }

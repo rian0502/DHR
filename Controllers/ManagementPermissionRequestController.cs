@@ -21,6 +21,7 @@ public class ManagementPermissionRequestController(
     // GET: ManagementPermissionRequestController
     public ActionResult Index()
     {
+        ViewBag.RoleUser = User.IsInRole("AttendanceManager") ? "AttendanceManager" : "OtherUser";
         return View();
     }
 
@@ -304,7 +305,7 @@ public class ManagementPermissionRequestController(
         }
     }
 
-    //[Authorize(Roles = "AttendanceManager")]
+    [Authorize(Roles = "AttendanceManager")]
     // GET: ManagementPermissionRequestController/Delete/5
     public async Task<ActionResult> Delete(int id)
     {

@@ -1,0 +1,98 @@
+﻿@model EmployeeWorkEntryRequest
+
+@{
+    ViewData["Title"] = "Delete Work Entry";
+}
+
+<div class="col-12">
+    <form asp-action="Delete" method="post" asp-route-id="@Model.EmployeeWorkEntryId">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EmployeeWorkEntryId)
+        <div class="card">
+            <div class="card-header">
+                <a href="@Url.Action("Index", "ManagementWorkEntry")" class="btn btn-danger">Back</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="EmployeeWorkEntryCode">Code</label>
+                            <input type="text" class="form-control" id="EmployeeWorkEntryCode"
+                                   disabled="disabled"
+                                   value="@Model.EmployeeWorkEntryCode">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="WorkDate">Date</label>
+                            <input type="text" class="form-control" id="WorkDate"
+                                   disabled="disabled"
+                                   value="@Model.WorkDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="WorkStartTime">Start Time</label>
+                            <input type="text" class="form-control" id="WorkStartTime"
+                                   disabled="disabled"
+                                   value="@Model.WorkStartTime">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="WorkEndTime">End Time</label>
+                            <input type="text" class="form-control" id="WorkEndTime"
+                                   disabled="disabled"
+                                   value="@Model.WorkEndTime">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Employee">Employee</label>
+                            <input type="text" class="form-control" id="Employee"
+                                   disabled="disabled"
+                                   value="@Model.Employee.Users.FullName">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                         <div class="form-group">
+                            <label for="PersonnelRemark">Personnel Remark</label>
+                            <input type="text" class="form-control" id="PersonnelRemark"
+                                   disabled="disabled"
+                                   value="@Model.PersonnelRemark">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="WorkReason">Reason</label>
+                            <textarea class="form-control" id="WorkReason" rows="4" disabled="disabled">@Model.WorkReason</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="DeleteReason">Reason for Deleted Data</label>
+                            <textarea name="DeleteReason" required="required"
+                                      class="form-control @(ViewData.ModelState["DeleteReason"]?.Errors.Any() == true ? "is-invalid" : "")"
+                                      id="DeleteReason" rows="4"></textarea>
+                            @if (ViewData.ModelState["DeleteReason"]?.Errors.Any() == true)
+                            {
+                                <span class="text-danger">@ViewData.ModelState["DeleteReason"]?.Errors[0].ErrorMessage</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -25,6 +25,7 @@ builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<MedicalClaimService>();
 builder.Services.AddScoped<LeaveRequestService>();
 builder.Services.AddScoped<PermissionRequestService>();
+builder.Services.AddScoped<WorkEntryService>();
 
 builder.Services.AddScoped<UnitService>();
 builder.Services.AddScoped<PeriodService>();

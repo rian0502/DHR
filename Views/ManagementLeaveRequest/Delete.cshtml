@@ -17,16 +17,17 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="LeaveDate">Leave Date</label>
-                            <input type="date"
+                            <input type="text"
                                    class="form-control"
                                    id="LeaveDate"
+                                   value="@Model.LeaveDate"
                                    readonly="readonly">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label for="LeaveDays">Leave Days</label>
-                            <input type="number" class="form-control" id="LeaveDays"
+                            <input type="text" class="form-control" id="LeaveDays"
                                    value="@Model.LeaveDays" readonly="readonly">
                         </div>
                     </div>
@@ -35,7 +36,7 @@
                     <div class="col-6">
                         <label for="EmployeeName">Employee</label>
                         <input type="text" class="form-control" id="EmployeeName"
-                               value="@Model.Employee.Users.FullName" readonly="readonly">
+                               value="@(Model.Employee?.Users?.FullName)" readonly="readonly">
                     </div>
                     <div class="col-6">
                         <label for="LeaveType">Leave Type</label>

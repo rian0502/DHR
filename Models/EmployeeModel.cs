@@ -39,7 +39,6 @@ namespace DHR.Models
         public ICollection<EmployeeDependentModel>? EmployeeDependents { get; set; } // Has many EmployeeDependent
         public ICollection<EmployeePermissionRequest>? EmployeePermissions { get; set; } // Has many EmployeePermissions
         public ICollection<EmployeeLeaveRequestModel>? EmployeeLeaveRequestModels { get; set; } // Has many EmployeeLeaveRequestModel
-
         public ICollection<EmployeeWorkEntryRequest>? EmployeeWorkEntryRequests { get; set; } // Has many EmployeeWorkEntryRequest
 
         //Log Attributes
