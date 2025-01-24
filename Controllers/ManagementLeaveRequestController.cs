@@ -429,6 +429,7 @@ namespace DHR.Controllers
                     })
                 };
                 //update data
+                oldData.DeleteReason = reason;
                 oldData.IsDeleted = true;
                 oldData.UpdatedBy = user.Id;
                 oldData.UpdatedAt = time;

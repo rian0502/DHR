@@ -3,6 +3,7 @@ using DHR.Models;
 using DHR.Providers;
 using DHR.ViewModels.ManagementWorkEntry;
 using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -217,6 +218,8 @@ namespace DHR.Controllers
         }
 
         // GET: ManagementWorkEntryController/Delete/5
+        [Authorize(Roles = "AttendanceManager")]
+        [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
             var data = await context.EmployeeWorkEntryRequests
@@ -252,6 +255,7 @@ namespace DHR.Controllers
         }
 
         // POST: ManagementWorkEntryController/Delete/5
+        [Authorize(Roles = "AttendanceManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, IFormCollection model)
