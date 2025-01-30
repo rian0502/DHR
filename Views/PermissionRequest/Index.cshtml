@@ -30,8 +30,8 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Code</th>
-                    <th>Date</th>
+                    <th>@Resource.Code</th>
+                    <th>@Resource.Date</th>
                     <th>Type</th>
                     <th>HR</th>
                 </tr>
@@ -41,7 +41,7 @@
                         <tr>
                             <td>@iteration</td>
                             <td>@item.EmployeePermissionRequestCode</td>
-                            <td>@item.PermissionDate</td>
+                            <td>@(item.PermissionDate.ToString("dd/MMM/yyyy"))</td>
                             <td>@item.PermissionType</td>
                             <td>@item.PersonnelRemarks</td>
                         </tr>

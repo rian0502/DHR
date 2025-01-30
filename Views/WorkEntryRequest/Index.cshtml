@@ -1,8 +1,19 @@
-﻿@{
+﻿@model IEnumerable<EmployeeWorkEntryRequest>
+
+@{
     ViewData["Title"] = Resource.WorkEntryRequest;
+    var iteration = 0;
 }
 
 <div class="col-12">
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-exclamation-triangle"></i> @Resource.Notice!</h5>
+            @Resource.UserEntryPermissionNullAlert
+        </div>
+    }
     <div class="card">
         <div class="card-header">
             <div class="card-tools">
@@ -19,12 +30,21 @@
                 <tr>
                     <th>No</th>
                     <th>Code</th>
-                    <th>Name</th>
+                    <th>@Resource.Date</th>
                     <th>Description</th>
-                    <th>Action</th>
+                    <th>HRD</th>
                 </tr>
                 </thead>
                 <tbody>
+                    @foreach(var item in Model){
+                        <tr>
+                            <td>@iteration</td>
+                            <td>@item.EmployeeWorkEntryCode</td>
+                            <td>@item.WorkDate?.ToString("dd-MMMM-yyyy")</td>
+                            <td>@item.WorkReason</td>
+                            <td>@item.PersonnelRemark</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

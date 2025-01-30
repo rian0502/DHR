@@ -27,10 +27,11 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Date</th>
+                    <th>@Resource.Code</th>
+                    <th>@Resource.Date</th>
                     <th>Diagnosis</th>
                     <th>Period</th>
-                    <th>Payment Period</th>
+                    <th>Payment</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,9 +39,10 @@
                 {
                     <tr>
                         <td>@iteration</td>
-                        <td>@(item.ClaimDate?.ToString("dd MMMM yyyy") ?? "N/A")</td>
+                        <td>@item.EmployeeMedicalClaimCode</td>
+                        <td>@(item.ClaimDate?.ToString("dd/MMM/yyyy"))</td>
                         <td>@item.Diagnosis</td>
-                        <td>@item.Period?.StartPeriodDate.ToString("MM/dd/yyyy") - @item.Period?.EndPeriodDate.ToString("MM/dd/yyyy")</td>
+                        <td>@item.Period?.StartPeriodDate.ToString("dd/MM/yyyy") - @item.Period?.EndPeriodDate.ToString("dd/MM/yyyy")</td>
                         <td>@(item.PaymentPeriod?.ToString("MMMM yyyy") ?? "N/A")</td>
                     </tr>
                     iteration++;

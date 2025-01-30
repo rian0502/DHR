@@ -29,6 +29,7 @@
                 <thead>
                 <tr>
                     <th>No</th>
+                    <th>@Resource.Code</th>
                     <th>@Resource.Date</th>
                     <th>Days</th>
                     <th>Reason</th>
@@ -40,7 +41,8 @@
                 {
                     <tr>
                         <td>@iteration</td>
-                        <td>@item.LeaveDate.ToString("dd MMM yyyy")</td>
+                        <td>@item.EmployeeLeaveRequestCode</td>
+                        <td>@item.LeaveDate.ToString("dd/MMM/yyyy")</td>
                         <td>@item.LeaveDays</td>
                         <td>@item.LeaveReason</td>
                         <td>@item.LeaveType</td>

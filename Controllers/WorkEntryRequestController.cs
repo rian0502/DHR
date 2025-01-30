@@ -1,16 +1,31 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DHR.Helper;
+using DHR.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DHR.Controllers
 {
     [Authorize(Roles="User")]
-    public class WorkEntryRequestController : Controller
+    public class WorkEntryRequestController(UserManager<Users> userManager, AppDbContext context) : Controller
     {
         // GET: WorkEntryRequest
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var user = await userManager.GetUserAsync(User);
+            var employee = await context.Employee
+                .Include(l => l.EmployeeWorkEntryRequests)
+                .FirstOrDefaultAsync(e => user != null && e.UserId == user.Id);
+            if (employee == null)
+            {
+                return RedirectToAction("Logout", "Account");
+            }
+            var filteredWorkEntry = employee.EmployeeWorkEntryRequests?
+            .Where(ep => ep.IsDeleted == false)
+            .ToList();
+            return View(filteredWorkEntry);
         }
 
         [HttpGet]

@@ -219,11 +219,11 @@
   <data name="Employee" xml:space="preserve">
     <value>Pegawai</value>
   </data>
-  <data name="AboutMe" xml:space="preserve">
-    <value>Tentang Saya</value>
-  </data>
   <data name="Company" xml:space="preserve">
     <value>Perusahaan</value>
+  </data>
+  <data name="AboutMe" xml:space="preserve">
+    <value>Tentang Saya</value>
   </data>
   <data name="JobTitle" xml:space="preserve">
     <value>Jabatan</value>
@@ -263,5 +263,8 @@
   </data>
   <data name="Close" xml:space="preserve">
     <value>Tutup</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Kode</value>
   </data>
 </root>
